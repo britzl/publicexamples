@@ -1,0 +1,8 @@
+go.property("move_to", vmath.vector3())
+go.property("cool", false)
+go.property("hash", hash("foobar"))
+
+function init(self)
+	print(self.cool and "I'm cool" or "I'm not cool")
+	go.animate(".", "position", go.PLAYBACK_LOOP_PINGPONG, self.move_to, go.EASING_INOUTCIRC, 2)
+end

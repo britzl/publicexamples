@@ -1,0 +1,10 @@
+local function random_position()
+	return vmath.vector3(math.random(1, sys.get_config("display.width")),  math.random(1, sys.get_config("display.height")), 0)
+end
+
+function init(self)
+	math.randomseed(os.time())
+	for i=1,10 do
+		factory.create("#factory", random_position(), nil, { move_to = random_position(), cool = math.random(1,2) == 1 and true or false })
+	end
+end
