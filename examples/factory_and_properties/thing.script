@@ -1,8 +1,19 @@
+-- properties can be of type number|hash|url|vector3|vector4|quaternion
 go.property("move_to", vmath.vector3())
+go.property("move_speed", 2)
 go.property("cool", false)
-go.property("hash", hash("foobar"))
+go.property("key", hash(""))
+go.property("url", msg.url())
+go.property("color", vmath.vector4(1, 1, 1, 1))
+go.property("rotation", vmath.quat())
+
+local lookup = require "modules.lookup"
 
 function init(self)
+	print("My name is " .. lookup.get(self.key))
 	print(self.cool and "I'm cool" or "I'm not cool")
-	go.animate(".", "position", go.PLAYBACK_LOOP_PINGPONG, self.move_to, go.EASING_INOUTCIRC, 2)
+	go.animate("#sprite", "tint", go.PLAYBACK_LOOP_PINGPONG, self.color, go.EASING_INOUTCIRC, 2)
+	go.animate(".", "position", go.PLAYBACK_LOOP_PINGPONG, self.move_to, go.EASING_INOUTCIRC, self.move_speed)
+	go.animate(".", "rotation", go.PLAYBACK_LOOP_PINGPONG, self.rotation, go.EASING_INOUTCIRC, 2)
+	msg.post(self.url, "thing_created")
 end
