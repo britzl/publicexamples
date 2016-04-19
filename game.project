@@ -2,7 +2,7 @@
 title = Side-Scroller
 
 [bootstrap]
-main_collection = /examples/factory_and_properties/factory_and_properties.collectionc
+main_collection = /examples/bunnymark/bunnymark.collectionc
 
 [input]
 game_binding = /input/game.input_bindingc
@@ -16,4 +16,18 @@ scale = 0.02
 
 [script]
 shared_state = 1
+
+[android]
+iap_provider = GooglePlay
+
+[sprite]
+max_count = 10000
+
+[resource]
+max_resources = 3000
+
+[collection]
+max_instances = 10000
+
+[factory]
 

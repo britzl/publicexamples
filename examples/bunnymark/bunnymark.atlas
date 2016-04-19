@@ -1,0 +1,6 @@
+images {
+  image: "/examples/bunnymark/phaser-dude.png"
+}
+margin: 0
+extrude_borders: 0
+inner_padding: 0
