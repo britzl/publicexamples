@@ -2,8 +2,8 @@
 title = Side-Scroller
 
 [bootstrap]
-main_collection = /examples/maintain_aspect_ratio/maintain_aspect_ratio.collectionc
-render = /examples/maintain_aspect_ratio/maintain_aspect_ratio.renderc
+main_collection = /examples/fixed_aspect_ratio/fixed_aspect_ratio.collectionc
+render = /examples/fixed_aspect_ratio/fixed_aspect_ratio.renderc
 
 [input]
 game_binding = /input/game.input_bindingc

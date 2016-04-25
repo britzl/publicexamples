@@ -1,3 +1,5 @@
+local render_helper = require "examples.fixed_aspect_ratio.render_helper"
+
 function init(self)
 	msg.post(".", "acquire_input_focus")
 end
@@ -8,6 +10,6 @@ end
 
 function on_input(self, action_id, action)
 	if action.released then
-		factory.create("#factory", vmath.vector3(action.screen_x, action.screen_y, 0))
+		factory.create("#factory", render_helper.action_to_position(action))
 	end
 end

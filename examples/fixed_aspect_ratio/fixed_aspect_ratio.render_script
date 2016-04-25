@@ -13,11 +13,18 @@ function init(self)
     self.view = vmath.matrix4()
 end
 
+local render_helper = require("examples.fixed_aspect_ratio.render_helper")
+
 function update(self)
     render.set_depth_mask(true)
     render.clear({[render.BUFFER_COLOR_BIT] = self.clear_color, [render.BUFFER_DEPTH_BIT] = 1, [render.BUFFER_STENCIL_BIT] = 0})
 
-    render.set_viewport(0, 0, render.get_window_width(), render.get_window_height())
+	if render_helper.zoom then
+		local square = math.max(render.get_window_width(), render.get_window_height())
+    	render.set_viewport(0, 0, square, square)
+    else
+    	render.set_viewport(0, 0, render.get_window_width(), render.get_window_height())
+    end
     render.set_view(self.view)
 
     render.set_depth_mask(false)
@@ -27,7 +34,14 @@ function update(self)
     render.set_blend_func(render.BLEND_SRC_ALPHA, render.BLEND_ONE_MINUS_SRC_ALPHA)
     render.disable_state(render.STATE_CULL_FACE)
 
-    render.set_projection(vmath.matrix4_orthographic(0, render.get_window_width(), 0, render.get_window_height(), -1, 1))
+	if render_helper.zoom then
+		local square = math.max(render.get_window_width(), render.get_window_height())
+		local zoom_factor = math.max(render.get_width(), render.get_height()) / square
+		render_helper.zoom_factor = zoom_factor
+    	render.set_projection(vmath.matrix4_orthographic(0, square * zoom_factor, 0, square * zoom_factor, -1, 1))
+	else
+    	render.set_projection(vmath.matrix4_orthographic(0, render.get_window_width(), 0, render.get_window_height(), -1, 1))
+    end
 
     render.draw(self.tile_pred)
     render.draw(self.particle_pred)
