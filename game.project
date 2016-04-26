@@ -9,8 +9,8 @@ render = /examples/fixed_aspect_ratio/fixed_aspect_ratio.renderc
 game_binding = /input/game.input_bindingc
 
 [display]
-width = 1280
-height = 720
+width = 640
+height = 1136
 
 [physics]
 scale = 0.02
