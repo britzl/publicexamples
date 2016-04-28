@@ -1,5 +1,6 @@
 --- Module to perform peer-to-peer discovery
 -- The module can either broadcast it's existence or listen for others
+-- Inspired by code from https://coronalabs.com/blog/2014/09/23/tutorial-local-multiplayer-with-udptcp/
 
 local socket = require("builtins.scripts.socket")
 
