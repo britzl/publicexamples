@@ -1,9 +1,9 @@
-image: "/examples/assets/tilesheet_complete.png"
+image: "/examples/assets/images/tilesheet_complete.png"
 tile_width: 64
 tile_height: 64
 tile_margin: 0
 tile_spacing: 0
-collision: "/examples/assets/tilesheet_complete.png"
+collision: "/examples/assets/images/tilesheet_complete.png"
 material_tag: "tile"
 convex_hulls {
   index: 0
@@ -1328,4 +1328,3 @@ convex_hulls {
 collision_groups: "ground"
 collision_groups: "water"
 extrude_borders: 1
-inner_padding: 0

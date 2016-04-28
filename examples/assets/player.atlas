@@ -1,25 +1,20 @@
 animations {
   id: "player_walk"
   images {
-    image: "/examples/assets/playerBlue_walk1_new.png"
+    image: "/examples/assets/images/playerBlue_walk1_new.png"
   }
   images {
-    image: "/examples/assets/playerBlue_walk2_new.png"
+    image: "/examples/assets/images/playerBlue_walk2_new.png"
   }
   images {
-    image: "/examples/assets/playerBlue_walk3_new.png"
+    image: "/examples/assets/images/playerBlue_walk3_new.png"
   }
   images {
-    image: "/examples/assets/playerBlue_walk4_new.png"
+    image: "/examples/assets/images/playerBlue_walk4_new.png"
   }
   images {
-    image: "/examples/assets/playerBlue_walk5_new.png"
+    image: "/examples/assets/images/playerBlue_walk5_new.png"
   }
   playback: PLAYBACK_LOOP_PINGPONG
   fps: 15
-  flip_horizontal: 0
-  flip_vertical: 0
 }
-margin: 0
-extrude_borders: 0
-inner_padding: 0

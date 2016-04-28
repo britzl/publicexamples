@@ -1,9 +1,6 @@
 images {
-  image: "/examples/assets/white_square.png"
+  image: "/examples/assets/images/white_square.png"
 }
 images {
-  image: "/examples/assets/colored_shroom.png"
+  image: "/examples/assets/images/colored_shroom.png"
 }
-margin: 0
-extrude_borders: 0
-inner_padding: 0
