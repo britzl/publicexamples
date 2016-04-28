@@ -2,7 +2,7 @@
 title = PublicExamples
 
 [bootstrap]
-main_collection = /examples/go_vs_gui_delete/go_vs_gui_delete.collectionc
+main_collection = /examples/peer_to_peer/peer_to_peer.collectionc
 render = /examples/fixed_aspect_ratio/fixed_aspect_ratio.renderc
 
 [input]

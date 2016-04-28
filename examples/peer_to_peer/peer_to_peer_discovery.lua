@@ -1,3 +1,6 @@
+--- Module to perform peer-to-peer discovery
+-- The module can either broadcast it's existence or listen for others
+
 local socket = require("builtins.scripts.socket")
 
 local M = {}
@@ -15,19 +18,21 @@ local function get_ip()
 	return nil
 end
 
-
-function M.create()
+--- Create a peer to peer discovery instance
+function M.create(multicast_ip, port)
 	print("create")
 	local instance = {}
 	
 	local state = STATE_DISCONNECTED
 
-	local multicast_ip = "226.192.1.1"
-	local broadcast_port = 8100
+	multicast_ip = multicast_ip or "226.192.1.1"
+	port = port or 8100
 
 	local listen_co
 	local broadcast_co
 	
+	--- Start broadcasting a message for others to discover
+	-- @param message
 	function instance.broadcast(message)
 		assert(message, "You must provide a message to broadcast")
 		local broadcaster
@@ -44,9 +49,9 @@ function M.create()
 		broadcast_co = coroutine.create(function()
 			while state == STATE_BROADCASTING do
 				local ok, err = pcall(function()
-					broadcaster:sendto(message, multicast_ip, broadcast_port)
+					broadcaster:sendto(message, multicast_ip, port)
 					broadcaster:setoption("broadcast", true)
-					broadcaster:sendto(message, "255.255.255.255", broadcast_port)
+					broadcaster:sendto(message, "255.255.255.255", port)
 					broadcaster:setoption("broadcast", false)
 				end)
 				if err then
@@ -61,12 +66,16 @@ function M.create()
 		return coroutine.resume(broadcast_co)
 	end
 	
-	function instance.listen(message)
+	--- Start listening for a broadcasting server
+	-- @param message The message to listen for
+	-- @param callback Function to call when a broadcasting server has been found. The function
+	-- must accept the broadcasting server's IP and port as arguments. 
+	function instance.listen(message, callback)
 		assert(message, "You must provide a message to listen for")
 		local listener
 		local ok, err = pcall(function()
 			listener = socket.udp()
-			listener:setsockname("0.0.0.0", broadcast_port)
+			listener:setsockname("0.0.0.0", port)
 		
 			-- try multicast
 			if listener:getsockname() then
@@ -75,7 +84,7 @@ function M.create()
 			else
 				listener:close()
 				listener = socket.udp()
-				listener:setsockname(get_ip(), broadcast_port)
+				listener:setsockname(get_ip(), port)
 			end
 			
 			listener:settimeout(0)
@@ -88,15 +97,22 @@ function M.create()
 		state = STATE_LISTENING
 		listen_co = coroutine.create(function()
 			while state == STATE_LISTENING do
-				local data, ip, port = listener:receivefrom()
+				local data, server_ip, server_port = listener:receivefrom()
 				if data and data == message then
-					print("Found server on " .. ip .. ":" .. port)
+					callback(server_ip, server_port)
+					state = STATE_DISCONNECTED
+					break
 				end
 				coroutine.yield()
 			end
 			listen_co = nil
 		end)
 		return coroutine.resume(listen_co)
+	end
+	
+	--- Stop broadcasting or listening
+	function instance.stop()
+		state = STATE_DISCONNECTED
 	end
 	
 	function instance.update()

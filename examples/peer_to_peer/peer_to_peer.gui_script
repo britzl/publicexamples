@@ -1,4 +1,4 @@
-local p2p = require("examples.peer_to_peer.peer_to_peer")
+local p2p = require("examples.peer_to_peer.peer_to_peer_discovery")
 local simple_input = require("modules.simple_input")
 
 
@@ -8,24 +8,39 @@ function init(self)
 	
 	local broadcast_message = "MyCoolServer"
 	
-	simple_input.register("broadcast/bg", function()
-		gui.set_enabled(gui.get_node("listen/bg"), true)
+	local broadcast = gui.get_node("broadcast/bg")
+	local listen = gui.get_node("listen/bg")
+	local stop = gui.get_node("stop/bg")
+	
+	gui.set_enabled(stop, false)
+
+	simple_input.register(broadcast, function()
+		gui.set_enabled(stop, true)
+		gui.set_enabled(broadcast, false)
+		gui.set_enabled(listen, false)
 		local ok, err = self.p2p_instance.broadcast(broadcast_message)
 		if not ok then
 			print("Error when broadcasting", err)
-		else
-			gui.set_enabled(gui.get_node("broadcast/bg"), false)
 		end
 	end)
 	
-	simple_input.register("listen/bg", function()
-		gui.set_enabled(gui.get_node("broadcast/bg"), true)
-		local ok, err = self.p2p_instance.listen(broadcast_message)
+	simple_input.register(listen, function()
+		gui.set_enabled(stop, true)
+		gui.set_enabled(broadcast, false)
+		gui.set_enabled(listen, false)
+		local ok, err = self.p2p_instance.listen(broadcast_message, function(server_ip, port)
+			print("Found server: " .. server_ip .. ":" .. port)
+		end)
 		if not ok then
 			print("Error when listening", err)
-		else
-			gui.set_enabled(gui.get_node("listen/bg"), false)
 		end
+	end)
+	
+	simple_input.register(stop, function()
+		gui.set_enabled(stop, false)
+		gui.set_enabled(broadcast, true)
+		gui.set_enabled(listen, true)
+		self.p2p_instance.stop()
 	end)
 end
 
