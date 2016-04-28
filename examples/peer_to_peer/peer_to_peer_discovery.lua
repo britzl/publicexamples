@@ -20,7 +20,6 @@ end
 
 --- Create a peer to peer discovery instance
 function M.create(multicast_ip, port)
-	print("create")
 	local instance = {}
 	
 	local state = STATE_DISCONNECTED
@@ -44,7 +43,7 @@ function M.create(multicast_ip, port)
 			return false, err
 		end
 		
-		print("Broadcasting " .. message) 
+		print("Broadcasting " .. message .. " from " .. get_ip()) 
 		state = STATE_BROADCASTING
 		broadcast_co = coroutine.create(function()
 			while state == STATE_BROADCASTING do
