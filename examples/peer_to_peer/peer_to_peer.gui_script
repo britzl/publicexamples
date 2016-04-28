@@ -6,11 +6,11 @@ function init(self)
 	simple_input.acquire()
 	self.p2p_instance = p2p.create()
 	
-	local broadcast_port = 8100
+	local broadcast_message = "MyCoolServer"
 	
 	simple_input.register("broadcast/bg", function()
 		gui.set_enabled(gui.get_node("listen/bg"), true)
-		local ok, err = self.p2p_instance.broadcast(broadcast_port)
+		local ok, err = self.p2p_instance.broadcast(broadcast_message)
 		if not ok then
 			print("Error when broadcasting", err)
 		else
@@ -20,7 +20,7 @@ function init(self)
 	
 	simple_input.register("listen/bg", function()
 		gui.set_enabled(gui.get_node("broadcast/bg"), true)
-		local ok, err = self.p2p_instance.listen(broadcast_port)
+		local ok, err = self.p2p_instance.listen(broadcast_message)
 		if not ok then
 			print("Error when listening", err)
 		else
