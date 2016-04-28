@@ -1,0 +1,49 @@
+local p2p = require("examples.peer_to_peer.peer_to_peer")
+local simple_input = require("modules.simple_input")
+
+
+function init(self)
+	simple_input.acquire()
+	self.p2p_instance = p2p.create()
+	
+	local broadcast_port = 8100
+	
+	simple_input.register("broadcast/bg", function()
+		gui.set_enabled(gui.get_node("listen/bg"), true)
+		local ok, err = self.p2p_instance.broadcast(broadcast_port)
+		if not ok then
+			print("Error when broadcasting", err)
+		else
+			gui.set_enabled(gui.get_node("broadcast/bg"), false)
+		end
+	end)
+	
+	simple_input.register("listen/bg", function()
+		gui.set_enabled(gui.get_node("broadcast/bg"), true)
+		local ok, err = self.p2p_instance.listen(broadcast_port)
+		if not ok then
+			print("Error when listening", err)
+		else
+			gui.set_enabled(gui.get_node("listen/bg"), false)
+		end
+	end)
+end
+
+function final(self)
+	simple_input.release()
+end
+
+function update(self, dt)
+	if self.p2p_instance then
+		self.p2p_instance.update(dt)
+	end
+end
+
+function on_message(self, message_id, message, sender)
+    -- Add message-handling code here
+    -- Remove this function if not needed
+end
+
+function on_input(self, action_id, action)
+	simple_input.on_input(action_id, action)
+end

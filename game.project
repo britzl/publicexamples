@@ -2,7 +2,7 @@
 title = PublicExamples
 
 [bootstrap]
-main_collection = /examples/fixed_aspect_ratio/fixed_aspect_ratio.collectionc
+main_collection = /examples/go_vs_gui_delete/go_vs_gui_delete.collectionc
 render = /examples/fixed_aspect_ratio/fixed_aspect_ratio.renderc
 
 [input]
