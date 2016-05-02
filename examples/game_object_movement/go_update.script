@@ -1,0 +1,50 @@
+local HASH_LEFT = hash("left")
+local HASH_RIGHT = hash("right")
+local HASH_UP = hash("up")
+local HASH_DOWN = hash("down")
+
+function init(self)
+	print("init")
+	msg.post(".", "acquire_input_focus")
+	self.speed = vmath.vector3(0, 0, 0)
+end
+
+function final(self)
+	msg.post(".", "release_input_focus")
+end
+
+function update(self, dt)
+	go.set_position(go.get_position() + self.speed * dt)
+end
+
+function on_input(self, action_id, action)
+	if action_id == HASH_LEFT then
+		if action.pressed then
+			self.speed.x = -100
+		elseif action.released then
+			self.speed.x = 0
+		end
+		return true
+	elseif action_id == HASH_RIGHT then
+		if action.pressed then
+			self.speed.x = 100
+		elseif action.released then
+			self.speed.x = 0
+		end
+		return true
+	elseif action_id == HASH_UP then
+		if action.pressed then
+			self.speed.y = 100
+		elseif action.released then
+			self.speed.y = 0
+		end
+		return true
+	elseif action_id == HASH_DOWN then
+		if action.pressed then
+			self.speed.y = -100
+		elseif action.released then
+			self.speed.y = 0
+		end
+		return true
+	end
+end
