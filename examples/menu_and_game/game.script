@@ -1,0 +1,29 @@
+function init(self)
+	msg.post(".", "acquire_input_focus")
+	self.things = {}
+	for i=1,5 do
+		local id = factory.create("#factory", vmath.vector3(math.random(20,620), math.random(20,1116), 0))
+		table.insert(self.things, id)
+	end
+end
+
+function final(self)
+	msg.post(".", "release_input_focus")
+end
+
+function on_input(self, action_id, action)
+	if action.released then
+		for i=1,#self.things do
+			local id = self.things[i]
+			local pos = go.get_position(id)
+			if action.x > (pos.x - 20) and action.x < (pos.x + 20) and action.y > (pos.y - 20) and action.y < (pos.y + 20) then
+				go.delete(id)
+				table.remove(self.things, i)
+				break
+			end
+		end
+		if #self.things == 0 then
+			msg.post("controller:/controller", "show_menu")
+		end
+	end
+end
