@@ -1,0 +1,31 @@
+function init(self)
+	msg.post(".", "acquire_input_focus")
+	self.rotation_direction = vmath.vector3(0, 0, 0)
+end
+
+function final(self)
+	msg.post(".", "release_input_focus")
+end
+
+function update(self, dt)
+	local rotation = go.get_rotation()
+	local world_position = go.get_world_position()
+	msg.post("#collisionobject", "apply_force", { force = vmath.rotate(rotation, self.rotation_direction), position = world_position + vmath.rotate(rotation, vmath.vector3(-50, 50, 0)) })
+	msg.post("#collisionobject", "apply_force", { force = vmath.rotate(rotation, -self.rotation_direction), position = world_position + vmath.rotate(rotation, vmath.vector3(50, -50, 0)) })
+end
+
+function on_input(self, action_id, action)
+	if action_id == hash("left") then
+		if action.pressed then
+			self.rotation_direction.x = -100
+		elseif action.released then
+			self.rotation_direction.x = 0
+		end
+	elseif action_id == hash("right") then
+		if action.pressed then
+			self.rotation_direction.x = 100
+		elseif action.released then
+			self.rotation_direction.x = 0
+		end
+	end
+end

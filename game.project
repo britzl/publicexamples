@@ -2,7 +2,7 @@
 title = PublicExamples
 
 [bootstrap]
-main_collection = /examples/play_animation/play_animation.collectionc
+main_collection = /examples/rotate_collision_object/rotate_collision_object.collectionc
 render = /examples/fixed_aspect_ratio/fixed_aspect_ratio.renderc
 
 [input]
@@ -14,6 +14,7 @@ height = 1136
 
 [physics]
 scale = 0.02
+debug = 0
 
 [script]
 shared_state = 1
