@@ -2,7 +2,7 @@
 title = PublicExamples
 
 [bootstrap]
-main_collection = /examples/game_object_movement/game_object_movement.collectionc
+main_collection = /examples/virtual_gamepad/virtual_gamepad.collectionc
 render = /examples/fixed_aspect_ratio/fixed_aspect_ratio.renderc
 
 [input]
@@ -14,6 +14,7 @@ height = 1136
 
 [physics]
 scale = 0.02
+debug = 0
 
 [script]
 shared_state = 1

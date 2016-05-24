@@ -1,0 +1,15 @@
+images {
+  image: "/examples/virtual_gamepad/shadedDark01.png"
+}
+images {
+  image: "/examples/virtual_gamepad/shadedDark07.png"
+}
+images {
+  image: "/examples/virtual_gamepad/shadedDark36.png"
+}
+images {
+  image: "/examples/virtual_gamepad/shadedDark37.png"
+}
+margin: 0
+extrude_borders: 1
+inner_padding: 0
