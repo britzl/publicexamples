@@ -2,7 +2,7 @@
 title = PublicExamples
 
 [bootstrap]
-main_collection = /examples/rotate_collision_object/rotate_collision_object.collectionc
+main_collection = /examples/virtual_gamepad/virtual_gamepad.collectionc
 render = /examples/fixed_aspect_ratio/fixed_aspect_ratio.renderc
 
 [input]

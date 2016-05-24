@@ -1,0 +1,66 @@
+function init(self)
+	msg.post(".", "acquire_input_focus")
+	self.analog = gui.get_node("analog")
+	self.button_a = gui.get_node("button_a")
+	self.button_b = gui.get_node("button_b")
+	self.analog_start_position = gui.get_position(self.analog)
+end
+
+function final(self)
+	msg.post(".", "release_input_focus")
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("register") then
+		self.listener = sender
+	elseif message_id == hash("unregister") then
+		self.listener = nil
+	end
+end
+
+local function post_to_listener(self, message_id, message)
+	if self.listener then
+		msg.post(self.listener, message_id, message or {})
+	end
+end
+
+function on_input(self, action_id, action)
+	if action.pressed then
+		if gui.pick_node(self.button_a, action.x, action.y) then
+			post_to_listener(self, "button_a", { pressed = true })
+		elseif gui.pick_node(self.button_b, action.x, action.y) then
+			post_to_listener(self, "button_b", { pressed = true })
+		elseif gui.pick_node(self.analog, action.x, action.y) then
+			gui.cancel_animation(self.analog, gui.PROP_POSITION)
+			self.analog_pressed = vmath.vector3(action.x, action.y, 0)
+		end
+	elseif action.released then
+		if self.analog_pressed then
+			gui.animate(self.analog, gui.PROP_POSITION, self.analog_start_position, gui.EASING_OUTQUAD, 0.2)
+			post_to_listener(self, "analog", { x = 0, y = 0 })
+			self.analog_pressed = nil
+		else
+			if gui.pick_node(self.button_a, action.x, action.y) then
+				post_to_listener(self, "button_a", { released = true })
+			elseif gui.pick_node(self.button_b, action.x, action.y) then
+				post_to_listener(self, "button_b", { released = true })
+			end
+		end
+	elseif self.analog_pressed then
+		local position = vmath.vector3(action.x, action.y, 0)
+		local dx = self.analog_start_position.x - action.x
+		local dy = self.analog_start_position.y - action.y
+		local radians = math.atan2(dy, dx)
+		local cos = math.cos(radians)
+		local sin = math.sin(radians)
+		local distance = math.sqrt(dx * dx + dy * dy)
+		local radius = 80
+		if distance > radius then
+			position.x = self.analog_start_position.x - cos * radius
+			position.y = self.analog_start_position.y - sin * radius
+			distance = radius
+		end
+		gui.set_position(self.analog, position)
+		post_to_listener(self, "analog", { x = -(cos * distance / radius), y = -(sin * distance / radius) })
+	end
+end
