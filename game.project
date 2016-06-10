@@ -2,7 +2,7 @@
 title = PublicExamples
 
 [bootstrap]
-main_collection = /examples/virtual_gamepad/virtual_gamepad.collectionc
+main_collection = /examples/click_game_object/click_game_object.collectionc
 render = /examples/fixed_aspect_ratio/fixed_aspect_ratio.renderc
 
 [input]
@@ -11,6 +11,7 @@ game_binding = /input/game.input_bindingc
 [display]
 width = 640
 height = 1136
+variable_dt = 1
 
 [physics]
 scale = 0.02

@@ -1,0 +1,9 @@
+images {
+  image: "/examples/click_game_object/phaser-dude.png"
+}
+images {
+  image: "/examples/click_game_object/wabbit_alpha.png"
+}
+margin: 0
+extrude_borders: 1
+inner_padding: 0
