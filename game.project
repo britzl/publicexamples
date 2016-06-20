@@ -1,5 +1,6 @@
 [project]
 title = PublicExamples
+custom_resources = examples/webview_ads/assets
 
 [bootstrap]
 main_collection = /examples/click_game_object/click_game_object.collectionc
@@ -16,12 +17,15 @@ variable_dt = 1
 [physics]
 scale = 0.02
 debug = 0
+max_collisions = 256
+max_contacts = 256
 
 [script]
 shared_state = 1
 
 [android]
 iap_provider = GooglePlay
+package = com.britzl.publicexamples
 
 [sprite]
 max_count = 32000
@@ -33,4 +37,7 @@ max_resources = 3000
 max_instances = 32000
 
 [factory]
+
+[graphics]
+max_debug_vertices = 50000
 
