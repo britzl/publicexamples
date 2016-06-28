@@ -4,8 +4,8 @@ fonts {
   font: "/examples/assets/fonts/kenvector_15.font"
 }
 textures {
-  name: "loader_menu_game"
-  texture: "/examples/loader_menu_game/loader_menu_game.atlas"
+  name: "menu_and_game"
+  texture: "/examples/menu_and_game/menu_and_game.atlas"
 }
 background_color {
   x: 0.0
