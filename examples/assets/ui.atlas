@@ -1,6 +1,12 @@
 images {
   image: "/examples/assets/images/green_button08.png"
 }
+images {
+  image: "/examples/assets/images/pause.png"
+}
+images {
+  image: "/examples/assets/images/right.png"
+}
 margin: 0
 extrude_borders: 1
 inner_padding: 0

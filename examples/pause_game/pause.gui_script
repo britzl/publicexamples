@@ -1,0 +1,39 @@
+function init(self)
+	msg.post(".", "acquire_input_focus")
+	msg.post("#gameproxy", "load")
+	self.paused = false
+	self.pause_node = gui.get_node("pause")
+end
+
+function final(self)
+	msg.post(".", "release_input_focus")
+end
+
+function update(self, dt)
+    -- Add update code here
+    -- Remove this function if not needed
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("proxy_loaded") then
+		msg.post(sender, "enable")
+	end
+end
+
+function on_input(self, action_id, action)
+	if action.released and gui.pick_node(self.pause_node, action.x, action.y) then
+		self.paused = not self.paused
+		if self.paused then
+			gui.play_flipbook(self.pause_node, hash("right"))
+			msg.post("#gameproxy", "set_time_step", {factor = 0, mode = 1})
+		else
+			gui.play_flipbook(self.pause_node, hash("pause"))
+			msg.post("#gameproxy", "set_time_step", {factor = 1, mode = 1})
+		end
+	end
+end
+
+function on_reload(self)
+    -- Add input-handling code here
+    -- Remove this function if not needed
+end

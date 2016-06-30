@@ -1,0 +1,22 @@
+name: "game"
+instances {
+  id: "thing1"
+  prototype: "/examples/pause_game/thing.go"
+  position {
+    x: 393.6158
+    y: 578.674
+    z: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+scale_along_z: 0
