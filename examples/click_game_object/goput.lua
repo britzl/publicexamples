@@ -4,6 +4,9 @@ local M = {}
 
 local sprites = {}
 
+local function key_from_url(url)
+	return tostring(url.socket) .. hash_to_hex(url.path) .. hash_to_hex(url.fragment) 
+end
 
 --- Add a sprite that should be able to receive input
 -- @param sprite_url URL to the sprite component
@@ -19,7 +22,7 @@ function M.add(sprite_url, sprite_offset, on_input_callback)
 	assert(on_input_callback)
 	sprite_offset = sprite_offset or vmath.vector3()
 	sprite_url = type(sprite_url) == "string" and msg.url(sprite_url) or sprite_url
-	sprites[tostring(sprite_url)] = {
+	sprites[key_from_url(sprite_url)] = {
 		sprite_url = sprite_url,
 		go_url = msg.url(sprite_url.socket, sprite_url.path, nil),
 		offset = sprite_offset,
@@ -31,7 +34,7 @@ end
 function M.remove(sprite_url)
 	assert(sprite_url)
 	sprite_url = type(sprite_url) == "string" and msg.url(sprite_url) or sprite_url 
-	sprites[tostring(sprite_url)] = nil
+	sprites[key_from_url(sprite_url)] = nil
 end
 
 --- Forward input from a script that has acquire input focus
