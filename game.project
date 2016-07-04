@@ -3,7 +3,7 @@ title = PublicExamples
 custom_resources = examples/webview_ads/assets
 
 [bootstrap]
-main_collection = /examples/click_game_object/click_game_object.collectionc
+main_collection = /examples/webview_ads/webview_ads.collectionc
 render = /examples/fixed_aspect_ratio/fixed_aspect_ratio.renderc
 
 [input]
