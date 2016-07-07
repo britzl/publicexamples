@@ -11,7 +11,7 @@ background_color {
 }
 nodes {
   position {
-    x: 640.0
+    x: 10.0
     y: 360.0
     z: 0.0
     w: 1.0
@@ -29,7 +29,7 @@ nodes {
     w: 1.0
   }
   size {
-    x: 640.0
+    x: 620.0
     y: 600.0
     z: 0.0
     w: 1.0
@@ -47,7 +47,7 @@ nodes {
   id: "log"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
+  pivot: PIVOT_W
   outline {
     x: 1.0
     y: 1.0

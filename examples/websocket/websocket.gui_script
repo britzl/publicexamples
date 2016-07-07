@@ -21,11 +21,12 @@ function init(self)
 		return
 	end
 	
-	local ok, was_clean, code, reason = wsc:send('sending to echo server')
-	log("send", ok, was_clean, code, reason)
+	local message_to_send = 'sending to echo server'
+	local ok, was_clean, code, reason = wsc:send(message_to_send)
+	log("Sending '" .. message_to_send .. "'", ok, was_clean, code, reason)
 	
 	local message, opcode, was_clean, code, reason = wsc:receive()
-	log("rcve", message, opcode, was_clean, code, reason)
+	log("Received '" .. tostring(message) .. "'", opcode, was_clean, code, reason)
 	
 	wsc:close()
 end
