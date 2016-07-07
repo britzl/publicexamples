@@ -1,6 +1,6 @@
 [project]
 title = PublicExamples
-custom_resources = examples/webview_ads/assets
+custom_resources = 
 
 [bootstrap]
 main_collection = /examples/websocket/websocket.collectionc
