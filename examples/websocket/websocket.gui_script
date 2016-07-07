@@ -1,0 +1,31 @@
+local websocket = require("websocket")
+
+local function log(...)
+	local text = ""
+	local len = select("#", ...)
+	for i=1,len  do
+		text = text .. tostring(select(i, ...)) .. (i == len and "" or ", ")
+	end
+	
+	print(text)
+	local node = gui.get_node("log")
+	gui.set_text(node, gui.get_text(node) .. "\n" .. text)
+end
+
+function init(self)
+	local wsc = websocket.client.new({timeout=2})
+	
+	local ok, err = wsc:connect("ws://echo.websocket.org", "echo")
+	if not ok then
+		log("could not connect", err)
+		return
+	end
+	
+	local ok, was_clean, code, reason = wsc:send('sending to echo server')
+	log("send", ok, was_clean, code, reason)
+	
+	local message, opcode, was_clean, code, reason = wsc:receive()
+	log("rcve", message, opcode, was_clean, code, reason)
+	
+	wsc:close()
+end
