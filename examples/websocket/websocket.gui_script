@@ -1,6 +1,6 @@
 local simple_input = require "modules.simple_input"
 local websocket = require "websocket"
-local websocket_async = require "websocket.client_async"
+local websocket_async = require "modules.client_async"
 
 local function log(...)
 	local text = ""
@@ -40,9 +40,7 @@ function init(self)
 		wsc:close()
 	end)
 	
-	
-	
-	
+
 	simple_input.register(gui.get_node("send_async/bg"), function()
 		if not self.wsc_async then
 			log("creating async")

@@ -1,3 +1,43 @@
+--- Async websocket client based on standard Lua coroutines. Requires the 
+-- lua-websocket library (https://github.com/lipp/lua-websockets)
+--
+-- Copyright (c) 2012 by Björn Ritzl <bjorn.ritzl@king.com>
+--
+-- Permission is hereby granted, free of charge, to any person obtaining a copy
+-- of this software and associated documentation files (the "Software"), to deal
+-- in the Software without restriction, including without limitation the rights
+-- to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+-- copies of the Software, and to permit persons to whom the Software is
+-- furnished to do so, subject to the following conditions:
+-- 
+-- The above copyright notice and this permission notice shall be included in
+-- all copies or substantial portions of the Software.
+-- 
+-- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+-- IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+-- FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+-- AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+-- LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+-- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+-- THE SOFTWARE.
+--
+-- @usage
+--
+-- 	local wsc = websocket_async()
+-- 	wsc:on_message(function(message)
+-- 		print(message)
+-- 	end)
+-- 	wsc:on_connected(function(ok, err)
+-- 		wsc:send("Foobar")
+-- 	end)
+-- 	wsc:connect("ws://echo.websocket.org", "echo")
+-- 
+-- 	print("Calling step function frequently to update the async websocket")
+-- 	while true do
+-- 		wsc.step()
+-- 		socket.select(nil, nil, 0.5)
+-- 	end
+
 local socket = require'socket'
 local sync = require'websocket.sync'
 
