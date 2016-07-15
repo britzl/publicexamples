@@ -1,33 +1,8 @@
 local socket = require'socket'
 local sync = require'websocket.sync'
-local tools = require'websocket.tools'
 
 local new = function()
 	local self = {}
-
-	local coroutines = {}
-	local on_connected_fn
-	
-	self.on_message = function(self, fn)
-		local co = coroutine.create(function()
-			while true do
-				--print("in receive")
-				if self.sock then
-					self.sock:settimeout(0)
-					local message, opcode, was_clean, code, reason = self:receive()
-					if message then
-						fn(message)
-					end
-				end
-				coroutine.yield()
-			end
-		end)
-		coroutines[co] = true
-	end
-	
-	self.on_connected = function(self, fn)
-		on_connected_fn = fn
-	end
 
 	self.sock_connect = function(self,host,port)
 		assert(coroutine.running(), "You must call the connect function from a coroutine")
@@ -53,8 +28,23 @@ local new = function()
 		end
 	end
 
-	self.sock_send = function(self, ...)
-		return self.sock:send(...)
+	self.sock_send = function(self, data, i, j)
+		assert(coroutine.running(), "You must call the send function from a coroutine")
+		local sent = 0
+		i = i or 1
+		j = j or #data
+		while i < j do
+			self.sock:settimeout(0)
+			local bytes_sent, err = self.sock:send(data, i, j)
+			if err == "timeout" then
+				coroutine.yield()
+			elseif err then
+				return nil, err
+			end
+			i = i + bytes_sent
+			sent = sent + bytes_sent
+		end 
+		return sent
 	end
 
 	self.sock_receive = function(self,...)
@@ -77,12 +67,37 @@ local new = function()
 	
 	self = sync.extend(self)
 	
-	
+	local coroutines = {}
+
 	local sync_connect = self.connect
+	local sync_send = self.send
+	local sync_receive = self.receive
+
+	local on_connected_fn
+	local on_message_fn
+	
+	
 	self.connect = function(...)
 		local co = coroutine.create(function(...)
 			local ok, err =  sync_connect(...)
 			if on_connected_fn then on_connected_fn(ok, err) end
+		end)
+		coroutines[co] = true
+		coroutine.resume(co, ...)
+	end
+	
+	self.send = function(...)
+		local co = coroutine.create(function(...)
+			local bytes_sent, err = sync_send(...)
+		end)
+		coroutines[co] = true
+		coroutine.resume(co, ...)
+	end
+	
+	self.receive = function(...)
+		local co = coroutine.create(function(...)
+			local data, err = sync_receive(...)
+			if on_message_fn then on_message_fn(data, err) end
 		end)
 		coroutines[co] = true
 		coroutine.resume(co, ...)
@@ -96,7 +111,27 @@ local new = function()
 			end
 		end
 	end
-
+	
+	self.on_message = function(self, fn)
+		on_message_fn = fn
+		local co = coroutine.create(function()
+			while true do
+				if self.sock then
+					self.sock:settimeout(0)
+					local message, opcode, was_clean, code, reason = sync_receive(self)
+					if message then
+						on_message_fn(message)
+					end
+				end
+				coroutine.yield()
+			end
+		end)
+		coroutines[co] = true
+	end
+	
+	self.on_connected = function(self, fn)
+		on_connected_fn = fn
+	end
 	
 	return self
 end
