@@ -1,6 +1,6 @@
 local simple_input = require "modules.simple_input"
 local websocket = require "websocket"
-local websocket_async = require "modules.client_async"
+local websocket_async = require "examples.websocket.client_async"
 
 local function log(...)
 	local text = ""
@@ -16,44 +16,26 @@ end
 
 function init(self)
 	simple_input.acquire()
-	
-	simple_input.register(gui.get_node("echo/bg"), function()
-		log("echo")
-		local wsc = websocket.client.new({ timeout = 1})
-		log("Websocket client created", wsc)
-		pprint(wsc)
-		
-		local ok, err = wsc:connect("ws://echo.websocket.org", "echo")
-		if not ok then
-			log("Could not connect", err)
-		else
-			log("Websocket connected")
-			local message_to_send = 'sending to echo server'
-			local ok, was_clean, code, reason = wsc:send(message_to_send)
-			log("Sending '" .. message_to_send .. "'", ok, was_clean, code, reason)
-			
-			local message, opcode, was_clean, code, reason = wsc:receive()
-			log("Received '" .. tostring(message) .. "'", opcode, was_clean, code, reason)
-		end
-		
-		log("Closing websocket")
-		wsc:close()
-	end)
-	
 
-	simple_input.register(gui.get_node("send_async/bg"), function()
+	simple_input.register(gui.get_node("send/bg"), function()
 		if not self.wsc_async then
 			log("creating async")
-			self.wsc_async = websocket_async()
+			local is_html5 = sys.get_sys_info().system_name == "HTML5"
+			self.wsc_async = websocket_async(is_html5)
 			self.wsc_async:on_message(function(message)
 				log("on_message", message)
 			end)
 			self.wsc_async:on_connected(function(ok, err)
 				log("on connected", ok, err)
+				if err then
+					self.wsc_async:close()
+					self.wsc_async = nil
+				end
 			end)
-			self.wsc_async:connect("ws://echo.websocket.org", "echo")
+			--self.wsc_async:connect("ws://echo.websocket.org")
+			self.wsc_async:connect("ws://localhost:9999")
 		else
-			local message_to_send = 'sending to echo server'
+			local message_to_send = 'sending to server'
 			local ok, was_clean, code, reason = self.wsc_async:send(message_to_send)
 			log("Sending '" .. message_to_send .. "'", ok, was_clean, code, reason)
 		end

@@ -40,8 +40,9 @@
 
 local socket = require'socket'
 local sync = require'websocket.sync'
+local tools = require'websocket.tools'
 
-local new = function()
+local new = function(emscripten)
 	local self = {}
 
 	self.sock_connect = function(self,host,port)
@@ -80,6 +81,8 @@ local new = function()
 				coroutine.yield()
 			elseif err then
 				return nil, err
+			else
+				coroutine.yield()
 			end
 			i = i + bytes_sent
 			sent = sent + bytes_sent
@@ -87,12 +90,12 @@ local new = function()
 		return sent
 	end
 
-	self.sock_receive = function(self,...)
+	self.sock_receive = function(self, pattern, prefix)
 		assert(coroutine.running(), "You must call the receive function from a coroutine")
 		local data, err
 		repeat
 			self.sock:settimeout(0)
-			data, err = self.sock:receive(...)
+			data, err = self.sock:receive(pattern, prefix)
 			if err == "timeout" then
 				coroutine.yield()
 			end
@@ -112,15 +115,23 @@ local new = function()
 	local sync_connect = self.connect
 	local sync_send = self.send
 	local sync_receive = self.receive
+	local sync_close = self.close
 
 	local on_connected_fn
 	local on_message_fn
 	
 	
 	self.connect = function(...)
-		local co = coroutine.create(function(...)
-			local ok, err =  sync_connect(...)
-			if on_connected_fn then on_connected_fn(ok, err) end
+		local co = coroutine.create(function(self, ws_url, ws_protocol)
+			if emscripten then
+  				local protocol, host, port, uri = tools.parse_url(ws_url)
+				self.sock_connect(self, host, port)
+				self.state = "OPEN"
+				if on_connected_fn then on_connected_fn(ok, err) end
+			else
+				local ok, err =  sync_connect(self,ws_url,ws_protocol)
+				if on_connected_fn then on_connected_fn(ok, err) end
+			end
 		end)
 		coroutines[co] = true
 		coroutine.resume(co, ...)
@@ -128,7 +139,11 @@ local new = function()
 	
 	self.send = function(...)
 		local co = coroutine.create(function(...)
-			local bytes_sent, err = sync_send(...)
+			if emscripten then
+				self.sock_send(...)
+			else
+				local bytes_sent, err = sync_send(...)
+			end
 		end)
 		coroutines[co] = true
 		coroutine.resume(co, ...)
@@ -136,11 +151,25 @@ local new = function()
 	
 	self.receive = function(...)
 		local co = coroutine.create(function(...)
-			local data, err = sync_receive(...)
-			if on_message_fn then on_message_fn(data, err) end
+			if emscripten then
+				local data, err = self.sock_receive(...)
+				if on_message_fn then on_message_fn(data, err) end
+			else
+				local data, opcode, was_clean, code, reason = sync_receive(...)
+				if on_message_fn then on_message_fn(data, reason) end
+			end
 		end)
 		coroutines[co] = true
 		coroutine.resume(co, ...)
+	end
+	
+	self.close = function(...)
+		if emscripten then
+			self.sock_close(...)
+			self.state = "CLOSED"
+		else
+			sync_close(...)
+		end
 	end
 
 	
@@ -157,10 +186,14 @@ local new = function()
 		local co = coroutine.create(function()
 			while true do
 				if self.sock then
-					self.sock:settimeout(0)
-					local message, opcode, was_clean, code, reason = sync_receive(self)
-					if message then
-						on_message_fn(message)
+					if emscripten then
+						-- I haven't figured out how to know the length of the received data
+						-- receiving with a pattern of "*a" or "*l" will block indefinitely
+						local data, err = self.sock_receive(self, 1)
+						if on_message_fn then on_message_fn(data, err) end
+					else
+						local message, opcode, was_clean, code, reason = sync_receive(self)
+						if message then on_message_fn(message) end
 					end
 				end
 				coroutine.yield()

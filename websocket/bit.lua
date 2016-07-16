@@ -6,5 +6,10 @@ if has_bit32 then
   return bit
 else
   -- luajit / lua 5.1 + luabitop
+  if not _G.bit then
+    print("Warning! No bit op support. Using pure Lua bit implementation.")
+    local numberlua = require "lmod.bit.numberlua"
+    _G.bit = numberlua.bit
+  end
   return _G.bit
 end
