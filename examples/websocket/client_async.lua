@@ -189,8 +189,20 @@ local new = function(emscripten)
 					if emscripten then
 						-- I haven't figured out how to know the length of the received data
 						-- receiving with a pattern of "*a" or "*l" will block indefinitely
-						local data, err = self.sock_receive(self, 1)
-						if on_message_fn then on_message_fn(data, err) end
+						-- A message is read as chunks of data at a time, concatenating it as
+						-- it is received and repeated until an error
+						local chunk_size = 1024
+						local data, err, partial
+						repeat
+							self.sock:settimeout(0)
+							local bytes_to_read = data and (#data + chunk_size) or chunk_size
+							data, err, partial = self.sock:receive(bytes_to_read, data)
+							if partial and partial ~= "" then
+								data = partial
+							end
+							coroutine.yield()
+						until err
+						if data and on_message_fn then on_message_fn(data) end
 					else
 						local message, opcode, was_clean, code, reason = sync_receive(self)
 						if message then on_message_fn(message) end
