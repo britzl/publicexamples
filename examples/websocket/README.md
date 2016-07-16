@@ -1,5 +1,5 @@
 # Websocket example
-This shows how to connect to a websocket. The example is based on the [lua-websocket](https://github.com/lipp/lua-websockets) project and also additional files from the [LuaSocket](https://github.com/diegonehab/luasocket) project.
+This example shows how to connect to a websocket. The example is based on the [lua-websocket](https://github.com/lipp/lua-websockets) project and also additional files from the [LuaSocket](https://github.com/diegonehab/luasocket) project.
 
 The client implementations provided by lua-websocket include synchronous websockets (ie blocking), coroutine based websockets using [copas](https://github.com/keplerproject/copas) and asynchronous websockets using [lua-ev](https://github.com/brimworks/lua-ev). All three of the implementations will take care of websocket handshake and encode/decode of websocket frames.
 
