@@ -3,10 +3,13 @@ This shows how to connect to a websocket. The example is based on the [lua-webso
 
 The client implementations provided by lua-websocket include synchronous websockets (ie blocking), coroutine based using [copas](https://github.com/keplerproject/copas) and asynchronous using [lua-ev](https://github.com/brimworks/lua-ev).
 
-The synchronous implementation does not work very well in a game where it's not acceptable to block execution while sending or receiving data on a websocket. The coroutine based websocket using copas should work well in a game, but it adds another dependency. Finally, the lua-ev based websockets require C libraries to work, which currently is not possible in a cross platform way in Defold. This means that the copas based client is the best bet in a Defold game. However, this solution has its drawbacks as we will see in the section below.
+The synchronous implementation does not work very well in a game where it's not acceptable to block execution while sending or receiving data on a websocket. The coroutine based websocket using copas should work well in a game, but it adds another dependency. Finally, the lua-ev based websockets require C libraries to work, which currently is not possible in a cross platform way in Defold.
+This means that the copas based client is the best bet in a Defold game. However, this solution has its drawbacks as we will see in the section below.
+
+All three of the implementations will take care of websocket handshake and encode/decode of websocket frames.
 
 # some very important notes and gotchas
-Emscripten will automatically create websocket connections when creating sockets. This means that the all three of the above mentioned websocket implementations will fail in a Defold game built for HTML5.
+Emscripten will automatically create websocket connections when creating sockets. Emscripten will take care of the websocket handshake and encode/decode of the frames. This means that the all three of the above mentioned websocket implementations will fail in a Defold game built for HTML5.
 
 This example provides a fourth client implementation that is coroutine based using non blocking sockets and on HTML5 builds it bypasses the websocket code and interacts with the socket directly.
 
