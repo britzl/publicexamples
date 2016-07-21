@@ -1,0 +1,3 @@
+font: "/examples/assets/fonts/kenpixel.ttf"
+material: "/examples/text_on_go/text_on_go.material"
+size: 20

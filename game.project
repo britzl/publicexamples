@@ -3,8 +3,8 @@ title = PublicExamples
 custom_resources = 
 
 [bootstrap]
-main_collection = /examples/websocket/websocket.collectionc
-render = /examples/fixed_aspect_ratio/fixed_aspect_ratio.renderc
+main_collection = /examples/text_on_go/text_on_go.collectionc
+render = /examples/text_on_go/text_on_go.renderc
 
 [input]
 game_binding = /input/game.input_bindingc
