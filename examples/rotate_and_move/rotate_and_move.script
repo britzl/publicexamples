@@ -1,0 +1,46 @@
+go.property("angular_velocity", 5)
+go.property("linear_velocity", 200)
+
+function init(self)
+	msg.post(".", "acquire_input_focus")
+	
+	self.facing = 0		-- angle we're facing (radians) 
+	self.move = 0		-- direction of movement (0 = standing still, 1 = forward, -1 = backward)
+	self.rotate = 0		-- direction of rotation (0 = no rotation, 1 = left, -1 = right)
+end
+
+function final(self)
+	msg.post(".", "release_input_focus")
+end
+
+function update(self, dt)
+	if self.rotate ~= 0 then
+		self.facing = self.facing + self.angular_velocity * self.rotate * dt
+		go.set_rotation(vmath.quat_axis_angle(vmath.vector3(0, 0, 1), self.facing))
+	end
+
+	if self.move ~= 0 then
+		local distance_to_move = self.linear_velocity * self.move * dt
+		go.set_position(go.get_position() + vmath.vector3(-math.sin(self.facing) * distance_to_move, math.cos(self.facing) * distance_to_move, 0))
+	end
+end
+
+function on_input(self, action_id, action)
+	if action_id == hash("left") then
+		self.rotate = action.released and 0 or 1
+		-- the above one-liner is equivalent to the if-elseif case below
+		--[[if action.released then
+			self.rotate = 0
+		else
+			self.rotate = 1
+		end--]]
+	elseif action_id == hash("right") then
+		self.rotate = action.released and 0 or -1
+	end
+	
+	if action_id == hash("up") then
+		self.move = action.released and 0 or 1
+	elseif action_id == hash("down") then
+		self.move = action.released and 0 or -1
+	end
+end
