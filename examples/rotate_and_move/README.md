@@ -5,3 +5,6 @@ https://forum.defold.com/t/rotation-and-moving-forward-simple/1079/9
 
 ## Try it!
 http://britzl.github.io/publicexamples/rotate_and_move/index.html
+
+left, right = rotate left/right
+up, down = move forward/backwards

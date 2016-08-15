@@ -3,7 +3,7 @@ title = PublicExamples
 custom_resources = 
 
 [bootstrap]
-main_collection = /examples/text_on_go/text_on_go.collectionc
+main_collection = /examples/rotate_and_move/rotate_and_move.collectionc
 render = /examples/text_on_go/text_on_go.renderc
 
 [input]
