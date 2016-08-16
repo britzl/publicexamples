@@ -1,0 +1,33 @@
+go.property("aspect_ratio", 1.0)
+go.property("fov", 0.785)	--	45 degrees (45 * PI / 180)
+go.property("near_z", 0.1)
+go.property("far_z", 1000)
+go.property("auto_aspect_ratio", 0)
+
+go.property("enabled", 1)
+
+local default_aspect_ratio = tonumber(sys.get_config("display.width")) / tonumber(sys.get_config("display.height"))
+
+function update(self, dt)
+	if self.enabled == 1 then
+		local aspect_ratio = (self.auto_aspect_ratio == 1) and default_aspect_ratio or self.aspect_ratio 
+		local projection = vmath.matrix4_perspective(self.fov, aspect_ratio, self.near_z, self.far_z)
+		
+		local pos = go.get_world_position()
+		local rot = go.get_world_rotation()
+		
+		local look_at = pos + vmath.rotate(rot, vmath.vector3(0, 0, -1.0))
+		local up = vmath.rotate(rot, vmath.vector3(0, 1.0, 0))
+		local view = vmath.matrix4_look_at(pos, look_at, up)
+		
+		msg.post("@render:", "set_view_projection", { id = go.get_id(), view = view, projection = projection })
+	end
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("enable") then
+		self.enabled = 1
+	elseif message_id == hash("disable") then
+		self.enabled = 0
+	end
+end

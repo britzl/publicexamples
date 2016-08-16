@@ -81,46 +81,6 @@ embedded_instances {
   }
 }
 embedded_instances {
-  id: "topright"
-  data: "embedded_components {\n"
-  "  id: \"sprite\"\n"
-  "  type: \"sprite\"\n"
-  "  data: \"tile_set: \\\"/examples/fixed_aspect_ratio/fixed_aspect_ratio.atlas\\\"\\n"
-  "default_animation: \\\"white_square\\\"\\n"
-  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
-  "blend_mode: BLEND_MODE_ALPHA\\n"
-  "\"\n"
-  "  position {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "  }\n"
-  "  rotation {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "    w: 1.0\n"
-  "  }\n"
-  "}\n"
-  ""
-  position {
-    x: 608.0
-    y: 1104.0
-    z: 0.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale3 {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-  }
-}
-embedded_instances {
   id: "bottomright"
   data: "embedded_components {\n"
   "  id: \"sprite\"\n"
@@ -180,7 +140,7 @@ embedded_instances {
   "embedded_components {\n"
   "  id: \"factory\"\n"
   "  type: \"factory\"\n"
-  "  data: \"prototype: \\\"/examples/fixed_aspect_ratio/thing.go\\\"\\n"
+  "  data: \"prototype: \\\"/examples/assets/thing.go\\\"\\n"
   "\"\n"
   "  position {\n"
   "    x: 0.0\n"
@@ -237,6 +197,46 @@ embedded_instances {
   ""
   position {
     x: 32.0
+    y: 1104.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+embedded_instances {
+  id: "topright"
+  data: "embedded_components {\n"
+  "  id: \"sprite\"\n"
+  "  type: \"sprite\"\n"
+  "  data: \"tile_set: \\\"/examples/fixed_aspect_ratio/fixed_aspect_ratio.atlas\\\"\\n"
+  "default_animation: \\\"white_square\\\"\\n"
+  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
+  "blend_mode: BLEND_MODE_ALPHA\\n"
+  "\"\n"
+  "  position {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "  }\n"
+  "  rotation {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "    w: 1.0\n"
+  "  }\n"
+  "}\n"
+  ""
+  position {
+    x: 608.0
     y: 1104.0
     z: 0.0
   }

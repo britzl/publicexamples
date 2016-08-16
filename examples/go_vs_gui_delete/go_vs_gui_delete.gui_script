@@ -8,9 +8,10 @@ function final(self)
 end
 
 function on_input(self, action_id, action)
-	if action.released then
+	if action.released and not self.deleted then
 		print("Deleting gui")
 		gui.delete_node(gui.get_node("parent"))
+		self.deleted = true
 	end
 end
 

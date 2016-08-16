@@ -21,7 +21,7 @@ embedded_instances {
   "  id: \"sprite\"\n"
   "  type: \"sprite\"\n"
   "  data: \"tile_set: \\\"/examples/assets/player.atlas\\\"\\n"
-  "default_animation: \\\"idle\\\"\\n"
+  "default_animation: \\\"blue_idle\\\"\\n"
   "material: \\\"/builtins/materials/sprite.material\\\"\\n"
   "blend_mode: BLEND_MODE_ALPHA\\n"
   "\"\n"

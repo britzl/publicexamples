@@ -1,11 +1,11 @@
 name: "game"
 instances {
-  id: "thing1"
-  prototype: "/examples/pause_game/thing.go"
+  id: "bouncing_thing"
+  prototype: "/examples/assets/bouncing_thing.go"
   position {
-    x: 393.6158
-    y: 578.674
-    z: 1.0
+    x: 247.10927
+    y: 229.285
+    z: 0.0
   }
   rotation {
     x: 0.0

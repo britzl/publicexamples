@@ -20,7 +20,7 @@ embedded_instances {
   "embedded_components {\n"
   "  id: \"factory\"\n"
   "  type: \"factory\"\n"
-  "  data: \"prototype: \\\"/examples/menu_and_game/thing.go\\\"\\n"
+  "  data: \"prototype: \\\"/examples/assets/thing.go\\\"\\n"
   "\"\n"
   "  position {\n"
   "    x: 0.0\n"

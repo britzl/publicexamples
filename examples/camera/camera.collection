@@ -1,0 +1,197 @@
+name: "camera"
+instances {
+  id: "bouncing_thing1"
+  prototype: "/examples/assets/bouncing_thing.go"
+  children: "camera1"
+  position {
+    x: -108.7381
+    y: 1012.61426
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  component_properties {
+    id: "bounce_script"
+    properties {
+      id: "duration"
+      value: "1.7"
+      type: PROPERTY_TYPE_NUMBER
+    }
+  }
+  component_properties {
+    id: "thing_script"
+    properties {
+      id: "anim"
+      value: "green_walk"
+      type: PROPERTY_TYPE_HASH
+    }
+  }
+  scale3 {
+    x: 1.5
+    y: 1.5
+    z: 1.0
+  }
+}
+instances {
+  id: "camera1"
+  prototype: "/examples/camera/camera.go"
+  position {
+    x: 0.0
+    y: -223.42203
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+instances {
+  id: "bouncing_thing2"
+  prototype: "/examples/assets/bouncing_thing.go"
+  children: "camera2"
+  position {
+    x: 918.4304
+    y: 501.27823
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  component_properties {
+    id: "bounce_script"
+    properties {
+      id: "duration"
+      value: "2.4"
+      type: PROPERTY_TYPE_NUMBER
+    }
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+instances {
+  id: "camera2"
+  prototype: "/examples/camera/camera.go"
+  position {
+    x: 0.0
+    y: -185.61215
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+instances {
+  id: "bouncing_thing3"
+  prototype: "/examples/assets/bouncing_thing.go"
+  children: "camera3"
+  position {
+    x: 2016.4417
+    y: 887.01434
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  component_properties {
+    id: "bounce_script"
+    properties {
+      id: "duration"
+      value: "2.8"
+      type: PROPERTY_TYPE_NUMBER
+    }
+  }
+  scale3 {
+    x: 2.0
+    y: 2.0
+    z: 1.0
+  }
+}
+instances {
+  id: "camera3"
+  prototype: "/examples/camera/camera.go"
+  position {
+    x: 0.0
+    y: -185.61215
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+scale_along_z: 0
+embedded_instances {
+  id: "bg"
+  data: "embedded_components {\n"
+  "  id: \"sprite\"\n"
+  "  type: \"sprite\"\n"
+  "  data: \"tile_set: \\\"/examples/assets/ui.atlas\\\"\\n"
+  "default_animation: \\\"colored_shroom\\\"\\n"
+  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
+  "blend_mode: BLEND_MODE_ALPHA\\n"
+  "\"\n"
+  "  position {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "  }\n"
+  "  rotation {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "    w: 1.0\n"
+  "  }\n"
+  "}\n"
+  ""
+  position {
+    x: 1028.0759
+    y: 1021.71857
+    z: -1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 5.0
+    y: 5.0
+    z: 1.0
+  }
+}

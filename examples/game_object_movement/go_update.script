@@ -14,6 +14,7 @@ function final(self)
 end
 
 function update(self, dt)
+	msg.post("@render:", "draw_text", { text = "Use arrow keys to move in update()", position = vmath.vector3(10, 130, 0) } )
 	go.set_position(go.get_position() + self.speed * dt)
 end
 

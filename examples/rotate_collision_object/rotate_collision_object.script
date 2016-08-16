@@ -12,6 +12,7 @@ function update(self, dt)
 	local world_position = go.get_world_position()
 	msg.post("#collisionobject", "apply_force", { force = vmath.rotate(rotation, self.rotation_direction), position = world_position + vmath.rotate(rotation, vmath.vector3(-50, 50, 0)) })
 	msg.post("#collisionobject", "apply_force", { force = vmath.rotate(rotation, -self.rotation_direction), position = world_position + vmath.rotate(rotation, vmath.vector3(50, -50, 0)) })
+	msg.post("@render:", "draw_text", { text = "Rotate using left/right arrow keys", position = vmath.vector3(10, 100, 0) } )
 end
 
 function on_input(self, action_id, action)

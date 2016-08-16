@@ -1,6 +1,6 @@
 components {
   id: "script"
-  component: "/examples/factory_and_properties/thing.script"
+  component: "/examples/factory_and_properties/thing_with_properties.script"
   position {
     x: 0.0
     y: 0.0
@@ -16,11 +16,7 @@ components {
 embedded_components {
   id: "sprite"
   type: "sprite"
-  data: "tile_set: \"/examples/assets/player.atlas\"\n"
-  "default_animation: \"walk\"\n"
-  "material: \"/builtins/materials/sprite.material\"\n"
-  "blend_mode: BLEND_MODE_ALPHA\n"
-  ""
+  data: "tile_set: \"/examples/assets/player.atlas\"\ndefault_animation: \"blue_walk\"\nmaterial: \"/builtins/materials/sprite.material\"\nblend_mode: BLEND_MODE_ALPHA\n"
   position {
     x: 0.0
     y: 0.0
