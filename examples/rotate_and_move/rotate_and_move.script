@@ -4,7 +4,6 @@ go.property("linear_velocity", 200)
 function init(self)
 	msg.post(".", "acquire_input_focus")
 	
-	self.facing = 0		-- angle we're facing (radians) 
 	self.move = 0		-- direction of movement (0 = standing still, 1 = forward, -1 = backward)
 	self.rotate = 0		-- direction of rotation (0 = no rotation, 1 = left, -1 = right)
 end
@@ -14,14 +13,16 @@ function final(self)
 end
 
 function update(self, dt)
+	local rotation = go.get_rotation()
 	if self.rotate ~= 0 then
-		self.facing = self.facing + self.angular_velocity * self.rotate * dt
-		go.set_rotation(vmath.quat_axis_angle(vmath.vector3(0, 0, 1), self.facing))
+		rotation = rotation * vmath.quat_rotation_z(self.angular_velocity * self.rotate * dt)
+		go.set_rotation(rotation)
 	end
-
+	
 	if self.move ~= 0 then
-		local distance_to_move = self.linear_velocity * self.move * dt
-		go.set_position(go.get_position() + vmath.vector3(-math.sin(self.facing) * distance_to_move, math.cos(self.facing) * distance_to_move, 0))
+		local distance = self.linear_velocity * self.move * dt
+		local direction = vmath.rotate(rotation, vmath.vector3(0, distance, 0))
+		go.set_position(go.get_position() + direction)
 	end
 end
 
