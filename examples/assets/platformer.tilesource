@@ -93,27 +93,27 @@ convex_hulls {
 convex_hulls {
   index: 141
   count: 6
-  collision_group: ""
+  collision_group: "ladder"
 }
 convex_hulls {
   index: 147
   count: 6
-  collision_group: ""
+  collision_group: "ladder"
 }
 convex_hulls {
   index: 153
   count: 4
-  collision_group: ""
+  collision_group: "ladder"
 }
 convex_hulls {
   index: 157
   count: 4
-  collision_group: ""
+  collision_group: "ladder"
 }
 convex_hulls {
   index: 161
   count: 4
-  collision_group: ""
+  collision_group: "ladder"
 }
 convex_hulls {
   index: 165
@@ -223,7 +223,7 @@ convex_hulls {
 convex_hulls {
   index: 368
   count: 8
-  collision_group: ""
+  collision_group: "ladder"
 }
 convex_hulls {
   index: 376
@@ -1326,5 +1326,7 @@ convex_hulls {
   collision_group: ""
 }
 collision_groups: "ground"
+collision_groups: "ladder"
 collision_groups: "water"
 extrude_borders: 1
+inner_padding: 0

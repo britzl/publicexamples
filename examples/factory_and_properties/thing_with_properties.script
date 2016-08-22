@@ -7,7 +7,7 @@ go.property("url", msg.url())
 go.property("color", vmath.vector4(1, 1, 1, 1))
 go.property("rotation", vmath.quat())
 
-local lookup = require "modules.lookup"
+local lookup = require "examples.factory_and_properties.lookup"
 
 function init(self)
 	print("My name is " .. lookup.get(self.key))

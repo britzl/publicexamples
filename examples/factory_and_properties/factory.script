@@ -1,4 +1,4 @@
-local lookup = require "modules.lookup"
+local lookup = require "examples.factory_and_properties.lookup"
 
 local function random_position()
 	return vmath.vector3(math.random(1, sys.get_config("display.width")),  math.random(1, sys.get_config("display.height")), 0)
