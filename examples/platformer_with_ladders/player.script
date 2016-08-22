@@ -4,6 +4,8 @@ function init(self)
 	msg.post(".", "acquire_input_focus")
 	self.velocity = vmath.vector3(0, 0, 0)
 	self.ground_contact = false
+	self.ladder_contact = false
+	self.climbing = false
 	self.actions = {}
 end
 
@@ -14,15 +16,20 @@ end
 function update(self, dt)
 	local gravity = vmath.vector3(0, gravity, 0)
 
+	-- set horizontal velocity if currently moving left/right
 	if self.actions[hash("left")] then
 		self.velocity.x = -100
 	elseif self.actions[hash("right")] then
 		self.velocity.x = 100
+	-- and clear it if we're not moving left/right
 	else
 		self.velocity.x = 0
 	end
 	
+	-- are we in contact with a ladder?
 	if self.ladder_contact then
+		-- set vertical velocity if we are climbing up or down
+		-- also set flag to indicate that we are climbing
 		if self.actions[hash("up")] then
 			self.velocity.y = 100
 			self.ground_contact = true
@@ -38,8 +45,8 @@ function update(self, dt)
 		self.climbing = false
 	end
 	
+	-- apply gravity if there's no ground contact and if we're not climbing a ladder
 	if not self.ground_contact and not self.climbing then
-		-- Apply gravity if there's no ground contact
 		self.velocity = self.velocity + gravity
 	end
 	
@@ -52,24 +59,17 @@ function update(self, dt)
 	self.ladder_contact = false
 end
 
+
+-- from the platformer tutorial on defold.com
 local function handle_geometry_contact(self, normal, distance)
-	-- project the correction vector onto the contact normal
-	-- (the correction vector is the 0-vector for the first contact point)
 	local proj = vmath.dot(self.correction, normal)
-	-- calculate the compensation we need to make for this contact point
 	local comp = (distance - proj) * normal
-	-- add it to the correction vector
 	self.correction = self.correction + comp
-	-- apply the compensation to the player character
 	go.set_position(go.get_position() + comp)
-	-- check if the normal points enough up to consider the player standing on the ground
-	-- (0.7 is roughly equal to 45 degrees deviation from pure vertical direction)
 	if normal.y > 0.7 then
 		self.ground_contact = true
 	end
-	-- project the velocity onto the normal
 	proj = vmath.dot(self.velocity, normal)
-	-- if the projection is negative, it means that some of the velocity points towards the contact point
 	if proj < 0 then
 		-- remove that component in that case
 		self.velocity = self.velocity - proj * normal
@@ -77,10 +77,8 @@ local function handle_geometry_contact(self, normal, distance)
 	end
 end
 
-
 function on_message(self, message_id, message, sender)
 	if message_id == hash("contact_point_response") then
-		-- check if we received a contact point message. One message for each contact point
 		if message.group == hash("ground") then
 			handle_geometry_contact(self, message.normal, message.distance)
 		elseif message.group == hash("ladder") then 
@@ -91,11 +89,13 @@ end
 
 function on_input(self, action_id, action)
 	if action_id then
+		-- set/clear action in map of all actions
 		if action.pressed then
 			self.actions[action_id] = true
 		elseif action.released then
 			self.actions[action_id] = nil
 		end
+		-- jump
 		if action_id == hash("trigger") and action.pressed then
 			self.velocity.y = 500
 		end
