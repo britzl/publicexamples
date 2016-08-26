@@ -3,7 +3,7 @@ title = PublicExamples
 custom_resources = 
 
 [bootstrap]
-main_collection = /examples/platformer_with_ladders/platformer_with_ladders.collectionc
+main_collection = /examples/factory_and_properties/factory_and_properties.collectionc
 render = /examples/camera/split_screen.renderc
 
 [input]
