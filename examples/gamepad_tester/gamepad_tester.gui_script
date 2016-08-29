@@ -1,0 +1,75 @@
+local STICK_MAX_DISTANCE = 30
+
+function init(self)
+	msg.post(".", "acquire_input_focus")
+	self.left_stick = gui.get_node("left_stick")
+	self.right_stick = gui.get_node("right_stick")
+	self.left_stick_pos = gui.get_position(self.left_stick)
+	self.right_stick_pos = gui.get_position(self.right_stick)
+	self.left_stick_value = vmath.vector3()
+	self.right_stick_value = vmath.vector3()
+end
+
+function final(self)
+	msg.post(".", "release_input_focus")
+end
+
+function on_input(self, action_id, action)
+	if action_id then
+		local node
+
+		-- left analog stick
+		if action_id == hash("left_stick_click") then
+			node = gui.get_node("left_stick")
+		elseif action_id == hash("left_stick_left") then
+			self.left_stick_value.x = -STICK_MAX_DISTANCE * action.value
+			gui.set_position(self.left_stick, self.left_stick_pos + self.left_stick_value)
+		elseif action_id == hash("left_stick_right") then
+			self.left_stick_value.x = STICK_MAX_DISTANCE * action.value
+			gui.set_position(self.left_stick, self.left_stick_pos + self.left_stick_value)
+		elseif action_id == hash("left_stick_up") then
+			self.left_stick_value.y = STICK_MAX_DISTANCE * action.value
+			gui.set_position(self.left_stick, self.left_stick_pos + self.left_stick_value)
+		elseif action_id == hash("left_stick_down") then
+			self.left_stick_value.y = -STICK_MAX_DISTANCE * action.value
+			gui.set_position(self.left_stick, self.left_stick_pos + self.left_stick_value)
+
+		-- right analog stick
+		elseif action_id == hash("right_stick_click") then
+			node = gui.get_node("right_stick")
+		elseif action_id == hash("right_stick_left") then
+			self.right_stick_value.x = -STICK_MAX_DISTANCE * action.value
+			gui.set_position(self.right_stick, self.right_stick_pos + self.right_stick_value)
+		elseif action_id == hash("right_stick_right") then
+			self.right_stick_value.x = STICK_MAX_DISTANCE * action.value
+			gui.set_position(self.right_stick, self.right_stick_pos + self.right_stick_value)
+		elseif action_id == hash("right_stick_up") then
+			self.right_stick_value.y = STICK_MAX_DISTANCE * action.value
+			gui.set_position(self.right_stick, self.right_stick_pos + self.right_stick_value)
+		elseif action_id == hash("right_stick_down") then
+			self.right_stick_value.y = -STICK_MAX_DISTANCE * action.value
+			gui.set_position(self.right_stick, self.right_stick_pos + self.right_stick_value)
+
+		-- other gamepad actions are mapped directly with a gui node
+		else
+			local ok, node_or_error = pcall(gui.get_node, action_id)
+			if ok then
+				node = node_or_error
+			end
+		end
+
+		if node then
+			if action.pressed then
+				gui.set_blend_mode(node, gui.BLEND_ADD)
+			elseif action.released then
+				gui.set_color(node, vmath.vector4(1,1,1,1))
+				gui.set_blend_mode(node, gui.BLEND_ALPHA)
+			end
+		end
+	end
+end
+
+function on_reload(self)
+    -- Add input-handling code here
+    -- Remove this function if not needed
+end

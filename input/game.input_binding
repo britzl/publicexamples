@@ -27,6 +27,62 @@ gamepad_trigger {
   action: "up"
 }
 gamepad_trigger {
+  input: GAMEPAD_LPAD_DOWN
+  action: "down"
+}
+gamepad_trigger {
+  input: GAMEPAD_LPAD_LEFT
+  action: "left"
+}
+gamepad_trigger {
+  input: GAMEPAD_LPAD_RIGHT
+  action: "right"
+}
+gamepad_trigger {
+  input: GAMEPAD_RPAD_LEFT
+  action: "left"
+}
+gamepad_trigger {
+  input: GAMEPAD_RPAD_RIGHT
+  action: "right"
+}
+gamepad_trigger {
   input: GAMEPAD_RPAD_DOWN
   action: "down"
+}
+gamepad_trigger {
+  input: GAMEPAD_RPAD_UP
+  action: "up"
+}
+gamepad_trigger {
+  input: GAMEPAD_LSTICK_LEFT
+  action: "left"
+}
+gamepad_trigger {
+  input: GAMEPAD_LSTICK_RIGHT
+  action: "right"
+}
+gamepad_trigger {
+  input: GAMEPAD_LSTICK_DOWN
+  action: "down"
+}
+gamepad_trigger {
+  input: GAMEPAD_LSTICK_UP
+  action: "up"
+}
+gamepad_trigger {
+  input: GAMEPAD_RSTICK_LEFT
+  action: "left"
+}
+gamepad_trigger {
+  input: GAMEPAD_RSTICK_RIGHT
+  action: "right"
+}
+gamepad_trigger {
+  input: GAMEPAD_RSTICK_DOWN
+  action: "down"
+}
+gamepad_trigger {
+  input: GAMEPAD_RSTICK_UP
+  action: "up"
 }

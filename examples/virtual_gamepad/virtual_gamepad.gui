@@ -1,7 +1,7 @@
 script: "/examples/virtual_gamepad/virtual_gamepad.gui_script"
 textures {
-  name: "virtual_gamepad"
-  texture: "/examples/virtual_gamepad/virtual_gamepad.atlas"
+  name: "gamepad"
+  texture: "/examples/assets/gamepad.atlas"
 }
 background_color {
   x: 0.0
@@ -42,7 +42,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "virtual_gamepad/shadedDark07"
+  texture: "gamepad/shadedDark07"
   id: "analog_bg"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -96,7 +96,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "virtual_gamepad/shadedDark01"
+  texture: "gamepad/shadedDark01"
   id: "analog"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -150,7 +150,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "virtual_gamepad/shadedDark36"
+  texture: "gamepad/shadedDark36"
   id: "button_a"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -204,7 +204,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "virtual_gamepad/shadedDark37"
+  texture: "gamepad/shadedDark37"
   id: "button_b"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
