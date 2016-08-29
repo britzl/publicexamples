@@ -1086,7 +1086,7 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gamepad/shadedDark40"
-  id: "gamepad_ltrigger"
+  id: "gamepad_lshoulder"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -1140,7 +1140,7 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gamepad/shadedDark24"
-  id: "gamepad_lshoulder"
+  id: "gamepad_ltrigger"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -1194,7 +1194,7 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gamepad/shadedDark41"
-  id: "gamepad_rtrigger"
+  id: "gamepad_rshoulder"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
@@ -1248,7 +1248,7 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "gamepad/shadedDark25"
-  id: "gamepad_rshoulder"
+  id: "gamepad_rtrigger"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
