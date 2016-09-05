@@ -1,0 +1,20 @@
+function init(self)
+    go.set('#sprite', 'tint', vmath.vector4(1,1,1,1))
+end
+
+function update(self, dt)
+    if self.is_animating then
+       print(go.get('#sprite', 'tint'))
+    end
+end
+
+local function on_ani_done(self)
+    self.is_animating = false
+end
+
+function on_message(self, message_id, message, sender)
+    if message_id == hash('play_ani') then
+        self.is_animating = true
+        go.animate('#sprite', 'tint', go.PLAYBACK_ONCE_PINGPONG, vmath.vector4(1, 1, 1, 0), go.EASING_LINEAR, 0.4, 0, on_ani_done)
+    end
+end

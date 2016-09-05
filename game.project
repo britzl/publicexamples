@@ -3,7 +3,7 @@ title = PublicExamples
 custom_resources = 
 
 [bootstrap]
-main_collection = /examples/gamepad_tester/gamepad_tester.collectionc
+main_collection = /examples/DEF-2095/DEF-2095.collectionc
 render = /examples/camera/split_screen.renderc
 
 [input]

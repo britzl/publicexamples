@@ -1,0 +1,14 @@
+function init(self)
+    local obj1 = factory.create('#factory', vmath.vector3(100, 200, 0), nil, {}, 1)
+    go.delete(obj1)
+
+    local obj2 = factory.create('#factory', vmath.vector3(200, 200, 0), nil, {}, 1)
+    msg.post(obj2, 'play_ani')
+
+    local obj3 = factory.create('#factory', vmath.vector3(300, 200, 0), nil, {}, 1)
+    msg.post(obj3, 'play_ani')
+
+	-- tint will not be affected
+    local obj4 = factory.create('#factory', vmath.vector3(400, 200, 0), nil, {}, 1)
+    msg.post(obj4, 'play_ani')
+end
