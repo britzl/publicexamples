@@ -3,11 +3,11 @@ title = PublicExamples
 custom_resources = 
 
 [bootstrap]
-main_collection = /examples/gamepad_tester/gamepad_tester.collectionc
+main_collection = /examples/gui_render_order/gui_render_order.collectionc
 render = /examples/camera/split_screen.renderc
 
 [input]
-game_binding = /examples/gamepad_tester/gamepad_tester.input_bindingc
+game_binding = /input/game.input_bindingc
 gamepads = /examples/gamepad_tester/gamepad_tester.gamepadsc
 
 [display]

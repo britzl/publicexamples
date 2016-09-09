@@ -8,6 +8,8 @@ function init(self)
 	self.right_stick_pos = gui.get_position(self.right_stick)
 	self.left_stick_value = vmath.vector3()
 	self.right_stick_value = vmath.vector3()
+	print("JJKJJ")
+	pprint(sys.get_sys_info())
 end
 
 function final(self)
