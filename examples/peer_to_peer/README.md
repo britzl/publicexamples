@@ -1,2 +1,2 @@
-# peer to peer
-This example shows p2p discovery using LuaSockets
+# Peer to Peer discovery
+The peer to peer discovery example has moved [here](https://github.com/britzl/defnet).
