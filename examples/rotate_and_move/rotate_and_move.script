@@ -3,7 +3,6 @@ go.property("linear_velocity", 200)
 
 function init(self)
 	msg.post(".", "acquire_input_focus")
-	msg.post("@render:", "clear_color", { color = vmath.vector4(0.3, 0.3, 0.3, 1) })
 	
 	self.move = 0		-- direction of movement (0 = standing still, 1 = forward, -1 = backward)
 	self.rotate = 0		-- direction of rotation (0 = no rotation, 1 = left, -1 = right)
@@ -14,6 +13,8 @@ function final(self)
 end
 
 function update(self, dt)
+	msg.post("@render:", "draw_text", { text = "Left/Right to rotate. Up/Down to move.", position = vmath.vector3(20, 20, 0) } )
+
 	local rotation = go.get_rotation()
 	if self.rotate ~= 0 then
 		rotation = rotation * vmath.quat_rotation_z(self.angular_velocity * self.rotate * dt)

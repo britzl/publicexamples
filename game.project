@@ -3,8 +3,8 @@ title = PublicExamples
 custom_resources = 
 
 [bootstrap]
-main_collection = /examples/gui_render_order/gui_render_order.collectionc
-render = /examples/camera/split_screen.renderc
+main_collection = /examples/virtual_gamepad/virtual_gamepad.collectionc
+render = /builtins/render/default.renderc
 
 [input]
 game_binding = /input/game.input_bindingc

@@ -9,6 +9,8 @@ function final(self)
 end
 
 function update(self, dt)
+	msg.post("@render:", "draw_text", { text = "Click to spawn game objects.", position = vmath.vector3(20, 20, 0) } )
+
 	local w = tonumber(sys.get_config("display.width"))
 	local h = tonumber(sys.get_config("display.height"))
 	for k,thing in pairs(self.things) do

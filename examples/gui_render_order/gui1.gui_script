@@ -10,12 +10,20 @@ end
 function on_input(self, action_id, action)
 	if action.released then
 		if gui.pick_node(gui.get_node("tofront"), action.x, action.y) then
-			print("sending to front")
 			gui.set_render_order(7)
+			msg.post("gui2", "send_to_back")
 		elseif gui.pick_node(gui.get_node("toback"), action.x, action.y) then
-			print("sending to back")
 			gui.set_render_order(1)
+			msg.post("gui2", "send_to_front")
 		end
+	end
+end
+
+function on_message(seld, message_id, message, sender)
+	if message_id == hash("send_to_front") then
+		gui.set_render_order(7)
+	elseif message_id == hash("send_to_back") then
+		gui.set_render_order(1)
 	end
 end
 

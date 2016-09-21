@@ -1,4 +1,4 @@
-script: "/examples/gui_render_order/gui_render_order.gui_script"
+script: "/examples/gui_render_order/gui1.gui_script"
 fonts {
   name: "kenpixel_20"
   font: "/examples/assets/fonts/kenpixel_20.font"

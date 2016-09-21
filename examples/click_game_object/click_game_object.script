@@ -14,6 +14,7 @@ end
 
 function init(self)
 	msg.post(".", "acquire_input_focus")
+	msg.post("@render:", "clear_color", { color = vmath.vector4(95 /256, 129 / 256, 161 / 256, 1 ) })
 	go.set("go1#sprite", "scale", vmath.vector3(1.5, 1.5, 1))
 	
 	goput.add("go1#sprite", nil, handle_click)
