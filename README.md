@@ -19,7 +19,7 @@ You can try the examples yourself by [downloading](https://github.com/britzl/pub
 This approach is described in detail by forum user h3annawill in [this excellent video tutorial](https://forum.defold.com/t/how-to-explore-defold-examples-for-the-beginner/3013).
 
 ### Fork the project and change remote repo of an existing project
-Another way to try the examples is to [fork the project](https://github.com/britzl/publicexamples#fork-destination-box) and then [change the remote repository](https://help.github.com/articles/changing-a-remote-s-url/) of an existing Defold project so that it points to your fork on GitHub. It is recommended that you create an empty Defold project from the [dashboard](http://dashboard.defold.com/). The advantage of this solution is that it is easy to pull new examples and fixes from this project into your own fork.
+Another way to try the examples is to [fork the project](https://help.github.com/articles/fork-a-repo/) and then [change the remote repository](https://help.github.com/articles/changing-a-remote-s-url/) of an existing Defold project so that it points to your fork on GitHub. It is recommended that you create an empty Defold project from the [dashboard](http://dashboard.defold.com/). The advantage of this solution is that it is easy to pull new examples and fixes from this project into your own fork.
 
 ## License
 This examples are released under the same [Terms and Conditions as the Defold editor and service itself](http://www.defold.com/about-terms/).
