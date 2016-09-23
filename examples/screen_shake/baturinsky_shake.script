@@ -1,0 +1,28 @@
+--
+-- Code by baturinsky: https://forum.defold.com/t/how-do-i-make-screen-shake-move-etc/3023/6?u=britzl
+-- Minor modifications by Björn Ritzl (britzl)
+--
+
+function init(self)
+	self.shake = 0
+	self.original_position = go.get_position()	-- britzl: use local position instead of world position
+end
+
+
+function update(self, dt)
+	if self.shake > 0 then
+		go.set_position(self.original_position + vmath.vector3(math.random() * self.shake, math.random() * self.shake, 0))
+		self.shake = self.shake * 0.9 - 0.1 
+		
+		-- britzl: reset to original position when done shaking
+		if self.shake < 0 then
+			go.set_position(self.original_position)
+		end
+	end
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("shake") then
+		self.shake = message.shake	-- britzl: added shake amount to message
+	end
+end
