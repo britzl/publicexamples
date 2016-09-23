@@ -3,7 +3,7 @@ title = PublicExamples
 custom_resources = 
 
 [bootstrap]
-main_collection = /examples/virtual_gamepad/virtual_gamepad.collectionc
+main_collection = /examples/screen_shake/screen_shake.collectionc
 render = /builtins/render/default.renderc
 
 [input]
@@ -20,6 +20,7 @@ scale = 0.02
 debug = 0
 max_collisions = 256
 max_contacts = 256
+gravity_y = -100
 
 [script]
 shared_state = 1

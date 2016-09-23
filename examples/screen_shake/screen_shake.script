@@ -1,0 +1,26 @@
+function init(self)
+	msg.post(".", "acquire_input_focus")
+	msg.post("camera", "acquire_camera_focus")
+end
+
+function final(self)
+	msg.post(".", "release_input_focus")
+	msg.post("camera", "release_camera_focus")
+end
+
+function update(self, dt)
+	msg.post("@render:", "draw_text", { text = "Click to apply upward force to box", position = vmath.vector3(10, 20, 0) } )
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("contact_point_response") then
+		local distance = math.abs(message.relative_velocity.y) * 0.3
+		msg.post("camera", "shake", {time=0.5, x=distance, y=distance, speed=0.033})
+	end
+end
+
+function on_input(self, action_id, action)
+	if action.released then
+		msg.post("box", "apply_force", { force = vmath.vector3(0, 1000000, 0), position = go.get_world_position("box") + vmath.vector3(0, -20, 0) })
+	end
+end

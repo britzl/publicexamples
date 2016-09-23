@@ -1,0 +1,46 @@
+--
+-- From https://gist.github.com/johnnyjr/39d44e22086acc5730b96896f4c9a94b
+-- Minor adjustment by bjorn.ritzl@king.com
+-- 
+function init(self)
+	self.shakes = {}
+end
+
+function update(self, dt)
+  local camera_pos=self.original_position or go.get_position()
+
+	self.shake=vmath.vector3()
+	if self.shakes and next(self.shakes) then
+		for i,shake in pairs(self.shakes) do
+			shake.time=shake.time-dt
+			shake.to_target=shake.to_target-dt
+			if shake.to_target<=0 then
+				shake.a=vmath.vector3(shake.b)
+				shake.b=vmath.vector3((math.random()-0.5)*shake.x,(math.random()-0.5)*shake.y, 0)
+				shake.to_target=math.min(shake.time, shake.speed)
+				shake.to_target_max=shake.to_target
+			end
+			self.shake=self.shake+vmath.lerp(shake.to_target/shake.to_target_max, shake.b, shake.a)
+			if shake.time<=0 then
+				table.remove(self.shakes, i)
+			end
+		end
+	elseif self.original_position then
+		camera_pos=self.original_position
+		self.original_position=nil
+	end
+
+    go.set_position(camera_pos+self.shake)
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id==hash("shake") then
+		if not next(self.shakes) then 
+			self.original_position=go.get_position()
+		end
+		message.to_target=0
+		message.a=vmath.vector3()
+		message.b=vmath.vector3()
+		table.insert(self.shakes, message)
+	end
+end

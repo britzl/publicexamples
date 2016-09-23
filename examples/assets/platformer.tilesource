@@ -1328,5 +1328,14 @@ convex_hulls {
 collision_groups: "ground"
 collision_groups: "ladder"
 collision_groups: "water"
+animations {
+  id: "box"
+  start_tile: 193
+  end_tile: 193
+  playback: PLAYBACK_ONCE_FORWARD
+  fps: 30
+  flip_horizontal: 0
+  flip_vertical: 0
+}
 extrude_borders: 1
 inner_padding: 0
