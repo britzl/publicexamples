@@ -3,7 +3,7 @@ title = PublicExamples
 custom_resources = 
 
 [bootstrap]
-main_collection = /examples/screen_shake/screen_shake.collectionc
+main_collection = /examples/greeting_card/greeting_card.collectionc
 render = /builtins/render/default.renderc
 
 [input]
