@@ -1,0 +1,47 @@
+function init(self)
+	-- start receiving input
+	msg.post(".", "acquire_input_focus")
+
+	-- white background color
+	msg.post("@render:", "clear_color", { color = vmath.vector4(1, 1, 1, 1) } )
+	
+	-- store reference to the different gui nodes
+	self.arrow = gui.get_node("arrow")
+	self.cake = gui.get_node("cake")
+	self.penguin = gui.get_node("penguin")
+	self.card = gui.get_node("card")
+	
+	-- hide the cake
+	gui.set_enabled(self.cake, false)
+	
+	-- flag the card as not opened
+	self.card_open = false
+end
+
+function final(self)
+	-- stop receiving input
+	msg.post(".", "release_input_focus")
+end
+
+function on_input(self, action_id, action)
+	-- is the mouse above the arrow and is the card not yet open?
+	if gui.pick_node(self.arrow, action.x, action.y) and not self.card_open then
+		-- set arrow animation
+		gui.play_flipbook(self.arrow, hash("arrow_over"))
+		-- open the card if we released the mouse button
+		if action.released then
+			self.card_open = true
+			-- hide penguin and arrow
+			gui.set_enabled(self.penguin, false)
+			gui.set_enabled(self.arrow, false)
+			-- play opened_card animation
+			gui.play_flipbook(self.card, hash("opened_card"), function()
+				-- show the cake when the opened_card animation has finished
+				gui.set_enabled(self.cake, true)
+			end)
+		end
+	else
+		-- reset arrow if mouse is not over it
+		gui.play_flipbook(self.arrow, hash("arrow"))
+	end
+end
