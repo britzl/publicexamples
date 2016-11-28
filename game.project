@@ -3,11 +3,7 @@ title = PublicExamples
 custom_resources = 
 
 [bootstrap]
-<<<<<<< HEAD
-main_collection = /examples/greeting_card/greeting_card.collectionc
-=======
 main_collection = /examples/coin_magnet/coin_magnet.collectionc
->>>>>>> master
 render = /builtins/render/default.renderc
 
 [input]
