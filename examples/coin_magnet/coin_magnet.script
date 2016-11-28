@@ -1,0 +1,142 @@
+local backgrounds = { "bg1", "bg2", "bg3" }
+local background_size = 256 * 3
+local coin_spawn_interval = 0.15
+local powerup_spawn_interval = 6
+local magnet_lifetime = 10
+
+function init(self)
+	msg.post(".", "acquire_input_focus")
+	math.randomseed(os.time())
+	self.speed = 400
+	self.powerups = {}
+	self.coins = {}
+	self.coins_to_collect = {}
+	self.coin_spawn_timer = coin_spawn_interval
+	self.powerup_spawn_timer = powerup_spawn_interval
+	self.player_direction = vmath.vector3()
+	self.magnet_timer = 0
+	msg.post("coinmagnet", "disable")
+	msg.post("#coinmagnetcollisionobject", "disable")
+end
+
+function final(self)
+	msg.post(".", "release_input_focus")
+end
+
+function update(self, dt)
+	-- move background
+	for _,bg in pairs(backgrounds) do
+		local pos = go.get_position(bg)
+		pos = pos + vmath.vector3(0, -self.speed * dt, 0)
+		if pos.y <= -background_size then
+			pos.y = pos.y + #backgrounds * background_size
+		end
+		go.set_position(pos, bg)
+	end
+	
+	-- move coins
+	for coin,_ in pairs(self.coins) do
+		local pos = go.get_position(coin)
+		pos = pos + vmath.vector3(0, -self.speed * dt, 0)
+		go.set_position(pos, coin)
+		if pos.y <= -50 then
+			go.delete(coin)
+			self.coins[coin] = nil
+		end
+	end
+
+	-- move powerups
+	for powerup,_ in pairs(self.powerups) do
+		local pos = go.get_position(powerup)
+		pos = pos + vmath.vector3(0, -self.speed * dt, 0)
+		go.set_position(pos, powerup)
+		if pos.y <= -50 then
+			go.delete(powerup)
+			self.powerups[powerup] = nil
+		end
+	end
+	
+	-- spawn coins
+	self.coin_spawn_timer = self.coin_spawn_timer - dt
+	if self.coin_spawn_timer <= 0 then
+		self.coin_spawn_timer = coin_spawn_interval
+		local id = factory.create("#coinfactory", vmath.vector3(math.random(20, 620), 1500, 0), nil, {}, 0.25)
+		self.coins[id] = true
+	end
+	
+	-- spawn powerups
+	self.powerup_spawn_timer = self.powerup_spawn_timer - dt
+	if self.powerup_spawn_timer <= 0 then
+		self.powerup_spawn_timer = powerup_spawn_interval
+		local id = factory.create("#powerupfactory", vmath.vector3(math.random(20, 620), 1500, 0))
+		self.powerups[id] = true
+	end
+	
+	-- move player
+	local player_pos = go.get_position() + self.player_direction * 100 * dt
+	go.set_position(player_pos)
+
+	-- collect coins
+	for coin,_ in pairs(self.coins_to_collect) do
+		local coin_pos = go.get_position(coin)
+		local delta = player_pos - coin_pos
+		go.set_position(coin_pos + delta * 5 * dt, coin)
+		if vmath.length(delta) < 30 then
+			go.delete(coin)
+			self.coins_to_collect[coin] = nil
+		end
+	end
+	
+	-- decrease magnet lifetime if active
+	if self.magnet_timer > 0 then
+		self.magnet_timer = self.magnet_timer - dt
+		if self.magnet_timer <= 0 then
+			msg.post("coinmagnet", "disable")
+			msg.post("#coinmagnetcollisionobject", "disable")
+		end
+	end
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("collision_response") then
+		if message.group == hash("coin") then
+			self.coins[message.other_id] = nil
+			if self.magnet_timer > 0 then
+				self.coins_to_collect[message.other_id] = true
+				-- disable the collision object on the coin
+				local url = msg.url(message.other_id)
+				url.fragment = "collisionobject"
+				msg.post(url, "disable")
+			else
+				go.delete(message.other_id)
+			end
+		elseif message.group == hash("powerup") then
+			self.powerups[message.other_id] = nil
+			go.delete(message.other_id)
+			self.magnet_timer = magnet_lifetime
+			msg.post("coinmagnet", "enable")
+			msg.post("#coinmagnetcollisionobject", "enable")
+		end
+	end
+end
+
+function on_input(self, action_id, action)
+	if action_id == hash("left") then
+		if action.released then
+			self.player_direction.x = 0
+		else
+			self.player_direction.x = -1
+		end
+	elseif action_id == hash("right") then
+		if action.released then
+			self.player_direction.x = 0
+		else
+			self.player_direction.x = 1
+		end
+	end
+end
+
+function on_reload(self)
+    -- Add reload-handling code here
+    -- Remove this function if not needed
+end
