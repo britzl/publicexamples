@@ -1,0 +1,18 @@
+function init(self)
+	self.prototype = gui.get_node("prototype")
+	gui.set_enabled(self.prototype, false)
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("createnode") then
+		local node = gui.clone(self.prototype)
+		gui.set_id(node, message.id)
+		gui.set_enabled(node, true)
+		gui.set_position(node, message.position or vmath.vector3())
+	elseif message_id == hash("deletenode") then
+		gui.delete_node(gui.get_node(message.id))
+	elseif message_id == hash("updatenode") then
+		local node = gui.get_node(message.id)
+		if message.position then gui.set_position(node, message.position) end
+	end
+end
