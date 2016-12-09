@@ -1,0 +1,11 @@
+function update(self, dt)
+	msg.post(".", "update_rotation")
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("update_rotation") then
+		local world_quat_to_north = vmath.quat_rotation_z(math.rad(0))
+		local parent_quat = go.get_world_rotation("middle")
+		go.set_rotation(vmath.conj(parent_quat) * world_quat_to_north)
+	end
+end

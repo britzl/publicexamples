@@ -3,7 +3,7 @@ title = PublicExamples
 custom_resources = 
 
 [bootstrap]
-main_collection = /examples/one_way_platforms/one_way_platforms.collectionc
+main_collection = /examples/fixed_rotation/fixed_rotation.collectionc
 render = /builtins/render/default.renderc
 
 [input]

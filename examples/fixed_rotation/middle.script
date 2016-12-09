@@ -1,0 +1,8 @@
+function init(self)
+	self.angle = 0
+end
+
+function update(self, dt)
+	self.angle = self.angle + 100 * dt
+	go.set_rotation(vmath.quat_axis_angle(vmath.vector3(0, 0, 1), math.rad(self.angle)))
+end
