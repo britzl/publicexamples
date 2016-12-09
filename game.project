@@ -3,7 +3,7 @@ title = PublicExamples
 custom_resources = 
 
 [bootstrap]
-main_collection = /examples/fixed_rotation/fixed_rotation.collectionc
+main_collection = /examples/pick_scaled_node/pick_scaled_node.collectionc
 render = /builtins/render/default.renderc
 
 [input]
