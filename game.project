@@ -3,8 +3,8 @@ title = PublicExamples
 custom_resources = 
 
 [bootstrap]
-main_collection = /examples/gui_follows_go/gui_follows_go.collectionc
-render = /examples/gui_follows_go/gui_follows_go.renderc
+main_collection = /examples/one_way_platforms/one_way_platforms.collectionc
+render = /builtins/render/default.renderc
 
 [input]
 game_binding = /input/game.input_bindingc

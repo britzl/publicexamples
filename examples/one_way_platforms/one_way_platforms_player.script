@@ -1,0 +1,160 @@
+-- gravity pulling the player down in pixel units/sˆ2
+local gravity = -20
+
+-- take-off speed when jumping in pixel units/s
+local jump_takeoff_speed = 900
+
+function init(self)
+	-- this tells the engine to send input to on_input() in this script
+	msg.post(".", "acquire_input_focus")
+	msg.post("camera", "acquire_camera_focus")
+	--msg.post("@system:", "toggle_physics_debug")
+
+	-- save the starting position
+	self.position = go.get_position()
+
+	-- keep track of movement vector and if there is ground contact
+	self.velocity = vmath.vector3(0, 0, 0)
+	self.ground_contact = false
+	-- also keep track of if there is contact with a platform from below it
+	self.platform_contact_from_below = false
+	self.platform_contact_from_below_last_frame = false
+end
+
+function final(self)
+	-- Return input focus when the object is deleted
+	msg.post(".", "release_input_focus")
+	msg.post("camera", "release_camera_focus")
+end
+
+function update(self, dt)
+	local gravity = vmath.vector3(0, gravity, 0)
+
+	if self.move_left then
+		self.velocity.x = -250
+	elseif self.move_right then
+		self.velocity.x = 250
+	else
+		self.velocity.x = 0
+	end
+
+	if not self.ground_contact then
+		-- Apply gravity if there's no ground contact
+		self.velocity = self.velocity + gravity
+	end
+
+	-- apply velocity to the player character
+	go.set_position(go.get_position() + self.velocity * dt)
+
+	-- reset volatile state
+	self.correction = vmath.vector3()
+	self.ground_contact = false
+	self.platform_contact_from_below_last_frame = self.platform_contact_from_below
+	self.platform_contact_from_below = false
+end
+
+local function handle_geometry_contact(self, normal, distance) 
+	-- project the correction vector onto the contact normal
+	-- (the correction vector is the 0-vector for the first contact point)
+	local proj = vmath.dot(self.correction, normal)
+	-- calculate the compensation we need to make for this contact point
+	local comp = (distance - proj) * normal
+	-- add it to the correction vector
+	self.correction = self.correction + comp
+	-- apply the compensation to the player character
+	go.set_position(go.get_position() + comp)
+	-- check if the normal points enough up to consider the player standing on the ground
+	-- (0.7 is roughly equal to 45 degrees deviation from pure vertical direction)
+	if normal.y > 0.7 then
+		self.ground_contact = true
+	end
+	-- project the velocity onto the normal
+	proj = vmath.dot(self.velocity, normal)
+	-- if the projection is negative, it means that some of the velocity points towards the contact point
+	if proj < 0 then
+		-- remove that component in that case
+		self.velocity = self.velocity - proj * normal
+	end
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("contact_point_response") then
+		-- check if we received a contact point message. One message for each contact point
+		if message.group == hash("ground") then
+			handle_geometry_contact(self, message.normal, message.distance)
+		elseif message.group == hash("platform") then
+			-- If the message normal is pointing up and we didn't have
+			-- platform contact from below last frame then we have fallen on top
+			-- of a platform and need to treat it like geometry contact
+			-- Any other contact with "platform" is considered as contact where the
+			-- player is passing through the platform from below
+			if message.normal.y > 0 then
+				if not self.platform_contact_from_below_last_frame then
+					handle_geometry_contact(self, message.normal, message.distance)
+					self.platform_contact_from_below = false
+				else
+					self.platform_contact_from_below = true
+				end
+			else
+				self.platform_contact_from_below = true
+			end
+		end
+	end
+end
+
+local function jump(self)
+	-- only allow jump from ground
+	if self.ground_contact then
+		-- set take-off speed
+		self.velocity.y = jump_takeoff_speed
+	end
+end
+
+local function abort_jump(self)
+	-- cut the jump short if we are still going up
+	if self.velocity.y > 0 then
+		-- scale down the upwards speed
+		self.velocity.y = self.velocity.y * 0.5
+	end
+end
+
+function on_input(self, action_id, action)
+	if action_id == hash("trigger") or action_id == hash("touch") then
+		if action.pressed then
+			jump(self)
+		elseif action.released then
+			abort_jump(self)
+		end
+	end
+
+	if action_id == hash("left") then
+		if action.pressed then
+			self.move_left = true
+		elseif action.released then
+			self.move_left = false
+		end
+	elseif action_id == hash("right") then
+		if action.pressed then
+			self.move_right = true
+		elseif action.released then
+			self.move_right = false
+		end
+	end
+
+	--[[if action_id == hash("up") then
+		if action.pressed then
+			self.velocity.y = 250
+		elseif action.released then
+			self.velocity.y = 0
+		end
+	elseif action_id == hash("down") then
+		if action.pressed then
+			self.velocity.y = -250
+		elseif action.released then
+			self.velocity.y = 0
+		end
+	end--]]
+end
+
+function on_reload(self)
+end
