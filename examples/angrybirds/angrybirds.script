@@ -1,0 +1,48 @@
+function init(self)
+	msg.post(".", "acquire_input_focus")
+	msg.post("camera", "acquire_camera_focus")
+	msg.post("#collisionobject", "disable")
+	self.initial_position = go.get_position()
+	self.camera_offset = self.initial_position - go.get_position("camera")
+end
+
+function final(self)
+	msg.post(".", "release_input_focus")
+	msg.post("camera", "release_camera_focus")
+end
+
+function update(self, dt)
+	msg.post("@render:", "draw_text", { text = "Click and drag to launch", position = vmath.vector3(20, 40, 0) } )
+	msg.post("@render:", "draw_text", { text = "Space to Reset", position = vmath.vector3(20, 20, 0) } )
+	go.set_position(go.get_position() - self.camera_offset, "camera")
+end
+
+function on_message(self, message_id, message, sender)
+    -- Add message-handling code here
+    -- Remove this function if not needed
+end
+
+function on_input(self, action_id, action)
+	local action_pos = vmath.vector3(action.x, action.y, 0)
+	if action_id == hash("touch") then
+		 if action.pressed then
+			self.action_pressed = action_pos
+		elseif action.released then
+			msg.post("#collisionobject", "enable")
+			msg.post("#collisionobject", "apply_force", { force = (self.action_pressed - action_pos) * go.get("#collisionobject", "mass") * 150, position = go.get_world_position() })
+			self.action_pressed = nil
+		end
+	elseif action_id == hash("trigger") then
+		msg.post("#collisionobject", "disable")
+		go.set_position(self.initial_position)
+	else
+		if self.action_pressed then
+			go.set_position(self.initial_position + action_pos - self.action_pressed)
+		end
+	end
+end
+
+function on_reload(self)
+    -- Add reload-handling code here
+    -- Remove this function if not needed
+end
