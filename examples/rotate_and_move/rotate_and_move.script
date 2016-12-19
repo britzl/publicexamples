@@ -16,9 +16,11 @@ function update(self, dt)
 	msg.post("@render:", "draw_text", { text = "Left/Right to rotate. Up/Down to move.", position = vmath.vector3(20, 20, 0) } )
 
 	local rotation = go.get_rotation()
+	-- handle rotation from key input left/right
 	if self.rotate ~= 0 then
 		rotation = rotation * vmath.quat_rotation_z(self.angular_velocity * self.rotate * dt)
 		go.set_rotation(rotation)
+	-- rotate towards the latest mouse/touch location
 	elseif self.touch then
 		local to = go.get_position()
 		local from = vmath.vector3(self.touch.x, self.touch.y, 0)
@@ -28,6 +30,7 @@ function update(self, dt)
 		self.touch = nil
 	end
 	
+	-- move in direction of rotation
 	if self.move ~= 0 then
 		local distance = self.linear_velocity * self.move * dt
 		local direction = vmath.rotate(rotation, vmath.vector3(0, distance, 0))
