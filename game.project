@@ -63,4 +63,5 @@ app_icon_114x114 = /examples/assets/appicons/icon_114.png
 app_icon_72x72 = /examples/assets/appicons/icon_72.png
 app_icon_144x144 = /examples/assets/appicons/icon_144.png
 app_icon_167x167 = /examples/assets/appicons/icon_167.png
+bundle_identifier = com.britzl.publicexamples
 
