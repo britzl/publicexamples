@@ -3,7 +3,7 @@ title = PublicExamples
 custom_resources = 
 
 [bootstrap]
-main_collection = /examples/pick_scaled_node/pick_scaled_node.collectionc
+main_collection = /examples/drag_to_scroll/drag_to_scroll.collectionc
 render = /builtins/render/default.renderc
 
 [input]

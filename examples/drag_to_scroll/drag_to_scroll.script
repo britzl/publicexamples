@@ -1,10 +1,19 @@
 go.property("fling_enabled", true)
 go.property("fling_distance_threshold", 2000)	-- pixels per second
 
+local WIDTH = sys.get_config("display.width")
+local HEIGHT = sys.get_config("display.height")
+local TILE_SIZE = 64
+
 function init(self)
 	msg.post("camera", "acquire_camera_focus")
 	msg.post(".", "acquire_input_focus")
 	self.fling = vmath.vector3()
+	local x, y, w, h = tilemap.get_bounds("map#tilemap")
+	x = x - 1
+	y = y - 1
+	local pos = go.get_position("map#tilemap")
+	self.bounds = vmath.vector4(pos.x + (x * TILE_SIZE), pos.y + (y * TILE_SIZE), pos.x + ((x + w) * TILE_SIZE), pos.y + ((y + h) * TILE_SIZE))
 end
 
 function final(self)
@@ -12,9 +21,22 @@ function final(self)
 	msg.post(".", "release_input_focus")
 end
 
+local function limit(self, pos)
+	local left = self.bounds.x
+	local right = self.bounds.z - WIDTH
+	local top = self.bounds.w - HEIGHT
+	local bottom = self.bounds.y
+	pos.x = math.min(pos.x, right)
+	pos.x = math.max(pos.x, left)
+	pos.y = math.min(pos.y, top)
+	pos.y = math.max(pos.y, bottom)
+	return pos
+end
+
 function update(self, dt)
 	if not self.drag and self.fling_enabled then
-		go.set_position(go.get_position() + self.fling)
+		local pos = go.get_position() + self.fling
+		go.set_position(limit(self, pos))
 		self.fling = vmath.lerp(0.1, self.fling, vmath.vector3()) 
 	end
 end
@@ -43,7 +65,8 @@ function on_input(self, action_id, action)
 	
 	if self.drag then
 		local mouse_pos = vmath.vector3(action.x, action.y, 0)
-		go.set_position(self.camera_pos + self.pressed_pos - vmath.vector3(action.x, action.y, 0))
+		local pos = self.camera_pos + self.pressed_pos - vmath.vector3(action.x, action.y, 0)
+		go.set_position(limit(self, pos))
 	end
 end
 
