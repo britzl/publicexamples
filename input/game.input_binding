@@ -86,3 +86,7 @@ gamepad_trigger {
   input: GAMEPAD_RSTICK_UP
   action: "up"
 }
+touch_trigger {
+  input: TOUCH_MULTI
+  action: "multitouch"
+}

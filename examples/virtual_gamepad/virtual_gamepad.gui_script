@@ -24,32 +24,34 @@ local function post_to_listener(self, message_id, message)
 	end
 end
 
-function on_input(self, action_id, action)
-	if action.pressed then
-		if gui.pick_node(self.button_a, action.x, action.y) then
+
+local function handle_touch(self, touch, touch_index)
+	if touch.pressed then
+		if gui.pick_node(self.button_a, touch.x, touch.y) then
 			post_to_listener(self, "button_a", { pressed = true })
-		elseif gui.pick_node(self.button_b, action.x, action.y) then
+		elseif gui.pick_node(self.button_b, touch.x, touch.y) then
 			post_to_listener(self, "button_b", { pressed = true })
-		elseif gui.pick_node(self.analog, action.x, action.y) then
+		elseif gui.pick_node(self.analog, touch.x, touch.y) then
+			print("pressed analog")
 			gui.cancel_animation(self.analog, gui.PROP_POSITION)
-			self.analog_pressed = vmath.vector3(action.x, action.y, 0)
+			self.analog_pressed = { pos = vmath.vector3(touch.x, touch.y, 0), index = touch_index }
 		end
-	elseif action.released then
-		if self.analog_pressed then
+	elseif touch.released then
+		if self.analog_pressed and self.analog_pressed.index == touch_index then
 			gui.animate(self.analog, gui.PROP_POSITION, self.analog_start_position, gui.EASING_OUTQUAD, 0.2)
 			post_to_listener(self, "analog", { x = 0, y = 0 })
 			self.analog_pressed = nil
 		else
-			if gui.pick_node(self.button_a, action.x, action.y) then
+			if gui.pick_node(self.button_a, touch.x, touch.y) then
 				post_to_listener(self, "button_a", { released = true })
-			elseif gui.pick_node(self.button_b, action.x, action.y) then
+			elseif gui.pick_node(self.button_b, touch.x, touch.y) then
 				post_to_listener(self, "button_b", { released = true })
 			end
 		end
-	elseif self.analog_pressed then
-		local position = vmath.vector3(action.x, action.y, 0)
-		local dx = self.analog_start_position.x - action.x
-		local dy = self.analog_start_position.y - action.y
+	elseif self.analog_pressed and self.analog_pressed.index == touch_index then
+		local position = vmath.vector3(touch.x, touch.y, 0)
+		local dx = self.analog_start_position.x - touch.x
+		local dy = self.analog_start_position.y - touch.y
 		local radians = math.atan2(dy, dx)
 		local cos = math.cos(radians)
 		local sin = math.sin(radians)
@@ -62,5 +64,19 @@ function on_input(self, action_id, action)
 		end
 		gui.set_position(self.analog, position)
 		post_to_listener(self, "analog", { x = -(cos * distance / radius), y = -(sin * distance / radius) })
+	end
+end
+
+function on_input(self, action_id, action)
+	local ratio_x = action.x / (action.screen_x or action.x)
+	local ratio_y = action.y / (action.screen_y or action.y)
+	if action.touch then
+		for i,tp in pairs(action.touch) do
+			--tp.x = tp.x / ratio_x
+			--tp.y = tp.y / ratio_y
+			handle_touch(self, tp, i)
+		end
+	else
+		handle_touch(self, action, 0)
 	end
 end
