@@ -61,6 +61,7 @@ embedded_instances {
   "  id: \"gameproxy\"\n"
   "  type: \"collectionproxy\"\n"
   "  data: \"collection: \\\"/examples/pause_game/game.collection\\\"\\n"
+  "exclude: false\\n"
   "\"\n"
   "  position {\n"
   "    x: 0.0\n"

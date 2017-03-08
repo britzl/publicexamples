@@ -1,6 +1,9 @@
 images {
   image: "/examples/rotate_and_move/hitman1_machine.png"
 }
+images {
+  image: "/examples/rotate_and_move/laserBlue01.png"
+}
 margin: 0
-extrude_borders: 0
+extrude_borders: 2
 inner_padding: 0
