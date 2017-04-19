@@ -27,7 +27,7 @@ shared_state = 1
 
 [android]
 iap_provider = GooglePlay
-package = com.britzl.publicexamples
+package = com.britzl.publicexamples.screen_shake
 
 [sprite]
 max_count = 32000
@@ -42,8 +42,8 @@ max_instances = 32000
 max_debug_vertices = 50000
 
 [osx]
-bundle_identifier = com.britzl.publicexamples
+bundle_identifier = com.britzl.publicexamples.screen_shake
 
 [ios]
-bundle_identifier = com.britzl.publicexamples
+bundle_identifier = com.britzl.publicexamples.screen_shake
 

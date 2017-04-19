@@ -27,7 +27,7 @@ shared_state = 1
 
 [android]
 iap_provider = GooglePlay
-package = com.britzl.publicexamples
+package = com.britzl.publicexamples.virtual_gamepad
 
 [sprite]
 max_count = 32000
