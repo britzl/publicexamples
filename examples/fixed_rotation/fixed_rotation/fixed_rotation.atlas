@@ -1,0 +1,15 @@
+images {
+  image: "/fixed_rotation/images/shield_bronze.png"
+}
+images {
+  image: "/fixed_rotation/images/colored_shroom.png"
+}
+images {
+  image: "/fixed_rotation/images/playerShip3_red.png"
+}
+images {
+  image: "/fixed_rotation/images/ufoRed.png"
+}
+margin: 0
+extrude_borders: 2
+inner_padding: 0

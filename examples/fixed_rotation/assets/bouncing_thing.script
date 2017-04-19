@@ -1,6 +1,0 @@
-go.property("delay", 0)
-go.property("duration", 0.8)
-
-function init(self)
-	go.animate(".", "position.y", go.PLAYBACK_LOOP_PINGPONG, 0, go.EASING_INQUAD, self.duration, self.delay)
-end

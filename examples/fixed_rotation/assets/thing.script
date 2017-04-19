@@ -1,7 +1,0 @@
-go.property("anim", hash("blue_walk"))
-
-function init(self)
-	if self.anim ~= hash("") then
-		msg.post("#sprite", "play_animation", { id = self.anim })
-	end
-end
