@@ -45,5 +45,5 @@ animations {
   flip_vertical: 0
 }
 margin: 0
-extrude_borders: 0
+extrude_borders: 2
 inner_padding: 0
