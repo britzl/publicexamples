@@ -20,9 +20,9 @@ embedded_components {
   "  w: 1.0\n"
   "}\n"
   "outline {\n"
-  "  x: 0.0\n"
-  "  y: 0.0\n"
-  "  z: 0.0\n"
+  "  x: 1.0\n"
+  "  y: 1.0\n"
+  "  z: 1.0\n"
   "  w: 1.0\n"
   "}\n"
   "shadow {\n"
@@ -41,8 +41,8 @@ embedded_components {
   "material: \"/builtins/fonts/label.material\"\n"
   ""
   position {
-    x: 0.0
-    y: 35.0
+    x: 2.982
+    y: 19.831
     z: 0.0
   }
   rotation {
