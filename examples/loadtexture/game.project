@@ -3,12 +3,12 @@ title = Loadl texture
 custom_resources = 
 
 [bootstrap]
-main_collection = /examples/rotate_and_move/rotate_and_move.collectionc
+main_collection = /load_texture/loadtexture.collectionc
 render = /builtins/render/default.renderc
 
 [input]
 game_binding = /input/game.input_bindingc
-gamepads = /examples/gamepad_tester/gamepad_tester.gamepadsc
+gamepads = /builtins/input/default.gamepadsc
 
 [display]
 width = 640

@@ -1,4 +1,4 @@
-script: "/examples/loadtexture/loadtexture.gui_script"
+script: "/load_texture/loadtexture.gui_script"
 background_color {
   x: 0.0
   y: 0.0

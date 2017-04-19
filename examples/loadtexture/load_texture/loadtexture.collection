@@ -4,7 +4,7 @@ embedded_instances {
   id: "go"
   data: "components {\n"
   "  id: \"gui\"\n"
-  "  component: \"/examples/loadtexture/loadtexture.gui\"\n"
+  "  component: \"/load_texture/loadtexture.gui\"\n"
   "  position {\n"
   "    x: 0.0\n"
   "    y: 0.0\n"
