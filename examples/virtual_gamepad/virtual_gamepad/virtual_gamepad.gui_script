@@ -2,7 +2,6 @@ function init(self)
 	msg.post(".", "acquire_input_focus")
 	self.analog = gui.get_node("analog")
 	self.button_a = gui.get_node("button_a")
-	self.button_b = gui.get_node("button_b")
 	self.analog_start_position = gui.get_position(self.analog)
 end
 
@@ -29,10 +28,7 @@ local function handle_touch(self, touch, touch_index)
 	if touch.pressed then
 		if gui.pick_node(self.button_a, touch.x, touch.y) then
 			post_to_listener(self, "button_a", { pressed = true })
-		elseif gui.pick_node(self.button_b, touch.x, touch.y) then
-			post_to_listener(self, "button_b", { pressed = true })
 		elseif gui.pick_node(self.analog, touch.x, touch.y) then
-			print("pressed analog")
 			gui.cancel_animation(self.analog, gui.PROP_POSITION)
 			self.analog_pressed = { pos = vmath.vector3(touch.x, touch.y, 0), index = touch_index }
 		end
