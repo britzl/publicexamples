@@ -8,6 +8,7 @@ function final(self)
 end
 
 function update(self, dt)
+	msg.post("@render:", "clear_color", { color = vmath.vector4(95 /256, 129 / 256, 161 / 256, 1 ) })
 	self.collision_id = nil
 end
 
