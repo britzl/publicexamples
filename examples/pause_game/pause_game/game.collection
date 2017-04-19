@@ -3,8 +3,8 @@ instances {
   id: "bouncing_thing"
   prototype: "/pause_game/bouncing_thing.go"
   position {
-    x: 247.109
-    y: 352.092
+    x: 568.0
+    y: 320.0
     z: 0.0
   }
   rotation {
