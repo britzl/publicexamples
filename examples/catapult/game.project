@@ -3,7 +3,7 @@ title = Catapult
 custom_resources = 
 
 [bootstrap]
-main_collection = /catapult.collectionc
+main_collection = /catapult/catapult.collectionc
 render = /builtins/render/default.renderc
 
 [input]

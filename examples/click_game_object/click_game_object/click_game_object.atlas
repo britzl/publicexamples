@@ -1,5 +1,5 @@
 images {
-  image: "/click_game_object/logo.png"
+  image: "/click_game_object/images/logo.png"
 }
 margin: 0
 extrude_borders: 1
