@@ -1,9 +1,0 @@
-images {
-  image: "/images/logo.png"
-}
-images {
-  image: "/images/colored_shroom.png"
-}
-margin: 0
-extrude_borders: 2
-inner_padding: 0

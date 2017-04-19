@@ -1,10 +1,10 @@
 [project]
-title = PublicExamples
+title = Camera
 custom_resources = 
 
 [bootstrap]
-main_collection = /camera.collectionc
-render = /split_screen.renderc
+main_collection = /camera/camera.collectionc
+render = /camera/split_screen.renderc
 
 [input]
 game_binding = /input/game.input_bindingc
@@ -27,7 +27,7 @@ shared_state = 1
 
 [android]
 iap_provider = GooglePlay
-package = com.britzl.publicexamples
+package = com.britzl.publicexamples.camera
 
 [sprite]
 max_count = 32000
@@ -42,8 +42,8 @@ max_instances = 32000
 max_debug_vertices = 50000
 
 [osx]
-bundle_identifier = com.britzl.publicexamples
+bundle_identifier = com.britzl.publicexamples.camera
 
 [ios]
-bundle_identifier = com.britzl.publicexamples
+bundle_identifier = com.britzl.publicexamples.camera
 

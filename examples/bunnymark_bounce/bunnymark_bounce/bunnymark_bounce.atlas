@@ -1,5 +1,5 @@
 images {
-  image: "/logo.png"
+  image: "/bunnymark_bounce/images/logo.png"
 }
 margin: 0
 extrude_borders: 0

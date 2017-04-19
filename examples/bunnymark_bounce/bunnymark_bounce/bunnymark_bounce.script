@@ -1,22 +1,26 @@
 local WIDTH = tonumber(sys.get_config("display.width"))
 local HEIGHT = tonumber(sys.get_config("display.height"))
 
+local VELOCITY = 200
+
 local TOUCH = hash("touch")
+
+-- store the set_position function in a local variable to remove the need for index lookups on go in the update function
+local set_position = go.set_position
+
+--- prefer local bunnies instead of self.bunnies
+local bunnies = {}
 
 local function create_bunny(self, position)
 	local id = factory.create("#factory", position)
-	local duration = position.y / HEIGHT * 3
-	duration = math.random(duration * 0.9, duration * 1.1)
-	local delay = math.random(1,100) / 75
-	go.animate(id, "position.y", go.PLAYBACK_LOOP_PINGPONG, 0, go.EASING_INQUAD, duration, delay)
-
-	self.bunny_count = self.bunny_count + 1
+	local angle = math.random(1,360)
+	local velocity = vmath.vector3(VELOCITY * math.sin(angle * math.pi / 180), VELOCITY * math.cos(angle * math.pi / 180), 0)
+	table.insert(bunnies, { id = id, position = position, velocity = velocity })
 end
 
 function init(self)
-	self.bunny_count = 0
 	math.randomseed(os.time())
-	for i=1,1000 do
+	for i=1,500 do
 		create_bunny(self, vmath.vector3(math.random(1, WIDTH), math.random(HEIGHT * 0.8 / 2, HEIGHT * 1.2 / 2), 0), vmath.vector3(0, 0, 0))
 	end
 	
@@ -31,9 +35,24 @@ function final(self)
 end
 
 function update(self, dt)
+	for i=1,#bunnies do
+		local bunny = bunnies[i]
+		local v = bunny.velocity
+		local p = bunny.position
+		p.x = p.x + (v.x * dt)
+		p.y = p.y + (v.y * dt)
+		if p.x < 0 or p.x > WIDTH then
+			v.x = -v.x
+		end
+		if p.y < 0 or p.y > HEIGHT then
+			v.y = -v.y
+		end
+		set_position(p, bunny.id)
+	end
+
 	self.frame_count = self.frame_count + 1
 	local fps = self.frame_count / (socket.gettime() - self.fps_start)
-	msg.post("@render:", "draw_text", { text = ("Bunnies: %d FPS: %d"):format(self.bunny_count, fps), position = vmath.vector3(10, HEIGHT - 60, 0) } )
+	msg.post("@render:", "draw_text", { text = ("Bunnies: %d FPS: %d. Click to add more."):format(#bunnies, fps), position = vmath.vector3(10, HEIGHT - 60, 0) } )
 end
 
 function on_input(self, action_id, action)
@@ -43,6 +62,5 @@ function on_input(self, action_id, action)
 		end
 		self.frame_count = 0
 		self.fps_start = socket.gettime()
-		print(self.bunny_count)
 	end
 end

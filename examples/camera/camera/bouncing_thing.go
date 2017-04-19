@@ -1,6 +1,6 @@
 components {
   id: "bounce_script"
-  component: "/bouncing_thing.script"
+  component: "/camera/bouncing_thing.script"
   position {
     x: 0.0
     y: 0.0
@@ -21,7 +21,7 @@ components {
 embedded_components {
   id: "sprite"
   type: "sprite"
-  data: "tile_set: \"/camera.atlas\"\n"
+  data: "tile_set: \"/camera/camera.atlas\"\n"
   "default_animation: \"logo\"\n"
   "material: \"/builtins/materials/sprite.material\"\n"
   "blend_mode: BLEND_MODE_ALPHA\n"
