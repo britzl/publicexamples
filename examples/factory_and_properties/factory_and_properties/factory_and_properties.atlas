@@ -4,37 +4,37 @@ images {
 animations {
   id: "player_walk"
   images {
-    image: "/factory_and_properties/images/p1_walk03.png"
+    image: "/factory_and_properties/images/p1_walk01.png"
   }
   images {
-    image: "/factory_and_properties/images/p1_walk07.png"
+    image: "/factory_and_properties/images/p1_walk02.png"
+  }
+  images {
+    image: "/factory_and_properties/images/p1_walk03.png"
   }
   images {
     image: "/factory_and_properties/images/p1_walk04.png"
   }
   images {
+    image: "/factory_and_properties/images/p1_walk05.png"
+  }
+  images {
     image: "/factory_and_properties/images/p1_walk06.png"
   }
   images {
-    image: "/factory_and_properties/images/p1_walk05.png"
+    image: "/factory_and_properties/images/p1_walk07.png"
+  }
+  images {
+    image: "/factory_and_properties/images/p1_walk08.png"
+  }
+  images {
+    image: "/factory_and_properties/images/p1_walk09.png"
   }
   images {
     image: "/factory_and_properties/images/p1_walk10.png"
   }
   images {
     image: "/factory_and_properties/images/p1_walk11.png"
-  }
-  images {
-    image: "/factory_and_properties/images/p1_walk01.png"
-  }
-  images {
-    image: "/factory_and_properties/images/p1_walk09.png"
-  }
-  images {
-    image: "/factory_and_properties/images/p1_walk02.png"
-  }
-  images {
-    image: "/factory_and_properties/images/p1_walk08.png"
   }
   playback: PLAYBACK_LOOP_FORWARD
   fps: 20
