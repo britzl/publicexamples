@@ -28,12 +28,16 @@ function final(self)
 end
 
 function update(self, dt)
+	msg.post("@render:", "clear_color", { color = vmath.vector4(95 /256, 129 / 256, 161 / 256, 1 ) })
+
 	local gravity = vmath.vector3(0, gravity, 0)
 
 	if self.move_left then
 		self.velocity.x = -250
+		sprite.set_hflip("#sprite", true)
 	elseif self.move_right then
 		self.velocity.x = 250
+		sprite.set_hflip("#sprite", false)
 	else
 		self.velocity.x = 0
 	end
