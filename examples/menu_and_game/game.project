@@ -11,8 +11,8 @@ game_binding = /input/game.input_bindingc
 gamepads = /builtins/input/default.gamepadsc
 
 [display]
-width = 640
-height = 1136
+width = 1136
+height = 640
 variable_dt = 1
 
 [physics]
