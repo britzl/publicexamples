@@ -5,7 +5,7 @@ embedded_instances {
   children: "joint"
   data: "components {\n"
   "  id: \"script\"\n"
-  "  component: \"/examples/catapult/catapult.script\"\n"
+  "  component: \"/catapult.script\"\n"
   "  position {\n"
   "    x: 0.0\n"
   "    y: 0.0\n"
@@ -359,7 +359,7 @@ embedded_instances {
   "    index: 0\\n"
   "    count: 3\\n"
   "  }\\n"
-  "  data: 320.0\\n"
+  "  data: 568.0\\n"
   "  data: 100.0\\n"
   "  data: 10.0\\n"
   "}\\n"
@@ -381,7 +381,7 @@ embedded_instances {
   "}\n"
   ""
   position {
-    x: 320.0
+    x: 568.0
     y: 0.0
     z: 0.0
   }

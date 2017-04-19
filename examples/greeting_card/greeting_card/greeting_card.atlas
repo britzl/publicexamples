@@ -1,0 +1,78 @@
+animations {
+  id: "closed_card"
+  images {
+    image: "/greeting_card/images/backdrop2.svg.png"
+  }
+  playback: PLAYBACK_ONCE_FORWARD
+  fps: 30
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "opened_card"
+  images {
+    image: "/greeting_card/images/backdrop1.svg.png"
+  }
+  images {
+    image: "/greeting_card/images/backdrop2.svg.png"
+  }
+  images {
+    image: "/greeting_card/images/backdrop3.svg.png"
+  }
+  playback: PLAYBACK_ONCE_FORWARD
+  fps: 10
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "arrow_over"
+  images {
+    image: "/greeting_card/images/arrow1.svg.png"
+  }
+  images {
+    image: "/greeting_card/images/arrow2.svg.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 4
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "arrow"
+  images {
+    image: "/greeting_card/images/arrow1.svg.png"
+  }
+  playback: PLAYBACK_ONCE_FORWARD
+  fps: 30
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "cake"
+  images {
+    image: "/greeting_card/images/cake.svg.png"
+  }
+  images {
+    image: "/greeting_card/images/cake2.svg.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 4
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "penguin"
+  images {
+    image: "/greeting_card/images/penguin1.svg.png"
+  }
+  images {
+    image: "/greeting_card/images/penguin2.svg.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 4
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+margin: 0
+extrude_borders: 2
+inner_padding: 0

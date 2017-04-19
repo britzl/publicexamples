@@ -1,0 +1,153 @@
+images {
+  image: "/virtual_gamepad/images/gamepad/shadedDark00.png"
+}
+images {
+  image: "/virtual_gamepad/images/gamepad/shadedDark01.png"
+}
+images {
+  image: "/virtual_gamepad/images/gamepad/shadedDark02.png"
+}
+images {
+  image: "/virtual_gamepad/images/gamepad/shadedDark03.png"
+}
+images {
+  image: "/virtual_gamepad/images/gamepad/shadedDark04.png"
+}
+images {
+  image: "/virtual_gamepad/images/gamepad/shadedDark05.png"
+}
+images {
+  image: "/virtual_gamepad/images/gamepad/shadedDark06.png"
+}
+images {
+  image: "/virtual_gamepad/images/gamepad/shadedDark07.png"
+}
+images {
+  image: "/virtual_gamepad/images/gamepad/shadedDark08.png"
+}
+images {
+  image: "/virtual_gamepad/images/gamepad/shadedDark09.png"
+}
+images {
+  image: "/virtual_gamepad/images/gamepad/shadedDark10.png"
+}
+images {
+  image: "/virtual_gamepad/images/gamepad/shadedDark11.png"
+}
+images {
+  image: "/virtual_gamepad/images/gamepad/shadedDark12.png"
+}
+images {
+  image: "/virtual_gamepad/images/gamepad/shadedDark13.png"
+}
+images {
+  image: "/virtual_gamepad/images/gamepad/shadedDark14.png"
+}
+images {
+  image: "/virtual_gamepad/images/gamepad/shadedDark15.png"
+}
+images {
+  image: "/virtual_gamepad/images/gamepad/shadedDark16.png"
+}
+images {
+  image: "/virtual_gamepad/images/gamepad/shadedDark17.png"
+}
+images {
+  image: "/virtual_gamepad/images/gamepad/shadedDark18.png"
+}
+images {
+  image: "/virtual_gamepad/images/gamepad/shadedDark19.png"
+}
+images {
+  image: "/virtual_gamepad/images/gamepad/shadedDark20.png"
+}
+images {
+  image: "/virtual_gamepad/images/gamepad/shadedDark21.png"
+}
+images {
+  image: "/virtual_gamepad/images/gamepad/shadedDark22.png"
+}
+images {
+  image: "/virtual_gamepad/images/gamepad/shadedDark23.png"
+}
+images {
+  image: "/virtual_gamepad/images/gamepad/shadedDark24.png"
+}
+images {
+  image: "/virtual_gamepad/images/gamepad/shadedDark25.png"
+}
+images {
+  image: "/virtual_gamepad/images/gamepad/shadedDark26.png"
+}
+images {
+  image: "/virtual_gamepad/images/gamepad/shadedDark27.png"
+}
+images {
+  image: "/virtual_gamepad/images/gamepad/shadedDark28.png"
+}
+images {
+  image: "/virtual_gamepad/images/gamepad/shadedDark29.png"
+}
+images {
+  image: "/virtual_gamepad/images/gamepad/shadedDark30.png"
+}
+images {
+  image: "/virtual_gamepad/images/gamepad/shadedDark31.png"
+}
+images {
+  image: "/virtual_gamepad/images/gamepad/shadedDark32.png"
+}
+images {
+  image: "/virtual_gamepad/images/gamepad/shadedDark33.png"
+}
+images {
+  image: "/virtual_gamepad/images/gamepad/shadedDark34.png"
+}
+images {
+  image: "/virtual_gamepad/images/gamepad/shadedDark35.png"
+}
+images {
+  image: "/virtual_gamepad/images/gamepad/shadedDark36.png"
+}
+images {
+  image: "/virtual_gamepad/images/gamepad/shadedDark37.png"
+}
+images {
+  image: "/virtual_gamepad/images/gamepad/shadedDark38.png"
+}
+images {
+  image: "/virtual_gamepad/images/gamepad/shadedDark39.png"
+}
+images {
+  image: "/virtual_gamepad/images/gamepad/shadedDark40.png"
+}
+images {
+  image: "/virtual_gamepad/images/gamepad/shadedDark41.png"
+}
+images {
+  image: "/virtual_gamepad/images/gamepad/shadedDark42.png"
+}
+images {
+  image: "/virtual_gamepad/images/gamepad/shadedDark43.png"
+}
+images {
+  image: "/virtual_gamepad/images/gamepad/shadedDark44.png"
+}
+images {
+  image: "/virtual_gamepad/images/gamepad/shadedDark45.png"
+}
+images {
+  image: "/virtual_gamepad/images/gamepad/shadedDark46.png"
+}
+images {
+  image: "/virtual_gamepad/images/gamepad/shadedDark47.png"
+}
+images {
+  image: "/virtual_gamepad/images/gamepad/shadedDark48.png"
+}
+images {
+  image: "/virtual_gamepad/images/gamepad/shadedDark49.png"
+}
+margin: 0
+extrude_borders: 1
+inner_padding: 0

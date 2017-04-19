@@ -1,6 +1,6 @@
 components {
   id: "script"
-  component: "/examples/camera/camera.script"
+  component: "/camera.script"
   position {
     x: 0.0
     y: 0.0

@@ -1,0 +1,8 @@
+function init(self)
+	local w = tonumber(sys.get_config("display.width"))
+	local h = tonumber(sys.get_config("display.height"))
+	for i=1,200 do
+		local pos = vmath.vector3(math.random(w), math.random(h), math.random(-10,10) / 10)
+		factory.create("#factory", pos, nil, {}, math.random(2, 10) / 10)
+	end
+end

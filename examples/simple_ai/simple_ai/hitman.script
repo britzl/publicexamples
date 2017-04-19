@@ -1,0 +1,13 @@
+local COLLISION_RESPONSE = hash("collision_response")
+local ZOMBIE = hash("zombie")
+
+function on_message(self, message_id, message, sender)
+	if message_id == COLLISION_RESPONSE and message.group == ZOMBIE then
+		go.delete()
+	end
+end
+
+function on_reload(self)
+    -- Add reload-handling code here
+    -- Remove this function if not needed
+end

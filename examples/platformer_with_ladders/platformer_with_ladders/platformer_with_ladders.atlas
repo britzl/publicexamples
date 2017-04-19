@@ -1,0 +1,46 @@
+images {
+  image: "/platformer_with_ladders/images/colored_shroom.png"
+}
+animations {
+  id: "player_walk"
+  images {
+    image: "/platformer_with_ladders/images/p1_walk01.png"
+  }
+  images {
+    image: "/platformer_with_ladders/images/p1_walk02.png"
+  }
+  images {
+    image: "/platformer_with_ladders/images/p1_walk03.png"
+  }
+  images {
+    image: "/platformer_with_ladders/images/p1_walk04.png"
+  }
+  images {
+    image: "/platformer_with_ladders/images/p1_walk05.png"
+  }
+  images {
+    image: "/platformer_with_ladders/images/p1_walk06.png"
+  }
+  images {
+    image: "/platformer_with_ladders/images/p1_walk07.png"
+  }
+  images {
+    image: "/platformer_with_ladders/images/p1_walk08.png"
+  }
+  images {
+    image: "/platformer_with_ladders/images/p1_walk09.png"
+  }
+  images {
+    image: "/platformer_with_ladders/images/p1_walk10.png"
+  }
+  images {
+    image: "/platformer_with_ladders/images/p1_walk11.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 20
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+margin: 0
+extrude_borders: 2
+inner_padding: 0

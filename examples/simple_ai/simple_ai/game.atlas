@@ -1,0 +1,9 @@
+images {
+  image: "/assets/images/zombie.png"
+}
+images {
+  image: "/assets/images/hitman1_stand.png"
+}
+margin: 0
+extrude_borders: 2
+inner_padding: 0

@@ -6,7 +6,7 @@ local VELOCITY = 200
 local TOUCH = hash("touch")
 
 -- store the set_position function in a local variable to remove the need for index lookups on go in the update function
-set_position = go.set_position
+local set_position = go.set_position
 
 --- prefer local bunnies instead of self.bunnies
 local bunnies = {}
@@ -53,7 +53,6 @@ function update(self, dt)
 	self.frame_count = self.frame_count + 1
 	local fps = self.frame_count / (socket.gettime() - self.fps_start)
 	msg.post("@render:", "draw_text", { text = ("Bunnies: %d FPS: %d"):format(#bunnies, fps), position = vmath.vector3(10, HEIGHT - 60, 0) } )
-
 end
 
 function on_input(self, action_id, action)

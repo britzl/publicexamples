@@ -1,0 +1,23 @@
+function init(self)
+	msg.post("virtual_gamepad", "register")
+	self.speed = vmath.vector3()
+end
+
+function final(self)
+	msg.post("virtual_gamepad", "unregister")
+end
+
+function update(self, dt)
+	go.set_position(go.get_position() + self.speed * dt)
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("button_a") and message.released then
+		factory.create("#laserfactory", go.get_position() + vmath.vector3(0, 50, 0))
+	elseif message_id == hash("button_b") and message.released then
+		print("smartbomb")
+	elseif message_id == hash("analog") then
+		self.speed.x = message.x * 200
+		self.speed.y = message.y * 200
+	end
+end

@@ -1,0 +1,73 @@
+go.property("speed", 50)
+
+local COLLISION_RESPONSE = hash("collision_response")
+local CONTACT_POINT_RESPONSE = hash("contact_point_response")
+local HITMAN = hash("hitman")
+local WALL = hash("wall")
+
+local function random_position_on_wall()
+	local wall = math.random(1, 4)
+	if wall == 1 then
+		return vmath.vector3(0, math.random(0, 640), 0)
+	elseif wall == 2 then
+		return vmath.vector3(1156, math.random(0, 640), 0)
+	elseif wall == 3 then
+		return vmath.vector3(math.random(0, 1156), 0, 0)
+	else
+		return vmath.vector3(math.random(0, 1156), 640, 0)
+	end
+end
+
+function init(self)
+	self.target_id = nil
+	self.target_position = random_position_on_wall()
+end
+
+function update(self, dt)
+	local pos = go.get_world_position()
+	local target_angle = -math.atan2(self.target_position.x - pos.x, self.target_position.y - pos.y)
+	local target_quat = vmath.quat_rotation_z(target_angle)
+	local current_quat = go.get_rotation()
+	
+	-- rotate towards target
+	local q = vmath.slerp(0.08, current_quat, target_quat)
+	go.set_rotation(q)
+	
+	-- move towards target
+	local d = vmath.rotate(q, vmath.vector3(0, 1, 0))
+	go.set_position(pos + d * self.speed * dt)
+
+	-- if we have a target id we assume that it will die this frame and pick a random
+	-- target position and reset the target id flag.
+	-- if the target is still alive the next frame we will get a new collision and
+	-- we'll be able to set the target position again. 
+	if self.target_id then
+		self.target_position = random_position_on_wall()
+	end
+	self.target_id = nil
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == COLLISION_RESPONSE then
+		if message.group == HITMAN then
+			local my_pos = go.get_world_position()
+			local other_pos = go.get_world_position(message.other_id)
+			local distance_to_target = vmath.length(my_pos - self.target_position)
+			local distance_to_collision = vmath.length(my_pos - other_pos)
+			if distance_to_collision < distance_to_target or not self.target_id then
+				self.target_position = other_pos
+				self.target_id = message.other_id
+			end
+		end
+	elseif message_id == CONTACT_POINT_RESPONSE then
+		if message.group == WALL then
+			go.set_position(go.get_position() + message.normal * message.distance)
+			self.target_position = random_position_on_wall()
+		end
+	end
+end
+
+function on_reload(self)
+    -- Add reload-handling code here
+    -- Remove this function if not needed
+end

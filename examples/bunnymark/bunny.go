@@ -1,8 +1,8 @@
 embedded_components {
   id: "sprite"
   type: "sprite"
-  data: "tile_set: \"/examples/bunnymark/bunnymark.atlas\"\n"
-  "default_animation: \"phaser-dude\"\n"
+  data: "tile_set: \"/bunnymark.atlas\"\n"
+  "default_animation: \"logo\"\n"
   "material: \"/builtins/materials/sprite.material\"\n"
   "blend_mode: BLEND_MODE_ALPHA\n"
   ""

@@ -1,0 +1,36 @@
+local function random_position()
+	return vmath.vector3(math.random(64, 1156 - 128), math.random(64, 640 - 128), 0)
+end
+
+local function spawn_zombie()
+	return factory.create("#zombiefactory", random_position())
+end
+
+local function spawn_hitman(position)
+	return factory.create("#hitmanfactory", position)
+end
+
+function init(self)
+	math.randomseed(os.time())
+	self.hitmen = {}
+	self.zombies = {}
+	for i = 1, 10 do
+		table.insert(self.zombies, spawn_zombie())
+	end
+	msg.post(".", "acquire_input_focus")
+end
+
+function final(self)
+	msg.post(".", "release_input_focus")
+end
+
+function on_input(self, action_id, action)
+	if action_id == hash("touch") and action.released then
+		table.insert(self.hitmen, spawn_hitman(vmath.vector3(action.screen_x, action.screen_y, 0)))
+	end
+end
+
+function on_reload(self)
+    -- Add reload-handling code here
+    -- Remove this function if not needed
+end

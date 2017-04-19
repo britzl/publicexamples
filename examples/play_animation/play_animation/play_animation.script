@@ -1,0 +1,56 @@
+go.property("speed", 200) -- the speed of movement
+
+function init(self)
+	msg.post(".", "acquire_input_focus")
+	self.direction = vmath.vector3(0, 0, 0) -- the current direction of movement
+end
+
+function final(self)
+	msg.post(".", "remove_input_focus")
+end
+
+function update(self, dt)
+	go.set_position(go.get_position() + self.direction * dt)
+	msg.post("@render:", "draw_text", { text = "Move using arrow keys", position = vmath.vector3(10, 100, 0) } )
+end
+
+function on_input(self, action_id, action)
+	if action_id == hash("left") then
+		-- set direction of movement and play animation when the button is pressed
+		if action.pressed then
+			self.direction.x = -self.speed
+			msg.post("#sprite", "play_animation", { id = hash("player_walk") })
+			sprite.set_hflip("#sprite", true)
+		-- clear direction of movement when button is released
+		elseif action.released then
+			self.direction.x = 0
+		end
+	elseif action_id == hash("right") then
+		if action.pressed then
+			self.direction.x = self.speed
+			msg.post("#sprite", "play_animation", { id = hash("player_walk") })
+			sprite.set_hflip("#sprite", false)
+		elseif action.released then
+			self.direction.x = 0
+		end
+	elseif action_id == hash("up") then
+		if action.pressed then
+			self.direction.y = self.speed
+			msg.post("#sprite", "play_animation", { id = hash("player_walk") })
+		elseif action.released then
+			self.direction.y = 0
+		end
+	elseif action_id == hash("down") then
+		if action.pressed then
+			self.direction.y = -self.speed
+			msg.post("#sprite", "play_animation", { id = hash("player_walk") })
+		elseif action.released then
+			self.direction.y = 0
+		end
+	end
+	
+	-- stop the animation if the player isn't moving anymore
+	if self.direction.x == 0 and self.direction.y == 0 then
+		msg.post("#sprite", "play_animation", { id = hash("player_idle") })
+	end
+end

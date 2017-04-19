@@ -1,0 +1,3 @@
+font: "/gui_render_order/fonts/DroidSans-Bold.ttf"
+material: "/builtins/fonts/font.material"
+size: 20

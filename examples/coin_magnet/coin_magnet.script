@@ -73,7 +73,7 @@ function update(self, dt)
 	end
 	
 	-- move player
-	local player_pos = go.get_position() + self.player_direction * 100 * dt
+	local player_pos = go.get_position() + self.player_direction * 200 * dt
 	go.set_position(player_pos)
 
 	-- collect coins

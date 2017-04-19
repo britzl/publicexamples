@@ -1,5 +1,5 @@
 images {
-  image: "/examples/bunnymark/phaser-dude.png"
+  image: "/logo.png"
 }
 margin: 0
 extrude_borders: 0

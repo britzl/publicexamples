@@ -1,8 +1,8 @@
 embedded_components {
   id: "sprite"
   type: "sprite"
-  data: "tile_set: \"/examples/bunnymark_bounce/bunnymark_bounce.atlas\"\n"
-  "default_animation: \"wabbit_alpha\"\n"
+  data: "tile_set: \"/bunnymark_bounce.atlas\"\n"
+  "default_animation: \"logo\"\n"
   "material: \"/builtins/materials/sprite.material\"\n"
   "blend_mode: BLEND_MODE_ALPHA\n"
   ""

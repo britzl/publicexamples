@@ -1,5 +1,5 @@
 images {
-  image: "/examples/bunnymark_bounce/wabbit_alpha.png"
+  image: "/logo.png"
 }
 margin: 0
 extrude_borders: 0

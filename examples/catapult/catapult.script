@@ -6,24 +6,9 @@ function final(self)
 	msg.post(".", "release_input_focus")
 end
 
-function update(self, dt)
-    -- Add update code here
-    -- Remove this function if not needed
-end
-
-function on_message(self, message_id, message, sender)
-    -- Add message-handling code here
-    -- Remove this function if not needed
-end
-
 function on_input(self, action_id, action)
 	if action.released then
 		local pos = go.get_world_position()
 		msg.post("#collisionobject", "apply_force", { force = vmath.vector3(0, -100000, 0), position =  pos + vmath.vector3(100, 0, 0) })
 	end
-end
-
-function on_reload(self)
-    -- Add reload-handling code here
-    -- Remove this function if not needed
 end

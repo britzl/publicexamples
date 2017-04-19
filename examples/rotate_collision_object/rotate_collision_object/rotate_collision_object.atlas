@@ -1,0 +1,9 @@
+images {
+  image: "/rotate_collision_object/images/colored_shroom.png"
+}
+images {
+  image: "/rotate_collision_object/images/playerShip3_red.png"
+}
+margin: 0
+extrude_borders: 2
+inner_padding: 0

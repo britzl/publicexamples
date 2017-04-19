@@ -1,0 +1,9 @@
+function update(self, dt)
+	local pos = go.get_position()
+	pos.y = pos.y + 900 * dt
+	if pos.y > 1136 then
+		go.delete()
+	else
+		go.set_position(pos)
+	end
+end

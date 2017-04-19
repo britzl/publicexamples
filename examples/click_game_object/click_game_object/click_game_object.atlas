@@ -1,0 +1,6 @@
+images {
+  image: "/click_game_object/logo.png"
+}
+margin: 0
+extrude_borders: 1
+inner_padding: 0

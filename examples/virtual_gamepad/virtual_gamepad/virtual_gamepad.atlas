@@ -1,0 +1,12 @@
+images {
+  image: "/virtual_gamepad/images/colored_shroom.png"
+}
+images {
+  image: "/virtual_gamepad/images/playerShip3_red.png"
+}
+images {
+  image: "/virtual_gamepad/images/laserBlue01.png"
+}
+margin: 0
+extrude_borders: 2
+inner_padding: 0

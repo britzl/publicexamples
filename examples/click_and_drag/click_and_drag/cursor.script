@@ -1,0 +1,50 @@
+function init(self)
+	msg.post(".", "acquire_input_focus")
+	self.collision_id = nil
+end
+
+function final(self)
+	msg.post(".", "release_input_focus")
+end
+
+function update(self, dt)
+	self.collision_id = nil
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("collision_response") then
+		if not self.collision_id or go.get_position(self.collision_id).z < message.other_position.z then
+			self.collision_id = message.other_id
+		end	
+	end
+end
+
+function on_input(self, action_id, action)
+	-- update cursor position
+	go.set_position(vmath.vector3(action.x, action.y, 0))
+	
+	-- we're dragging if we have a dragged_id and the time since action.pressed is larger than 0.5 seconds
+	local is_dragging = self.dragged_id and (socket.gettime() - self.dragged_ts >= 0.5) or false
+	
+	-- if we're colliding with something and the user clicked we track the id and the time when it happened
+	if self.collision_id and action.pressed then
+		self.dragged_ts = socket.gettime()
+		self.dragged_id = self.collision_id
+	elseif action.released then
+		if is_dragging then
+			print("Dragged ", self.dragged_id)
+		else
+			print("Clicked ", self.dragged_id)
+		end
+		self.dragged_id = nil
+	end
+	
+	if not action_id or action_id == hash("touch") and is_dragging then
+		go.set_position(vmath.vector3(action.x, action.y, 0), self.dragged_id)
+	end
+end
+
+function on_reload(self)
+    -- Add reload-handling code here
+    -- Remove this function if not needed
+end
