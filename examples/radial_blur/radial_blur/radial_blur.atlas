@@ -1,0 +1,6 @@
+images {
+  image: "/radial_blur/images/logo.png"
+}
+margin: 0
+extrude_borders: 2
+inner_padding: 0

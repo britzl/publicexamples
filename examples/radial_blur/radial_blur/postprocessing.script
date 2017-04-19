@@ -1,0 +1,41 @@
+local function animate(self)
+	local to = vmath.vector3(math.random(self.width), math.random(self.height), 0)
+	
+	go.animate(".", "position", go.PLAYBACK_ONCE_FORWARD, to, go.EASING_INOUTSINE, 4, 0, function(self, url, property)
+		animate(self)
+	end)
+end
+
+function init(self)
+	particlefx.play("#particlefx")
+	msg.post(".", "acquire_input_focus")
+	self.width = tonumber(sys.get_config("display.width"))
+	self.height = tonumber(sys.get_config("display.height"))
+	animate(self)
+end
+
+function final(self)
+    -- Add finalization code here
+    -- Remove this function if not needed
+end
+
+function update(self, dt)
+	local pos = go.get_position()
+	local blur_center = vmath.vector4((pos.x - self.width / 2), (pos.y - self.height / 2), 0, 0)
+	--go.set("quad#model", "start_position", vmath.normalize(blur_center))
+end
+
+function on_message(self, message_id, message, sender)
+    -- Add message-handling code here
+    -- Remove this function if not needed
+end
+
+function on_input(self, action_id, action)
+	local pos = vmath.vector4((action.x - self.width / 2), (action.y - self.height / 2), 0, 0)
+	--go.set("quad#model", "start_position", vmath.normalize(pos))
+end
+
+function on_reload(self)
+    -- Add reload-handling code here
+    -- Remove this function if not needed
+end

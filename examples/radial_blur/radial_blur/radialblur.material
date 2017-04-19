@@ -1,0 +1,21 @@
+name: "Blur"
+tags: "postprocess"
+vertex_program: "/radial_blur/pass.vp"
+fragment_program: "/radial_blur/radialblur.fp"
+fragment_constants {
+  name: "start_position"
+  type: CONSTANT_TYPE_USER
+  value {
+    x: 0.25
+    y: 0.5
+    z: 0.0
+    w: 0.0
+  }
+}
+samplers {
+  name: "T"
+  wrap_u: WRAP_MODE_CLAMP_TO_EDGE
+  wrap_v: WRAP_MODE_CLAMP_TO_EDGE
+  filter_min: FILTER_MODE_MIN_LINEAR
+  filter_mag: FILTER_MODE_MAG_LINEAR
+}
