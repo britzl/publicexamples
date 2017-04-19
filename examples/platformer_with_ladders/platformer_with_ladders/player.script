@@ -19,8 +19,10 @@ function update(self, dt)
 	-- set horizontal velocity if currently moving left/right
 	if self.actions[hash("left")] then
 		self.velocity.x = -200
+		sprite.set_hflip("#sprite", true)
 	elseif self.actions[hash("right")] then
 		self.velocity.x = 200
+		sprite.set_hflip("#sprite", false)
 	-- and clear it if we're not moving left/right
 	else
 		self.velocity.x = 0
@@ -31,11 +33,11 @@ function update(self, dt)
 		-- set vertical velocity if we are climbing up or down
 		-- also set flag to indicate that we are climbing
 		if self.actions[hash("up")] then
-			self.velocity.y = 100
+			self.velocity.y = 150
 			self.ground_contact = true
 			self.climbing = true
 		elseif self.actions[hash("down")] then
-			self.velocity.y = -100
+			self.velocity.y = -150
 			self.ground_contact = true
 			self.climbing = true
 		elseif self.climbing then
