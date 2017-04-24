@@ -16,7 +16,7 @@ function init(self)
 end
 
 function final(self)
-	msg.post(".", "remove_input_focus")
+	msg.post(".", "release_input_focus")
 end
 
 function update(self, dt)
