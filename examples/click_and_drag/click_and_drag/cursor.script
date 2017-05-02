@@ -56,7 +56,7 @@ function on_input(self, action_id, action)
 			self.dragging = true
 		end
 		
-		-- update position of dragged object if we're dragging something
+		-- update position of dragged object if we're dragging it
 		if self.dragging then
 			go.set_position(action_pos, self.dragged_id)
 		end
