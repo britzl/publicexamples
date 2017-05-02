@@ -1,6 +1,10 @@
 function init(self)
 	msg.post(".", "acquire_input_focus")
+	msg.post("#collisionobject", "disable")
 	self.collision_id = nil
+	self.dragged_id = nil
+	self.dragged_pos = nil
+	self.pressed = false
 end
 
 function final(self)
@@ -21,27 +25,41 @@ function on_message(self, message_id, message, sender)
 end
 
 function on_input(self, action_id, action)
-	-- update cursor position
-	go.set_position(vmath.vector3(action.x, action.y, 0))
-	
-	-- we're dragging if we have a dragged_id and the time since action.pressed is larger than 0.5 seconds
-	local is_dragging = self.dragged_id and (socket.gettime() - self.dragged_ts >= 0.5) or false
-	
-	-- if we're colliding with something and the user clicked we track the id and the time when it happened
-	if self.collision_id and action.pressed then
-		self.dragged_ts = socket.gettime()
-		self.dragged_id = self.collision_id
-	elseif action.released then
-		if is_dragging then
-			print("Dragged ", self.dragged_id)
-		else
-			print("Clicked ", self.dragged_id)
+	if not action_id or action_id == hash("touch") then
+		local action_pos = vmath.vector3(action.x, action.y, 0)
+		
+		-- update cursor position
+		go.set_position(action_pos)
+		
+		-- keep track of click/touch state
+		if action.pressed then
+			msg.post("#collisionobject", "enable")
+			self.pressed = true
+		elseif action.released then
+			msg.post("#collisionobject", "disable")
+			self.pressed = false
+			self.dragged_id = nil
+			self.dragging = false
 		end
-		self.dragged_id = nil
-	end
-	
-	if not action_id or action_id == hash("touch") and is_dragging then
-		go.set_position(vmath.vector3(action.x, action.y, 0), self.dragged_id)
+		
+		-- if click/touch
+		-- and the cursor has collided with something
+		-- and we're currently not dragging anything
+		-- then set whatever we touched as the thing to potentially drag
+		if self.pressed and self.collision_id and not self.dragged_id then
+			self.dragged_id = self.collision_id
+			self.dragged_pos = action_pos
+		end
+		
+		-- we're dragging if we have clicked/touched something and moved the mouse/finger "enough"
+		if self.dragged_id and vmath.length(self.dragged_pos - action_pos) > 20 then
+			self.dragging = true
+		end
+		
+		-- update position of dragged object if we're dragging something
+		if self.dragging then
+			go.set_position(action_pos, self.dragged_id)
+		end
 	end
 end
 
