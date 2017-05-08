@@ -1,0 +1,40 @@
+function init(self)
+	msg.post(".", "acquire_input_focus")
+	self.play1 = gui.get_node("door_close/bg")
+	self.play2 = gui.get_node("draw_knife/bg")
+	self.play3 = gui.get_node("footstep/bg")
+end
+
+function final(self)
+	-- Add finalization code here
+	-- Remove this function if not needed
+end
+
+function update(self, dt)
+	-- Add update code here
+	-- Remove this function if not needed
+end
+
+function on_message(self, message_id, message, sender)
+	-- Add message-handling code here
+	-- Remove this function if not needed
+end
+
+function on_input(self, action_id, action)
+	if action_id == hash("touch") and action.released then
+		if gui.pick_node(self.play1, action.x, action.y) then
+			msg.post("sounds", "playsound", { sound = hash("door_close") })
+		elseif gui.pick_node(self.play2, action.x, action.y) then
+			msg.post("sounds", "playsound", { sound = hash("draw_knife") })
+		elseif gui.pick_node(self.play3, action.x, action.y) then
+			msg.post("sounds", "playsound", { sound = hash("footstep") })
+		end
+	end
+	-- Add input-handling code here
+	-- Remove this function if not needed
+end
+
+function on_reload(self)
+	-- Add input-handling code here
+	-- Remove this function if not needed
+end

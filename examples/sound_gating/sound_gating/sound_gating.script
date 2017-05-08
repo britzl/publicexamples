@@ -1,0 +1,19 @@
+function init(self)
+	self.sounds = {
+		[hash("door_close")] = { duration = 0.6, timestamp = 0 },
+		[hash("draw_knife")] = { duration = 0.4, timestamp = 0 },
+		[hash("footstep")] = { duration = 0.3, timestamp = 0 },
+	}
+end
+
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("playsound") then
+		local sound = self.sounds[message.sound]
+		local now = socket.gettime()
+		if now > sound.timestamp + sound.duration then
+			sound.timestamp = now
+			msg.post(msg.url(nil, nil, message.sound), "play_sound")
+		end
+	end
+end
