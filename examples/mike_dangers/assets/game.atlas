@@ -1,0 +1,12 @@
+images {
+  image: "/assets/images/ground.png"
+}
+images {
+  image: "/assets/images/hero.png"
+}
+images {
+  image: "/assets/images/ladder.png"
+}
+margin: 0
+extrude_borders: 2
+inner_padding: 0

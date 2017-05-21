@@ -1,0 +1,34 @@
+[project]
+title = Mike Dangers
+version = 1.0
+dependencies = 
+
+[bootstrap]
+main_collection = /game/game.collectionc
+
+[input]
+game_binding = /input/game.input_bindingc
+
+[display]
+width = 800
+height = 1024
+
+[physics]
+scale = 0.02
+debug = 0
+
+[script]
+shared_state = 1
+
+[library]
+include_dirs = 
+
+[android]
+package = com.britzl.examples.mikedangers
+
+[ios]
+bundle_identifier = com.britzl.examples.mikedangers
+
+[osx]
+bundle_identifier = com.britzl.examples.mikedangers
+
