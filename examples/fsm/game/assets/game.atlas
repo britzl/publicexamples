@@ -1,0 +1,69 @@
+animations {
+  id: "walk"
+  images {
+    image: "/game/assets/images/walk1.png"
+  }
+  images {
+    image: "/game/assets/images/walk2.png"
+  }
+  images {
+    image: "/game/assets/images/walk3.png"
+  }
+  images {
+    image: "/game/assets/images/walk4.png"
+  }
+  playback: PLAYBACK_LOOP_PINGPONG
+  fps: 10
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "idle"
+  images {
+    image: "/game/assets/images/walk1.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 10
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "drop_pants"
+  images {
+    image: "/game/assets/images/pants1.png"
+  }
+  images {
+    image: "/game/assets/images/pants2.png"
+  }
+  images {
+    image: "/game/assets/images/pants2.png"
+  }
+  images {
+    image: "/game/assets/images/pants2.png"
+  }
+  images {
+    image: "/game/assets/images/pants2.png"
+  }
+  images {
+    image: "/game/assets/images/pants3.png"
+  }
+  images {
+    image: "/game/assets/images/pants3.png"
+  }
+  images {
+    image: "/game/assets/images/pants3.png"
+  }
+  images {
+    image: "/game/assets/images/pants3.png"
+  }
+  images {
+    image: "/game/assets/images/pants3.png"
+  }
+  playback: PLAYBACK_ONCE_FORWARD
+  fps: 5
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+margin: 0
+extrude_borders: 2
+inner_padding: 0

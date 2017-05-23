@@ -1,0 +1,109 @@
+local fsm = require "game.fsm"
+
+local UP = hash("up")
+local DOWN = hash("down")
+local LEFT = hash("left")
+local RIGHT = hash("right")
+local ACTION1 = hash("action1")
+local ACTION2 = hash("action2")
+
+local BORED = hash("bored")
+local ANIMATION_DONE = hash("animation_done")
+local PRESSED = hash("pressed")
+local RELEASED = hash("released")
+
+local WALK = hash("walk")
+local IDLE = hash("idle")
+local DROP_PANTS = hash("drop_pants")
+
+local function play_animation(self, animation)
+	if self.current_animation ~= animation then
+		self.current_animation = animation
+		msg.post("#sprite", "play_animation", { id = animation })
+	end	
+end
+
+local function walk(self, dt, direction)
+	local pos = go.get_position()
+	pos.x = pos.x + 80 * direction * dt
+	go.set_position(pos)
+end
+
+local function walk_left(self, dt)
+	walk(self, dt, -1)
+end
+
+local function walk_right(self, dt)
+	walk(self, dt, 1)
+end
+
+function init(self)
+	
+	self.fsm = fsm.create("fighter")
+	self.fsm.IDLE
+		.on_enter(function() play_animation(self, IDLE) self.fsm.IDLE.drop_pants = 10 end)
+		.on_exit(function() print("idle on exit") end)
+		.on_update(function(self, dt)
+			self.fsm.IDLE.drop_pants = self.fsm.IDLE.drop_pants - dt
+			if self.fsm.IDLE.drop_pants <= 0 then
+				self.fsm.transition(BORED)
+			end
+		end)
+		.on_transition(self.fsm.WALK_LEFT, LEFT, PRESSED)
+		.on_transition(self.fsm.WALK_RIGHT, RIGHT, PRESSED)
+		.on_transition(self.fsm.DROP_PANTS, BORED)
+	
+	self.fsm.WALK_LEFT
+		.on_enter(function() play_animation(self, WALK) sprite.set_hflip("#sprite", true) end)
+		.on_exit(function() print("walk left on exit") end)
+		.on_update(walk_left)
+		.on_transition(self.fsm.IDLE, LEFT, RELEASED)
+		.on_transition(self.fsm.WALK_RIGHT, RIGHT, PRESSED)
+
+	self.fsm.WALK_RIGHT
+		.on_enter(function() play_animation(self, WALK) sprite.set_hflip("#sprite", false) end)
+		.on_exit(function() print("walk right on exit") end)
+		.on_update(walk_right)
+		.on_transition(self.fsm.IDLE, RIGHT, RELEASED)
+		.on_transition(self.fsm.WALK_LEFT, LEFT, PRESSED)
+
+	self.fsm.DROP_PANTS
+		.on_enter(function() play_animation(self, DROP_PANTS) end)
+		.on_transition(self.fsm.IDLE, ANIMATION_DONE, DROP_PANTS)
+
+	self.fsm.start(self.fsm.IDLE)
+
+	msg.post(".", "acquire_input_focus")
+end
+
+function final(self)
+	msg.post(".", "release_input_focus")
+end
+
+function update(self, dt)
+	self.fsm.update(self, dt)
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == ANIMATION_DONE then
+		if self.current_animation == message.id then
+			self.current_animation = nil
+			self.fsm.transition(ANIMATION_DONE, message.id)
+		end
+	end
+end
+
+function on_input(self, action_id, action)
+	if action_id then
+		if action.pressed then
+			self.fsm.transition(action_id, PRESSED)
+		elseif action.released then
+			self.fsm.transition(action_id, RELEASED)
+		end
+	end
+end
+
+function on_reload(self)
+	-- Add reload-handling code here
+	-- Remove this function if not needed
+end
