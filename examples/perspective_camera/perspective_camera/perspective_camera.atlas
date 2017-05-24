@@ -1,0 +1,24 @@
+images {
+  image: "/perspective_camera/images/Clouds 1.png"
+}
+images {
+  image: "/perspective_camera/images/Clouds 2.png"
+}
+images {
+  image: "/perspective_camera/images/Forest Tree 6.png"
+}
+images {
+  image: "/perspective_camera/images/Forest Tree 7.png"
+}
+images {
+  image: "/perspective_camera/images/Hill 11.png"
+}
+images {
+  image: "/perspective_camera/images/Hill 8.png"
+}
+images {
+  image: "/perspective_camera/images/Walking Platforms 3.png"
+}
+margin: 0
+extrude_borders: 2
+inner_padding: 0
