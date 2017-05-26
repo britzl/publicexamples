@@ -10,8 +10,8 @@ main_collection = /game/game.collectionc
 game_binding = /input/game.input_bindingc
 
 [display]
-width = 800
-height = 1024
+width = 640
+height = 1136
 
 [physics]
 scale = 0.02

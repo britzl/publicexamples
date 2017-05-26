@@ -1,12 +1,43 @@
 go.property("gravity", vmath.vector3(0, -4500, 0))
 go.property("ground_speed", 450)
 go.property("jump_speed", 900)
+go.property("diamond_ratio", 2)
 
 -- distance between the platforms
 local PLATFORM_SPACING = 250
+-- height of a platform (used to set the initial position of the hero)
+local PLATFORM_HEIGHT = 40
+-- width of the screen, as set in game.project
+local SCREEN_WIDTH = tonumber(sys.get_config("display.width"))
+-- time it should take to move the platforms when the hero is climbing a ladder
+local PLATFORM_MOVE_DURATION = 0.3
+
+
+-- add a diamond to a platform
+-- the diamond will be created using a factory and the id of the
+-- diamond will be stored in the platform data table and in a separate list
+local function add_diamond(self, platform)
+	if math.random(0, self.diamond_ratio) == 0 then
+		local diamond_id = factory.create("factories#diamond", vmath.vector3(math.random(-SCREEN_WIDTH, SCREEN_WIDTH) / 2, 110, 0))
+		platform.diamond_id = diamond_id
+		self.diamonds[diamond_id] = platform
+		msg.post(diamond_id, "set_parent", { parent_id = platform.ground_id, keep_world_transform = 0 })
+	end
+end
+
+-- remove a diamond
+-- the game object will be deleted and the diamond will be removed
+-- from the platform data and from the list of all diamonds
+local function remove_diamond(self, diamond_id)
+	go.delete(diamond_id)
+	local platform = self.diamonds[diamond_id]
+	platform.diamond_id = nil
+	self.diamonds[diamond_id] = nil
+end
 
 function init(self)
 	msg.post(".", "acquire_input_focus")
+	math.randomseed(os.time())
 	self.velocity = vmath.vector3(self.ground_speed, 0, 0)
 	
 	-- the platforms each consist of a ground and ladder game object
@@ -15,16 +46,31 @@ function init(self)
 	-- the list will be kept ordered so that the first element will represent the platform
 	-- at the bottom of the screen while the last element represents the platform at
 	-- the top of the screen
-	self.platforms = { 1, 2, 3, 4, 5, 6 }
-	for i,id in ipairs(self.platforms) do
-		go.set_position(vmath.vector3(400, PLATFORM_SPACING * i, 0), "ground" .. id)
+	self.platforms = {}
+	-- we also keep a separate list of created diamonds
+	-- diamonds are created per platform
+	-- the list of diamonds has the diamond ids as keys and the platforms they belong to
+	-- as values (ie the same platform objects as in the platforms list above)
+	-- this allows us to quickly look up which platform a diamond belongs to when it is
+	-- collected by the player
+	self.diamonds = {}
+	for i = 1, 6 do
+		local ground_id = go.get_id("ground" .. i)
+		local ladder_id = go.get_id("ladder" .. i)
+		local platform = { ground_id = ground_id, ladder_id = ladder_id, diamond_id = nil }
+		table.insert(self.platforms, platform)
+		go.set_position(vmath.vector3(400, PLATFORM_SPACING * i, 0), ground_id)
+		add_diamond(self, platform)
 	end
+	
+	-- position the hero on top of the bottom most platform
+	go.set_position(vmath.vector3(200, PLATFORM_SPACING + PLATFORM_HEIGHT, 0), "hero")
 end
 
 function update(self, dt)
 	msg.post("@render:/", "clear_color", { color = vmath.vector4(0xaa / 0xff, 0xeea / 0xff, 1.0, 1.0) })
 	
-	-- ignore any movement logic while the player is climbing a ladder
+	-- ignore any movement logic while the hero is climbing a ladder
 	if self.climbing then
 		return
 	end
@@ -32,14 +78,14 @@ function update(self, dt)
 	-- add gravity to the hero velocity
 	self.velocity = self.velocity + self.gravity * dt
 	
-	-- move the player
-	-- if the player has moved outside the left or right edge of the
+	-- move the hero
+	-- if the hero has moved outside the left or right edge of the
 	-- the screen the horizontal component of the velocity is reversed
 	-- also flip the hero sprite
 	local pos = go.get_position()
 	pos = pos + self.velocity * dt
-	if pos.x > 800 then
-		pos.x = 800
+	if pos.x > SCREEN_WIDTH then
+		pos.x = SCREEN_WIDTH
 		self.velocity.x = -self.velocity.x
 		sprite.set_hflip("#sprite", true)
 	elseif pos.x < 0 then
@@ -64,32 +110,45 @@ function on_message(self, message_id, message, sender)
 		elseif message.group == hash("ladder") and not self.climbing then
 			self.velocity.y = 0
 			self.climbing = true
-			for i,id in ipairs(self.platforms) do
-				-- fade out the bottom most ground and ladder
+			for i,platform in ipairs(self.platforms) do
+				local ground_id = platform.ground_id
+				local ladder_id = platform.ladder_id
+				local ground_pos = go.get_position(ground_id)
+				local ladder_pos = go.get_position(ladder_id)
+				-- fade out the bottom most ground and let the ladder "fall away"
 				if i == 1 then
-					go.animate("ground" .. id .. "#sprite", "tint.w", go.PLAYBACK_ONCE_FORWARD, 0, go.EASING_OUTCUBIC, 0.3)
-					go.animate("ladder" .. id .. "#sprite", "tint.w", go.PLAYBACK_ONCE_FORWARD, 0, go.EASING_OUTCUBIC, 0.3)
+					go.animate(msg.url(nil, ground_id, "sprite"), "tint.w", go.PLAYBACK_ONCE_FORWARD, 0, go.EASING_OUTCUBIC, PLATFORM_MOVE_DURATION)
+					go.animate(ladder_id, "position.y", go.PLAYBACK_ONCE_FORWARD, ladder_pos.y - 300, go.EASING_INCUBIC, PLATFORM_MOVE_DURATION)
 				end
 				-- animate the platform downwards
 				-- if the platform was animated outside of the view it will
 				-- be moved to the top
-				go.animate("ground" .. id, "position.y", go.PLAYBACK_ONCE_FORWARD, go.get_position("ground" .. id).y - PLATFORM_SPACING, go.EASING_LINEAR, 0.3, 0, function()
+				go.animate(ground_id, "position.y", go.PLAYBACK_ONCE_FORWARD, ground_pos.y - PLATFORM_SPACING, go.EASING_LINEAR, PLATFORM_MOVE_DURATION, 0, function()
 					self.climbing = false
 					-- if this was the first (ie bottom-most platform) we need to
-					-- move it to the top of the platforms
-					-- we also move it to the end of the list of platforms to
-					-- keep the order intact
-					-- and finally we also reset the alpha value (we faded it)
+					-- move it to the top of the platforms. we also move it to the
+					-- end of the list of platforms to keep the order intact
+					-- Some additional cleanup:
+					-- * reset the alpha value (we faded it)
+					-- * reset the position of the ladder (it fell away)
+					-- * remove any diamond on the platform
+					-- * possibly add a diamond
 					if i == 1 then
-						go.set("ground" .. id .. "#sprite", "tint.w", 1.0)
-						go.set("ladder" .. id .. "#sprite", "tint.w", 1.0)
-						table.insert(self.platforms, table.remove(self.platforms, i))
-						local pos = go.get_position("ground" .. id)
+						go.set(msg.url(nil, ground_id, "sprite"), "tint.w", 1.0)
+						go.set_position(ladder_pos, ladder_id)
+						local pos = go.get_position(ground_id)
 						pos.y = pos.y + #self.platforms * PLATFORM_SPACING
-						go.set_position(pos, "ground" .. id)
+						go.set_position(pos, ground_id)
+						if platform.diamond_id then
+							remove_diamond(self, platform.diamond_id)
+						end
+						add_diamond(self, platform)
+						table.insert(self.platforms, table.remove(self.platforms, i))
 					end
 				end)
 			end
+		elseif message.group == hash("diamond") then
+			remove_diamond(self, message.other_id)
 		end
 	end
 end
