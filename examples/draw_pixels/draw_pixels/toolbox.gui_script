@@ -1,0 +1,42 @@
+local function pick_color(self, node, action)
+	msg.post("canvas", "change_color", { color = gui.get_color(node) })
+end
+
+local function use_pencil()
+	msg.post("canvas", "change_tool", { tool = "pencil" })
+end
+
+local function use_eraser()
+	msg.post("canvas", "change_tool", { tool = "eraser" })
+end
+
+function init(self)
+	msg.post(".", "acquire_input_focus")
+	self.nodes = {}
+
+	self.nodes[gui.get_node("pencil")] = use_pencil
+	self.nodes[gui.get_node("eraser")] = use_eraser
+	for i=1,10 do
+		self.nodes[gui.get_node("color" .. i)] = pick_color
+	end
+	use_pencil()
+end
+
+function on_input(self, action_id, action)
+	if action_id == hash("touch") then
+		if action.pressed then
+			for node,fn in pairs(self.nodes) do
+				if gui.pick_node(node, action.x, action.y) then
+					fn(self, node, action)
+					return true
+				end
+			end
+		end
+	end
+	return false
+end
+
+function on_reload(self)
+	-- Add input-handling code here
+	-- Remove this function if not needed
+end

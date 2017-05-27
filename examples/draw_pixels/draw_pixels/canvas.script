@@ -1,0 +1,107 @@
+local function draw_pixel(self, x, y, r, g, b, a)
+	-- don't draw outside of the texture
+	if x < 0 or x > self.width or y < 0 or y > self.height then
+		return
+	end
+	
+	-- draw the pixel at the correct index in the buffer stream
+	local index = (y * self.width * 4) + (x * 4) + 1
+	self.stream[index + 0] = r
+	self.stream[index + 1] = g
+	self.stream[index + 2] = b
+	self.stream[index + 3] = a or 0xff
+	
+	-- flag texture as dirty
+	self.dirty = true
+end
+
+function init(self)
+	msg.post(".", "acquire_input_focus")
+
+	-- size of texture when scaled to nearest power of two
+	self.width = 1024
+	self.height = 2048
+	
+	-- create RGBA buffer and get the stream so we can manipulate it using Lua
+	self.buffer = buffer.create(self.width * self.height, { {name=hash("rgba"), type=buffer.VALUE_TYPE_UINT8, count=4} } )
+	self.stream = buffer.get_stream(self.buffer, hash("rgba"))
+	
+	-- drawing params
+	self.color = vmath.vector4(1, 1, 1, 1)
+	self.tool = "pencil"
+	self.tool_size = 3
+end
+
+function update(self, dt)
+	-- update texture if it's dirty (ie we've drawn to it)
+	if self.dirty then
+		local resource_path = go.get("#sprite", "texture0")
+		local header = { width = self.width, height = self.height, type = resource.TEXTURE_TYPE_2D, format = resource.TEXTURE_FORMAT_RGBA, num_mip_maps = 1 }
+		resource.set_texture( resource_path, header, self.buffer )
+		self.dirty = false
+	end
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("change_color") then
+		self.color = message.color
+	elseif message_id == hash("change_tool") then
+		self.tool = message.tool
+	end
+end
+
+function on_input(self, action_id, action)
+	if action_id == hash("touch") then
+		local pos = vmath.vector3(action.x, action.y, 0)
+		if action.pressed then
+			self.drawing = true
+			self.touch_pos = pos
+		elseif action.released then
+			self.drawing = false
+		end
+		if self.drawing then
+			-- calculate the length and direction from the previous touch
+			-- position to the current position
+			local length = math.ceil(vmath.length(self.touch_pos - pos))
+			local dir = vmath.normalize(self.touch_pos - pos)
+			if length == 0 then
+				length  = 1
+				dir = vmath.vector3(0)
+			end
+			-- use current tool from the previous touch position to
+			-- the current touch position
+			while length > 0 do
+				local r,g,b,a
+				if self.tool == "pencil" then
+					r = math.floor(self.color.x * 255)
+					g = math.floor(self.color.y * 255)
+					b = math.floor(self.color.z * 255)
+					a = math.floor(self.color.w * 255)
+				elseif self.tool == "eraser" then
+					r = 0
+					g = 0
+					b = 0
+					a = 0
+				end
+				
+				-- apply tool 
+				for xi = -self.tool_size / 2, self.tool_size / 2 do
+					for yi = -self.tool_size / 2, self.tool_size / 2 do
+						local x = math.floor(self.touch_pos.x + xi)
+						local y = math.floor(self.touch_pos.y + yi)
+						draw_pixel(self, x, y, r, g, b, a)
+					end
+				end
+				
+				-- move towards the current touch position
+				self.touch_pos = self.touch_pos - dir
+				length = length - 1
+			end
+		end
+	end
+end
+
+function on_reload(self)
+	-- Add reload-handling code here
+	-- Remove this function if not needed
+end

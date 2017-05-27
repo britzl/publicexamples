@@ -1,0 +1,18 @@
+images {
+  image: "/draw_pixels/images/logo.png"
+}
+images {
+  image: "/draw_pixels/images/metalPanel_green.png"
+}
+images {
+  image: "/draw_pixels/images/transparent1px.png"
+}
+images {
+  image: "/draw_pixels/images/gimp-tool-eraser_bw.png"
+}
+images {
+  image: "/draw_pixels/images/gimp-tool-pencil_bw.png"
+}
+margin: 0
+extrude_borders: 2
+inner_padding: 0

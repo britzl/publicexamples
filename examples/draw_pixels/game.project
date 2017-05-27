@@ -1,0 +1,65 @@
+[project]
+title = Draw Pixels
+custom_resources = 
+
+[bootstrap]
+main_collection = /draw_pixels/draw_pixels.collectionc
+render = /builtins/render/default.renderc
+
+[input]
+game_binding = /input/game.input_bindingc
+gamepads = /builtins/input/default.gamepadsc
+
+[display]
+width = 640
+height = 1136
+variable_dt = 1
+
+[physics]
+scale = 0.02
+debug = 0
+max_collisions = 256
+max_contacts = 256
+gravity_y = -100
+
+[script]
+shared_state = 1
+
+[android]
+iap_provider = GooglePlay
+package = com.britzl.publicexamples
+app_icon_36x36 = /examples/assets/appicons/icon_36.png
+app_icon_48x48 = /examples/assets/appicons/icon_48.png
+app_icon_72x72 = /examples/assets/appicons/icon_72.png
+app_icon_96x96 = /examples/assets/appicons/icon_96.png
+app_icon_144x144 = /examples/assets/appicons/icon_144.png
+app_icon_192x192 = /examples/assets/appicons/icon_192.png
+
+[sprite]
+max_count = 32000
+
+[resource]
+max_resources = 3000
+
+[collection]
+max_instances = 32000
+
+[graphics]
+max_debug_vertices = 50000
+
+[osx]
+bundle_identifier = com.britzl.publicexamples
+app_icon = /examples/assets/appicons/icon_512.png
+
+[ios]
+app_icon_120x120 = /examples/assets/appicons/icon_120.png
+app_icon_180x180 = /examples/assets/appicons/icon_180.png
+app_icon_76x76 = /examples/assets/appicons/icon_76.png
+app_icon_152x152 = /examples/assets/appicons/icon_152.png
+app_icon_57x57 = /examples/assets/appicons/icon_57.png
+app_icon_114x114 = /examples/assets/appicons/icon_114.png
+app_icon_72x72 = /examples/assets/appicons/icon_72.png
+app_icon_144x144 = /examples/assets/appicons/icon_144.png
+app_icon_167x167 = /examples/assets/appicons/icon_167.png
+bundle_identifier = com.britzl.publicexamples
+
