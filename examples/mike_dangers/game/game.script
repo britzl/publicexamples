@@ -1,7 +1,8 @@
-go.property("gravity", vmath.vector3(0, -4500, 0))
+go.property("gravity", vmath.vector3(0, -10000, 0))
 go.property("ground_speed", 450)
-go.property("jump_speed", 900)
+go.property("jump_speed", 1800)
 go.property("diamond_ratio", 2)
+go.property("spike_ratio", 2)
 
 -- distance between the platforms
 local PLATFORM_SPACING = 250
@@ -12,14 +13,41 @@ local SCREEN_WIDTH = tonumber(sys.get_config("display.width"))
 -- time it should take to move the platforms when the hero is climbing a ladder
 local PLATFORM_MOVE_DURATION = 0.3
 
+-- generate a random horizontal position on the screen
+-- with an optional margin to the screen edges
+local function random_x(margin)
+	margin = margin or 0
+	return math.random(margin - (SCREEN_WIDTH / 2), (SCREEN_WIDTH / 2) - margin)
+end
+
+-- add a spike on a platform
+-- the spike will be created using a factory and the id of the
+-- spike will be stored in the platform data table
+local function add_spike(self, platform, force)
+	if math.random(0, self.spike_ratio) == 0 or force then
+		local spike_id = factory.create("factories#spike", vmath.vector3(random_x(), PLATFORM_HEIGHT / 2, 0))
+		platform.spikes[spike_id] = true
+		msg.post(spike_id, "set_parent", { parent_id = platform.ground_id, keep_world_transform = 0 })
+	end
+end
+
+-- remove all spikes from a platform
+-- the game objects will be deleted and the spikes will be removed
+-- from the platform data
+local function remove_spikes(self, platform)
+	for spike_id,_ in pairs(platform.spikes) do
+		go.delete(spike_id)
+		platform.spikes[spike_id] = nil
+	end
+end
 
 -- add a diamond to a platform
 -- the diamond will be created using a factory and the id of the
 -- diamond will be stored in the platform data table and in a separate list
 local function add_diamond(self, platform)
 	if math.random(0, self.diamond_ratio) == 0 then
-		local diamond_id = factory.create("factories#diamond", vmath.vector3(math.random(-SCREEN_WIDTH, SCREEN_WIDTH) / 2, 110, 0))
-		platform.diamond_id = diamond_id
+		local diamond_id = factory.create("factories#diamond", vmath.vector3(random_x(), 110, 0))
+		platform.diamonds[diamond_id] = true
 		self.diamonds[diamond_id] = platform
 		msg.post(diamond_id, "set_parent", { parent_id = platform.ground_id, keep_world_transform = 0 })
 	end
@@ -31,13 +59,56 @@ end
 local function remove_diamond(self, diamond_id)
 	go.delete(diamond_id)
 	local platform = self.diamonds[diamond_id]
-	platform.diamond_id = nil
+	platform.diamonds[diamond_id] = nil
 	self.diamonds[diamond_id] = nil
+end
+
+-- remove all diamnds on a platform
+local function remove_diamonds(self, platform)
+	while next(platform.diamonds) do
+		remove_diamond(self, next(platform.diamonds))
+	end
+end
+
+-- randomize the ladder position
+local function randomize_ladder_position(self, platform)
+	local pos = go.get_position(platform.ladder_id)
+	pos.x = random_x(30)
+	go.set_position(pos, platform.ladder_id)
+end
+
+-- start a new game
+-- remove any previously created diamonds and spikes on the platforms
+-- randomize ladder positions, generate new diamonds and spikes and
+-- position the hero
+local function new_game(self)
+	for _,platform in pairs(self.platforms) do
+		remove_spikes(self, platform)
+		remove_diamonds(self, platform)
+	end
+	
+	for i = 1, 6 do
+		local ground_id = go.get_id("ground" .. i)
+		local ladder_id = go.get_id("ladder" .. i)
+		local platform = { ground_id = ground_id, ladder_id = ladder_id, diamonds = {}, spikes = {} }
+		self.platforms[i] = platform
+		go.set_position(vmath.vector3(SCREEN_WIDTH / 2, PLATFORM_SPACING * i, 0), ground_id)
+		randomize_ladder_position(self, platform)
+		if i > 1 then
+			add_diamond(self, platform)
+			add_spike(self, platform, true)
+			add_spike(self, platform)
+		end
+	end
+	
+	-- position the hero on top of the bottom most platform
+	go.set_position(vmath.vector3(200, PLATFORM_SPACING + PLATFORM_HEIGHT, 0), "hero")
 end
 
 function init(self)
 	msg.post(".", "acquire_input_focus")
 	math.randomseed(os.time())
+	-- the velocity of the hero
 	self.velocity = vmath.vector3(self.ground_speed, 0, 0)
 	
 	-- the platforms each consist of a ground and ladder game object
@@ -47,6 +118,7 @@ function init(self)
 	-- at the bottom of the screen while the last element represents the platform at
 	-- the top of the screen
 	self.platforms = {}
+
 	-- we also keep a separate list of created diamonds
 	-- diamonds are created per platform
 	-- the list of diamonds has the diamond ids as keys and the platforms they belong to
@@ -54,24 +126,15 @@ function init(self)
 	-- this allows us to quickly look up which platform a diamond belongs to when it is
 	-- collected by the player
 	self.diamonds = {}
-	for i = 1, 6 do
-		local ground_id = go.get_id("ground" .. i)
-		local ladder_id = go.get_id("ladder" .. i)
-		local platform = { ground_id = ground_id, ladder_id = ladder_id, diamond_id = nil }
-		table.insert(self.platforms, platform)
-		go.set_position(vmath.vector3(400, PLATFORM_SPACING * i, 0), ground_id)
-		add_diamond(self, platform)
-	end
 	
-	-- position the hero on top of the bottom most platform
-	go.set_position(vmath.vector3(200, PLATFORM_SPACING + PLATFORM_HEIGHT, 0), "hero")
+	new_game(self)
 end
 
 function update(self, dt)
 	msg.post("@render:/", "clear_color", { color = vmath.vector4(0xaa / 0xff, 0xeea / 0xff, 1.0, 1.0) })
 	
-	-- ignore any movement logic while the hero is climbing a ladder
-	if self.climbing then
+	-- ignore any movement logic while the hero is climbing a ladder or dying
+	if self.climbing or self.dying then
 		return
 	end
 	
@@ -100,14 +163,26 @@ function update(self, dt)
 end
 
 function on_message(self, message_id, message, sender)
-	if message_id == hash("contact_point_response") then
-		if message.group == hash("ground") and not self.climbing then
+	-- react to collisions unless we're climbing or dying
+	if message_id == hash("contact_point_response") and not self.climbing and not self.dying then
+		-- hero standing on a platform
+		if message.group == hash("ground") then
 			-- resolve the collision by moving the hero out of the collision object
 			-- also reset the vertical component of the velocity
 			go.set_position(go.get_position() + message.normal * message.distance)
 			self.velocity.y = 0
 			self.can_jump = true
-		elseif message.group == hash("ladder") and not self.climbing then
+		-- colliding with a spike - die!
+		elseif message.group == hash("spike") then
+			self.dying = true
+			-- create a custom easing function that makes the player "jump" up and then quickly fall down
+			local easing = vmath.vector({ -0.1, -0.15, -0.175, -0.2, -0.175, -0.15, -0.1, 0.0, 0.125, 0.25, 0.5, 0.75, 1.0 })
+			go.animate(".", "position.y", go.PLAYBACK_ONCE_FORWARD, -200, easing, 0.5, 0, function()
+				self.dying = false
+				new_game(self)
+			end)
+		-- colliding with a ladder - climb!
+		elseif message.group == hash("ladder") then
 			self.velocity.y = 0
 			self.climbing = true
 			for i,platform in ipairs(self.platforms) do
@@ -131,22 +206,27 @@ function on_message(self, message_id, message, sender)
 					-- Some additional cleanup:
 					-- * reset the alpha value (we faded it)
 					-- * reset the position of the ladder (it fell away)
-					-- * remove any diamond on the platform
+					-- * remove any diamonds on the platform
+					-- * remove any spikes on the platform
 					-- * possibly add a diamond
+					-- * add a spike and possible one additional
 					if i == 1 then
 						go.set(msg.url(nil, ground_id, "sprite"), "tint.w", 1.0)
 						go.set_position(ladder_pos, ladder_id)
 						local pos = go.get_position(ground_id)
 						pos.y = pos.y + #self.platforms * PLATFORM_SPACING
 						go.set_position(pos, ground_id)
-						if platform.diamond_id then
-							remove_diamond(self, platform.diamond_id)
-						end
+						randomize_ladder_position(self, platform)
+						remove_diamonds(self, platform)
+						remove_spikes(self, platform)
 						add_diamond(self, platform)
+						add_spike(self, platform, true)
+						add_spike(self, platform)
 						table.insert(self.platforms, table.remove(self.platforms, i))
 					end
 				end)
 			end
+		-- colliding with a diamond - remove it!
 		elseif message.group == hash("diamond") then
 			remove_diamond(self, message.other_id)
 		end

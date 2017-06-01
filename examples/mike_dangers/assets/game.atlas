@@ -10,6 +10,9 @@ images {
 images {
   image: "/assets/images/diamond.png"
 }
+images {
+  image: "/assets/images/spike.png"
+}
 margin: 0
 extrude_borders: 2
 inner_padding: 0
