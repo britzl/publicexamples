@@ -1,0 +1,18 @@
+go.property("foonum", 0)
+go.property("foov3", vmath.vector3(0, 0, 0))
+go.property("foov4", vmath.vector4(0, 0, 0, 0))
+
+function init(self)
+	go.animate("#", "foonum", go.PLAYBACK_LOOP_PINGPONG, 100, go.EASING_INOUTSINE, 5)
+	
+	-- animating script properties of type v3 and v4 is currently not supported
+	go.animate("#", "foov3", go.PLAYBACK_LOOP_PINGPONG, vmath.vector3(100), go.EASING_INOUTSINE, 5)
+	go.animate("#", "foov4", go.PLAYBACK_LOOP_PINGPONG, vmath.vector4(100), go.EASING_INOUTSINE, 5)
+	
+	msg.post("@render", "clear_color", { color = vmath.vector4(0.2, 0.3, 1.0, 1.0) })
+end
+
+function update(self, dt)
+	local text = ("Foonum: %d FooV3: %s FooV4: %s"):format(self.foonum, tostring(self.foov3), tostring(self.foov4))
+	msg.post("@render:", "draw_text", { text = text, position = vmath.vector3(50, 50, 0) })
+end
