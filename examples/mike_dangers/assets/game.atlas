@@ -13,6 +13,12 @@ images {
 images {
   image: "/assets/images/spike.png"
 }
+images {
+  image: "/assets/images/diamondparticle.png"
+}
+images {
+  image: "/assets/images/tap.png"
+}
 margin: 0
 extrude_borders: 2
 inner_padding: 0

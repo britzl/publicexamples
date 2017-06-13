@@ -3,7 +3,7 @@ go.property("ground_speed", 450)
 go.property("jump_speed", 1800)
 go.property("diamond_chance", 2)
 go.property("double_spike_chance", 2)
-go.property("safe_radius", 120)
+go.property("safe_radius", 180)
 
 -- distance between the platforms
 local PLATFORM_SPACING = 250
@@ -15,6 +15,8 @@ local SCREEN_WIDTH = tonumber(sys.get_config("display.width"))
 local PLATFORM_MOVE_DURATION = 0.3
 -- we don't want things too close to the edge
 local MARGIN = 30
+
+local SAVE_DATA_PATH = sys.get_save_file(sys.get_config("project.title"), "savedata")
 
 -- generate a random horizontal position on the screen
 -- with an optional margin to the screen edges
@@ -120,16 +122,44 @@ local function randomize_platform(self, platform, spikes, diamonds)
 	end
 end
 
+local function update_score(self)
+	self.save_data.best_score = math.max(self.save_data.best_score, self.score)
+	sys.save(SAVE_DATA_PATH, self.save_data)
+	label.set_text("hud#score", "Score: " .. tostring(self.score))
+	label.set_text("hud#best_score", "Best Score: " .. tostring(self.save_data.best_score))
+end
+
+local function show_instructions(self)
+	msg.post("instructions", "enable")
+	msg.post("gametitle", "enable")
+	msg.post("hand", "enable")
+	go.set("hand#sprite", "tint.w", 1)
+	go.animate("hand#sprite", "tint.w", go.PLAYBACK_LOOP_PINGPONG, 0, go.EASING_INOUTCUBIC, 0.4)
+end
+
+local function hide_instructions(self)
+	msg.post("instructions", "disable")
+	msg.post("gametitle", "disable")
+	msg.post("hand", "disable")
+	go.cancel_animations("hand#sprite", "tint.w")
+end
+
 -- start a new game
 -- remove any previously created diamonds and spikes on the platforms
 -- randomize ladder positions, generate new diamonds and spikes and
 -- position the hero
 local function new_game(self)
+	self.score = 0
+	update_score(self)
+	show_instructions(self)
+
+	-- cleanup of old spikes and diamonds
 	for _,platform in pairs(self.platforms) do
 		remove_spikes(self, platform)
 		remove_diamonds(self, platform)
 	end
 	
+	-- position and generate the platforms
 	for i = 1, 6 do
 		local ground_id = go.get_id("ground" .. i)
 		local ladder_id = go.get_id("ladder" .. i)
@@ -172,6 +202,10 @@ function init(self)
 	-- collected by the player
 	self.diamonds = {}
 	
+	self.score = 0
+	self.save_data = sys.load(SAVE_DATA_PATH) or {}
+	self.save_data.best_score = self.save_data.best_score or 0
+	
 	new_game(self)
 end
 
@@ -185,25 +219,27 @@ function update(self, dt)
 	if not self.ladder_contact then
 		-- apply gravity
 		self.velocity = self.velocity + self.gravity * dt
-
+		
 		-- move the hero
 		-- if the hero has moved outside the left or right edge of the
 		-- the screen the horizontal component of the velocity is reversed
 		-- also flip the hero sprite
 		local pos = go.get_position()
 		pos = pos + self.velocity * dt
-		if pos.x > SCREEN_WIDTH then
-			pos.x = SCREEN_WIDTH
-			self.velocity.x = -self.velocity.x
-			sprite.set_hflip("#sprite", true)
-		elseif pos.x < 0 then
-			pos.x = 0
-			self.velocity.x = -self.velocity.x
-			sprite.set_hflip("#sprite", false)
+		if not self.animating then
+			if pos.x > SCREEN_WIDTH then
+				pos.x = SCREEN_WIDTH
+				self.velocity.x = -self.velocity.x
+				sprite.set_hflip("#sprite", true)
+			elseif pos.x < 0 then
+				pos.x = 0
+				self.velocity.x = -self.velocity.x
+				sprite.set_hflip("#sprite", false)
+			end
 		end
 		go.set_position(pos)
 	end
-		
+	
 	-- reset volatile state
 	self.can_jump = false
 	self.ladder_contact = false
@@ -267,6 +303,9 @@ function on_message(self, message_id, message, sender)
 			end
 		-- colliding with a diamond - remove it!
 		elseif message.group == hash("diamond") then
+			self.score = self.score + 1
+			update_score(self)
+			particlefx.play(msg.url(nil, message.other_id, "particlefx"))
 			remove_diamond(self, message.other_id)
 		end
 	end
@@ -275,6 +314,7 @@ end
 function on_input(self, action_id, action)
 	if action_id == hash("touch") or action_id == hash("jump") then
 		if action.pressed and self.can_jump then
+			hide_instructions(self)
 			self.velocity.y = self.jump_speed
 		end
 	end
