@@ -15,7 +15,7 @@ Step three, added Spikes, of the [Mike Dangers blog post series](http://www.eman
 Step four, game balance changes, of the [Mike Dangers blog post series](http://www.emanueleferonato.com/2017/06/06/mike-dangers-html5-game-engine-made-with-phaser-and-arcade-physics-optimizing-the-code-and-making-the-game-fair/) is now replicated in Defold.
 
 # Update 5
-Step five, the coomplete game, of the [Mike Dangers blog post series](http://www.emanueleferonato.com/2017/06/12/play-ladderz-the-complete-html5-game-based-on-mike-dangers-concept/) is now replicated in Defold.
+Step five, the complete game, of the [Mike Dangers blog post series](http://www.emanueleferonato.com/2017/06/12/play-ladderz-the-complete-html5-game-based-on-mike-dangers-concept/) is now replicated in Defold.
 
 # Credits
 Graphics by Emanuele Feronato.
