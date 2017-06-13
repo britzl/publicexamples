@@ -67,6 +67,5 @@ function on_message(self, message_id, message)
 		self.clear_color = message.color
 	elseif message_id == hash("set_view_projection") then
 		self.view = message.view
-		pprint(message)
 	end
 end
