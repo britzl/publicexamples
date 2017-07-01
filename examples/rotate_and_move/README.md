@@ -3,6 +3,9 @@ This example shows how to rotate a game object and move it in the direction it i
 
 https://forum.defold.com/t/rotation-and-moving-forward-simple/1079/9
 
+## Orthographic Camera API
+The [defold-orthographic](https://github.com/britzl/defold-orthographic) library project provides even better support for letting a camera follow a game object.
+
 ## Try it!
 http://britzl.github.io/publicexamples/rotate_and_move/index.html
 
