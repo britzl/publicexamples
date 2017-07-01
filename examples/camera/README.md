@@ -5,5 +5,8 @@ The example also shows a render script with support for split screen. The render
 
 https://forum.defold.com/t/allow-multiple-cameras-to-be-active-at-once-properly-send-camera-id-when-communicating/2634
 
+## Orthographic Camera API
+For a more up-to-date and easier to use orthographic camera please check the [defold-orthographic](https://github.com/britzl/defold-orthographic) library project.
+
 ## Try it!
 http://britzl.github.io/publicexamples/camera/index.html
