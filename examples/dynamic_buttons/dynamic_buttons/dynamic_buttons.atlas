@@ -1,0 +1,6 @@
+images {
+  image: "/dynamic_buttons/images/green_button08.png"
+}
+margin: 0
+extrude_borders: 0
+inner_padding: 0
