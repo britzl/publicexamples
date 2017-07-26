@@ -1,6 +1,0 @@
-images {
-  image: "/bunnymark_bounce/images/logo.png"
-}
-margin: 0
-extrude_borders: 0
-inner_padding: 0
