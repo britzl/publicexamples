@@ -1,0 +1,6 @@
+images {
+  image: "/replace_mouse_cursor/images/crosshair_outline_small.png"
+}
+margin: 0
+extrude_borders: 2
+inner_padding: 0

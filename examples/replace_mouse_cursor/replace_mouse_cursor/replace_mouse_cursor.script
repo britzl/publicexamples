@@ -1,0 +1,20 @@
+local defos = require "defos.defos"
+
+local WIDTH = tonumber(sys.get_config("display.width")) 
+local HEIGHT = tonumber(sys.get_config("display.height")) 
+
+function init(self)
+	msg.post(".", "acquire_input_focus")
+end
+
+function on_input(self, action_id, action)
+	local screen = vmath.vector3(action.x, action.y, 0)
+	go.set_position(screen)
+
+	-- enable/disable mouse cursor depending on if we're inside or outside the game window
+	if screen.x < 0 or screen.y < 0 or screen.x > WIDTH or screen.y > HEIGHT then
+		defos.enable_mouse_cursor()
+	else
+		defos.disable_mouse_cursor()		
+	end
+end
