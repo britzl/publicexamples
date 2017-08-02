@@ -1,7 +1,2 @@
-# Play animation
-This example shows how to play a sprite animation when a key is pressed and stop when a key is released. It also shows how to handle key states in an efficient manner.
-
-Asked on the forum: https://forum.defold.com/t/animation-is-not-working/1775
-
-## Try it!
-http://britzl.github.io/publicexamples/play_animation/index.html
+# Replace mouse cursor
+This example shows how to replace the mouse cursor. The example uses the [DefOS](https://github.com/subsoap/defos) library to disable the mouse cursor. The custom mouse cursor is created by moving a game object with a sprite to the mouse position.
