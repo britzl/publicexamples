@@ -1,0 +1,24 @@
+function init(self)
+	msg.post(".", "acquire_input_focus")
+	
+	self.target_pos = go.get_position()
+	for i=1,5 do
+		local id = "marker" .. i
+		msg.post("map:/controller", "register_position", { index = i, position = go.get_position(id) })
+		--go.delete(id)
+	end
+end
+
+function on_input(self, action_id, action)
+	print("jjkjkjkkj")
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("update_position") then
+		go.set_position(message.position)
+	end
+end
+
+function on_reload(self)
+		msg.post(".", "acquire_input_focus")
+end

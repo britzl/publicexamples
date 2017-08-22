@@ -1,0 +1,6 @@
+images {
+  image: "/level_select/images/episode3.png"
+}
+margin: 0
+extrude_borders: 0
+inner_padding: 0

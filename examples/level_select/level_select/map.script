@@ -1,0 +1,158 @@
+local episodes = {
+	{
+		proxy = msg.url("map:/ep1#proxy"), markers = {},
+	},
+	{
+		proxy = msg.url("map:/ep2#proxy"), markers = {},
+	},
+	{
+		proxy = msg.url("map:/ep3#proxy"), markers = {},
+	},
+	{
+		proxy = msg.url("map:/ep4#proxy"), markers = {},
+	},
+}
+
+-- precalculate some links and ids
+for i,episode in ipairs(episodes) do
+	episode.id = i
+	
+	-- the anchor is the game object this episode should position itself as
+	episode.anchor = hash("/ep" .. i)
+	
+	-- collection name (the socket part of a defold url) this episode belongs to
+	episode.socket = hash("ep" .. i)
+	
+	-- url to the root game object of the episode
+	episode.root = msg.url(episode.socket, "/bg", nil)
+end
+
+
+-- if an episode has a world position within the positive and negative range
+-- of LOADED_THRESHOLD it should be loaded, otherwise unloaded
+local EPISODE_HEIGHT = 1920
+local SCREEN_HEIGHT = tonumber(sys.get_config("display.height"))
+local LOADED_THRESHOLD = (SCREEN_HEIGHT / 2) + EPISODE_HEIGHT * 1.5
+
+
+
+local function load_episode(id)
+	local episode = episodes[id]
+	episode.loading = true
+	msg.post(episode.proxy, "async_load")
+end
+
+
+local function unload_episode(id)
+	local episode = episodes[id]
+	episode.unloading = true
+	msg.post(episode.proxy, "unload")
+end
+
+local function find_episode_from_proxy(proxy_url)
+	for i=1,#episodes do
+		if episodes[i].proxy == proxy_url then
+			return episodes[i]
+		end
+	end
+end
+
+
+local function find_episode_from_url(url)
+	for i=1,#episodes do
+		if episodes[i].socket == url.socket then
+			return episodes[i]
+		end
+	end
+end
+
+
+local function update_positions()
+	for i,episode in pairs(episodes) do
+		-- get the position where the episode should be located
+		local position = go.get_world_position(episode.anchor)
+		-- update the position of the episode if it's loaded, unless we're unloading it
+		if episode.loaded and not episode.unloading then
+			msg.post(episode.root, "update_position", { position = position })
+		end
+
+		-- toggle loaded/unloaded state based on position of episode
+		local should_be_loaded = position.y > -LOADED_THRESHOLD and position.y < LOADED_THRESHOLD
+		if should_be_loaded and not episode.loaded and not episode.loading then
+			load_episode(i)
+		elseif not should_be_loaded and episode.loaded and not episode.unloading then
+			unload_episode(i)
+		end
+	end
+end
+
+
+function init(self)
+	msg.post(".", "acquire_input_focus")
+	self.episodes_pos = go.get_position("/episodes")
+end
+
+
+function update(self, dt)
+	go.set_position(vmath.lerp(0.1, go.get_position("/episodes"), self.episodes_pos), "/episodes")
+	update_positions()
+end
+
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("register_position") then
+		local episode = find_episode_from_url(sender)
+		local id = factory.create("#markerfactory", message.position)
+		local level_id = message.index + ((episode.id - 1) * 5)
+		label.set_text(msg.url(nil, id, "label"), tostring(level_id))
+		msg.post(id, "set_parent", { parent_id = episode.anchor, keep_world_transform = 0 })
+		episode.markers[message.index] = id
+		
+	elseif message_id == hash("proxy_loaded") then
+		msg.post(sender, "enable")
+		local episode = find_episode_from_proxy(sender)
+		episode.loading = false
+		episode.loaded = true
+		msg.post(episode.root, "update_position", { position = go.get_world_position(episode.anchor), instant = true })
+	elseif message_id == hash("proxy_unloaded") then
+		local episode = find_episode_from_proxy(sender)
+		episode.unloading = false
+		episode.loaded = false
+	end
+end
+
+function on_input(self, action_id, action)
+	print("input map")
+	
+	local action_pos = vmath.vector3(action.x, action.y, 0)
+	go.set_position(action_pos)
+	
+	if action_id == hash("touch") then
+		if action.pressed then
+			self.pressed = true
+			self.last_pos = action_pos
+		end
+		
+		-- scroll episodes while left mouse button is pressed
+		if self.pressed then
+
+			-- scroll the episodes root
+			-- don't scroll horizontally
+			-- or vertically outside bounds
+			self.episodes_pos = self.episodes_pos + (action_pos - self.last_pos)
+			self.episodes_pos.x = 0
+			self.episodes_pos.y = math.max(math.min(self.episodes_pos.y, 0), -(EPISODE_HEIGHT - SCREEN_HEIGHT + (#episodes - 1) * EPISODE_HEIGHT))
+
+			self.last_pos = action_pos
+		end		
+		
+		if action.released then
+			self.pressed = false
+		end
+	end
+end
+
+function on_reload(self)
+	-- Add reload-handling code here
+	-- Remove this function if not needed
+end
