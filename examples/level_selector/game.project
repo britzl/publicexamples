@@ -1,7 +1,6 @@
 [project]
 title = Level Selector
-custom_resources = 
-dependencies = https://github.com/britzl/defold-orthographic/archive/master.zip
+custom_resources =
 
 [bootstrap]
 main_collection = /level_selector/controller.collectionc
@@ -48,4 +47,3 @@ bundle_identifier = com.britzl.publicexamples.level_selector
 
 [ios]
 bundle_identifier = com.britzl.publicexamples.level_selector
-
