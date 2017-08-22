@@ -1,0 +1,6 @@
+function on_message(self, message_id, message, sender)
+	if message_id == hash("play_level") then
+		label.set_text("#label", tostring(message.level_id))
+		print("playing level", message.level_id)
+	end
+end

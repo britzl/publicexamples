@@ -1,24 +1,17 @@
+go.property("episode", 1)
+
 function init(self)
-	msg.post(".", "acquire_input_focus")
-	
 	self.target_pos = go.get_position()
 	for i=1,5 do
-		local id = "marker" .. i
-		msg.post("map:/controller", "register_position", { index = i, position = go.get_position(id) })
-		--go.delete(id)
+		local marker_id = hash("/marker" .. i)
+		local level_id = i + ((self.episode - 1) * 5)
+		label.set_text(msg.url(nil, marker_id, "label"), tostring(level_id))
+		msg.post("map:/controller", "register_marker", { level_id = level_id, marker_id = marker_id })
 	end
-end
-
-function on_input(self, action_id, action)
-	print("jjkjkjkkj")
 end
 
 function on_message(self, message_id, message, sender)
 	if message_id == hash("update_position") then
 		go.set_position(message.position)
 	end
-end
-
-function on_reload(self)
-		msg.post(".", "acquire_input_focus")
 end

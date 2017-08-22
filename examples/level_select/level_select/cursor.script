@@ -1,33 +1,20 @@
 function init(self)
-	print("init")
-	--msg.post(".", "acquire_input_focus")
-end
-
-function final(self)
-	-- Add finalization code here
-	-- Remove this function if not needed
-end
-
-function update(self, dt)
-	-- Add update code here
-	-- Remove this function if not needed
+	msg.post(".", "acquire_input_focus")
 end
 
 function on_message(self, message_id, message, sender)
-	print(message_id)
 	if message_id == hash("trigger_response") then
-		print("trigger")
+		if message.enter then
+			self.marker_id = message.other_id
+		else
+			self.marker_id = nil
+		end
 	end
-	-- Add message-handling code here
-	-- Remove this function if not needed
 end
 
 function on_input(self, action_id, action)
-	print("input cursor")
-	local action_pos = vmath.vector3(action.x, action.y, 0)
-	go.set_position(action_pos)
-end
-
-function on_reload(self)
-	msg.post(".", "acquire_input_focus")
+	go.set_position(vmath.vector3(action.x, action.y, 0))
+	if action_id == hash("touch") and action.released and self.marker_id then
+		msg.post("map:/controller", "marker_selected", { id = self.marker_id })
+	end
 end

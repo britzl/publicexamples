@@ -1,15 +1,15 @@
 local episodes = {
 	{
-		proxy = msg.url("map:/ep1#proxy"), markers = {},
+		proxy = msg.url("map:/episodes#ep1proxy"), markers = {},
 	},
 	{
-		proxy = msg.url("map:/ep2#proxy"), markers = {},
+		proxy = msg.url("map:/episodes#ep2proxy"), markers = {},
 	},
 	{
-		proxy = msg.url("map:/ep3#proxy"), markers = {},
+		proxy = msg.url("map:/episodes#ep3proxy"), markers = {},
 	},
 	{
-		proxy = msg.url("map:/ep4#proxy"), markers = {},
+		proxy = msg.url("map:/episodes#ep4proxy"), markers = {},
 	},
 }
 
@@ -89,6 +89,7 @@ end
 
 function init(self)
 	msg.post(".", "acquire_input_focus")
+	msg.post("/episodes", "acquire_input_focus")
 	self.episodes_pos = go.get_position("/episodes")
 end
 
@@ -100,21 +101,22 @@ end
 
 
 function on_message(self, message_id, message, sender)
-	if message_id == hash("register_position") then
+	if message_id == hash("register_marker") then
 		local episode = find_episode_from_url(sender)
-		local id = factory.create("#markerfactory", message.position)
-		local level_id = message.index + ((episode.id - 1) * 5)
-		label.set_text(msg.url(nil, id, "label"), tostring(level_id))
-		msg.post(id, "set_parent", { parent_id = episode.anchor, keep_world_transform = 0 })
-		episode.markers[message.index] = id
-		
+		episode.markers[message.marker_id] = message.level_id
+	elseif message_id == hash("marker_selected") then
+		local episode = find_episode_from_url(sender)
+		local level_id = episode.markers[message.id]
+		msg.post("controller:/controller", "show_game", { level_id = level_id })
 	elseif message_id == hash("proxy_loaded") then
+		print("loaded", sender)
 		msg.post(sender, "enable")
 		local episode = find_episode_from_proxy(sender)
 		episode.loading = false
 		episode.loaded = true
 		msg.post(episode.root, "update_position", { position = go.get_world_position(episode.anchor), instant = true })
 	elseif message_id == hash("proxy_unloaded") then
+		print("unloaded", sender)
 		local episode = find_episode_from_proxy(sender)
 		episode.unloading = false
 		episode.loaded = false
@@ -122,8 +124,6 @@ function on_message(self, message_id, message, sender)
 end
 
 function on_input(self, action_id, action)
-	print("input map")
-	
 	local action_pos = vmath.vector3(action.x, action.y, 0)
 	go.set_position(action_pos)
 	

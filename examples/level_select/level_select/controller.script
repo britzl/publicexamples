@@ -1,24 +1,26 @@
+local MAP = msg.url("controller:/controller#mapproxy")
+local GAME = msg.url("controller:/controller#gameproxy")
+
 function init(self)
 	msg.post(".", "acquire_input_focus")
-	msg.post("#mapproxy", "load")
+	msg.post(MAP, "load")
 end
 
 function on_message(self, message_id, message, sender)
 	if message_id == hash("show_game") then
-		msg.post("#gameproxy", "load")
-		msg.post("#mapproxy", "unload")		
+		self.level_id = message.level_id
+		msg.post(GAME, "load")
+		msg.post(MAP, "unload")		
 	elseif message_id == hash("show_map") then
-		msg.post("#mapproxy", "load")
-		msg.post("#gameproxy", "unload")		
+		msg.post(MAP, "load")
+		msg.post(GAME, "unload")		
 	elseif message_id == hash("proxy_loaded") then
 		print("proxy_loaded", sender)
 		msg.post(sender, "enable")
+		if sender == GAME then
+			msg.post("game:/game", "play_level", { level_id = self.level_id })
+		end
 	elseif message_id == hash("proxy_unloaded") then
 		print("proxy_unloaded", sender)
 	end
-end
-
-
-function on_input(self, action_id, action)
-	print("input controller")
 end
