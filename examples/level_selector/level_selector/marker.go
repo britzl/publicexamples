@@ -1,7 +1,7 @@
 embedded_components {
   id: "sprite"
   type: "sprite"
-  data: "tile_set: \"/level_select/map.atlas\"\n"
+  data: "tile_set: \"/level_selector/map.atlas\"\n"
   "default_animation: \"pieceWhite_border12\"\n"
   "material: \"/builtins/materials/sprite.material\"\n"
   "blend_mode: BLEND_MODE_ALPHA\n"
@@ -57,7 +57,7 @@ embedded_components {
   "blend_mode: BLEND_MODE_ALPHA\n"
   "line_break: false\n"
   "text: \"1\"\n"
-  "font: \"/level_select/fonts/droidsans_20.font\"\n"
+  "font: \"/level_selector/fonts/droidsans_20.font\"\n"
   "material: \"/builtins/fonts/label.material\"\n"
   ""
   position {

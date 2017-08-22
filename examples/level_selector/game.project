@@ -4,7 +4,7 @@ custom_resources =
 dependencies = https://github.com/britzl/defold-orthographic/archive/master.zip
 
 [bootstrap]
-main_collection = /level_select/controller.collectionc
+main_collection = /level_selector/controller.collectionc
 render = /builtins/render/default.renderc
 
 [input]

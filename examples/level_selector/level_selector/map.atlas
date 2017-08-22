@@ -1,0 +1,150 @@
+images {
+  image: "/level_selector/images/castle_beige.png"
+}
+images {
+  image: "/level_selector/images/castle_grey.png"
+}
+images {
+  image: "/level_selector/images/cloud1.png"
+}
+images {
+  image: "/level_selector/images/cloud2.png"
+}
+images {
+  image: "/level_selector/images/cloud3.png"
+}
+images {
+  image: "/level_selector/images/cloud4.png"
+}
+images {
+  image: "/level_selector/images/cloud5.png"
+}
+images {
+  image: "/level_selector/images/cloud6.png"
+}
+images {
+  image: "/level_selector/images/cloud7.png"
+}
+images {
+  image: "/level_selector/images/cloud8.png"
+}
+images {
+  image: "/level_selector/images/cloud9.png"
+}
+images {
+  image: "/level_selector/images/piramid.png"
+}
+images {
+  image: "/level_selector/images/tower_beige.png"
+}
+images {
+  image: "/level_selector/images/tower_grey.png"
+}
+images {
+  image: "/level_selector/images/tree01.png"
+}
+images {
+  image: "/level_selector/images/tree02.png"
+}
+images {
+  image: "/level_selector/images/tree03.png"
+}
+images {
+  image: "/level_selector/images/tree04.png"
+}
+images {
+  image: "/level_selector/images/tree05.png"
+}
+images {
+  image: "/level_selector/images/tree06.png"
+}
+images {
+  image: "/level_selector/images/tree07.png"
+}
+images {
+  image: "/level_selector/images/tree08.png"
+}
+images {
+  image: "/level_selector/images/tree09.png"
+}
+images {
+  image: "/level_selector/images/tree10.png"
+}
+images {
+  image: "/level_selector/images/tree11.png"
+}
+images {
+  image: "/level_selector/images/tree12.png"
+}
+images {
+  image: "/level_selector/images/tree13.png"
+}
+images {
+  image: "/level_selector/images/tree14.png"
+}
+images {
+  image: "/level_selector/images/tree15.png"
+}
+images {
+  image: "/level_selector/images/tree16.png"
+}
+images {
+  image: "/level_selector/images/tree17.png"
+}
+images {
+  image: "/level_selector/images/tree18.png"
+}
+images {
+  image: "/level_selector/images/tree19.png"
+}
+images {
+  image: "/level_selector/images/tree20.png"
+}
+images {
+  image: "/level_selector/images/tree21.png"
+}
+images {
+  image: "/level_selector/images/tree22.png"
+}
+images {
+  image: "/level_selector/images/tree23.png"
+}
+images {
+  image: "/level_selector/images/tree24.png"
+}
+images {
+  image: "/level_selector/images/tree25.png"
+}
+images {
+  image: "/level_selector/images/tree26.png"
+}
+images {
+  image: "/level_selector/images/tree27.png"
+}
+images {
+  image: "/level_selector/images/tree29.png"
+}
+images {
+  image: "/level_selector/images/tree30.png"
+}
+images {
+  image: "/level_selector/images/tree31.png"
+}
+images {
+  image: "/level_selector/images/tree32.png"
+}
+images {
+  image: "/level_selector/images/tree33.png"
+}
+images {
+  image: "/level_selector/images/tree34.png"
+}
+images {
+  image: "/level_selector/images/tree35.png"
+}
+images {
+  image: "/level_selector/images/pieceWhite_border12.png"
+}
+margin: 0
+extrude_borders: 2
+inner_padding: 0

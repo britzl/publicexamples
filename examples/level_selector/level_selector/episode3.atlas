@@ -1,5 +1,5 @@
 images {
-  image: "/level_select/images/episode2.png"
+  image: "/level_selector/images/episode3.png"
 }
 margin: 0
 extrude_borders: 0

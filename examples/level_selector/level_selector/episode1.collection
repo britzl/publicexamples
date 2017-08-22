@@ -1,7 +1,7 @@
 name: "ep1"
 instances {
   id: "cursor"
-  prototype: "/level_select/cursor.go"
+  prototype: "/level_selector/cursor.go"
   position {
     x: -583.37
     y: 193.596
@@ -21,7 +21,7 @@ instances {
 }
 instances {
   id: "marker1"
-  prototype: "/level_select/marker.go"
+  prototype: "/level_selector/marker.go"
   position {
     x: -56.788
     y: -893.125
@@ -41,7 +41,7 @@ instances {
 }
 instances {
   id: "marker2"
-  prototype: "/level_select/marker.go"
+  prototype: "/level_selector/marker.go"
   position {
     x: 108.414
     y: -480.119
@@ -61,7 +61,7 @@ instances {
 }
 instances {
   id: "marker3"
-  prototype: "/level_select/marker.go"
+  prototype: "/level_selector/marker.go"
   position {
     x: -61.951
     y: -92.927
@@ -81,7 +81,7 @@ instances {
 }
 instances {
   id: "marker4"
-  prototype: "/level_select/marker.go"
+  prototype: "/level_selector/marker.go"
   position {
     x: 108.414
     y: 348.473
@@ -101,7 +101,7 @@ instances {
 }
 instances {
   id: "marker5"
-  prototype: "/level_select/marker.go"
+  prototype: "/level_selector/marker.go"
   position {
     x: -90.345
     y: 707.272
@@ -130,7 +130,7 @@ embedded_instances {
   children: "trees"
   data: "components {\n"
   "  id: \"episode\"\n"
-  "  component: \"/level_select/episode.script\"\n"
+  "  component: \"/level_selector/episode.script\"\n"
   "  position {\n"
   "    x: 0.0\n"
   "    y: 0.0\n"
@@ -146,7 +146,7 @@ embedded_instances {
   "embedded_components {\n"
   "  id: \"bg\"\n"
   "  type: \"sprite\"\n"
-  "  data: \"tile_set: \\\"/level_select/episode1.atlas\\\"\\n"
+  "  data: \"tile_set: \\\"/level_selector/episode1.atlas\\\"\\n"
   "default_animation: \\\"episode1\\\"\\n"
   "material: \\\"/builtins/materials/sprite.material\\\"\\n"
   "blend_mode: BLEND_MODE_ALPHA\\n"
@@ -186,7 +186,7 @@ embedded_instances {
   data: "embedded_components {\n"
   "  id: \"sprite\"\n"
   "  type: \"sprite\"\n"
-  "  data: \"tile_set: \\\"/level_select/map.atlas\\\"\\n"
+  "  data: \"tile_set: \\\"/level_selector/map.atlas\\\"\\n"
   "default_animation: \\\"tree17\\\"\\n"
   "material: \\\"/builtins/materials/sprite.material\\\"\\n"
   "blend_mode: BLEND_MODE_ALPHA\\n"
@@ -206,7 +206,7 @@ embedded_instances {
   "embedded_components {\n"
   "  id: \"sprite1\"\n"
   "  type: \"sprite\"\n"
-  "  data: \"tile_set: \\\"/level_select/map.atlas\\\"\\n"
+  "  data: \"tile_set: \\\"/level_selector/map.atlas\\\"\\n"
   "default_animation: \\\"tree18\\\"\\n"
   "material: \\\"/builtins/materials/sprite.material\\\"\\n"
   "blend_mode: BLEND_MODE_ALPHA\\n"
@@ -226,7 +226,7 @@ embedded_instances {
   "embedded_components {\n"
   "  id: \"sprite11\"\n"
   "  type: \"sprite\"\n"
-  "  data: \"tile_set: \\\"/level_select/map.atlas\\\"\\n"
+  "  data: \"tile_set: \\\"/level_selector/map.atlas\\\"\\n"
   "default_animation: \\\"tree18\\\"\\n"
   "material: \\\"/builtins/materials/sprite.material\\\"\\n"
   "blend_mode: BLEND_MODE_ALPHA\\n"
@@ -246,7 +246,7 @@ embedded_instances {
   "embedded_components {\n"
   "  id: \"sprite12\"\n"
   "  type: \"sprite\"\n"
-  "  data: \"tile_set: \\\"/level_select/map.atlas\\\"\\n"
+  "  data: \"tile_set: \\\"/level_selector/map.atlas\\\"\\n"
   "default_animation: \\\"tree19\\\"\\n"
   "material: \\\"/builtins/materials/sprite.material\\\"\\n"
   "blend_mode: BLEND_MODE_ALPHA\\n"
@@ -266,7 +266,7 @@ embedded_instances {
   "embedded_components {\n"
   "  id: \"sprite13\"\n"
   "  type: \"sprite\"\n"
-  "  data: \"tile_set: \\\"/level_select/map.atlas\\\"\\n"
+  "  data: \"tile_set: \\\"/level_selector/map.atlas\\\"\\n"
   "default_animation: \\\"tree27\\\"\\n"
   "material: \\\"/builtins/materials/sprite.material\\\"\\n"
   "blend_mode: BLEND_MODE_ALPHA\\n"

@@ -1,4 +1,4 @@
-font: "/level_select/fonts/DroidSans-Bold.ttf"
+font: "/level_selector/fonts/DroidSans-Bold.ttf"
 material: "/builtins/fonts/font.material"
 size: 20
 antialias: 1

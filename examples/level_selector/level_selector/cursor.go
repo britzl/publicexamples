@@ -1,6 +1,6 @@
 components {
   id: "cursor"
-  component: "/level_select/cursor.script"
+  component: "/level_selector/cursor.script"
   position {
     x: 0.0
     y: 0.0

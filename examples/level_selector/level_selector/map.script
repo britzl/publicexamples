@@ -69,11 +69,10 @@ end
 
 local function update_positions()
 	for i,episode in pairs(episodes) do
-		-- get the position where the episode should be located
-		local position = go.get_world_position(episode.anchor)
 		-- update the position of the episode if it's loaded, unless we're unloading it
+		-- the episode will follow the anchor game object
 		if episode.loaded and not episode.unloading then
-			msg.post(episode.root, "update_position", { position = position })
+			msg.post(episode.root, "update_position", { position = go.get_world_position(episode.anchor) })
 		end
 
 		-- toggle loaded/unloaded state based on position of episode
