@@ -1,0 +1,104 @@
+go.property("speed", 400)
+go.property("amplitude", 40)
+go.property("frequency", 4)
+go.property("noise", 0.9)
+
+
+local function linear_movement(target, speed)
+	local position = go.get_position()
+	local distance_to_target = vmath.length(target - position)
+	local direction = vmath.normalize(target - position)
+	return function(dt)
+		local distance_to_travel = math.min(distance_to_target, speed * dt)
+		if distance_to_travel > 0 then
+			distance_to_target = distance_to_target - distance_to_travel
+			position = position + direction * distance_to_travel
+			go.set_position(position)
+		end
+	end
+end
+
+local function sine_movement(target, speed, frequency, amplitude)
+	local position = go.get_position()
+	local total_distance = vmath.length(target - position)
+	local distance_to_target = total_distance
+	local direction = vmath.normalize(target - position)
+	local ortho_dir = vmath.rotate(vmath.quat_rotation_z(math.rad(90)), direction)
+	return function(dt)
+		local distance_to_travel = math.min(distance_to_target, speed * dt)
+		if distance_to_travel > 0 then
+			distance_to_target = distance_to_target - distance_to_travel
+			local sine = math.sin(2 * math.pi * distance_to_target * frequency / total_distance) * amplitude
+			position = position + direction * distance_to_travel
+			go.set_position(position + ortho_dir * sine)
+		end
+	end
+end
+
+local function noise_movement(target, speed, intensity)
+	local position = go.get_position()
+	local distance_to_target = vmath.length(target - position)
+	local direction = vmath.normalize(target - position)
+	local ortho_dir = vmath.rotate(vmath.quat_rotation_z(math.rad(90)), direction)
+	return function(dt)
+		local distance_to_travel = math.min(distance_to_target, speed * dt)
+		if distance_to_travel > 0 then
+			distance_to_target = distance_to_target - distance_to_travel
+			local noise = math.random(-1, 1) * intensity
+			position = position + direction * distance_to_travel
+			go.set_position(position + ortho_dir * noise)
+		end
+	end
+end
+
+
+function init(self)
+	msg.post(".", "acquire_input_focus")
+	msg.post("@render:", "clear_color", { color = vmath.vector4(0.4, 0.5, 0.8, 1.0) })
+	self.path = hash("linear")
+end
+
+function update(self, dt)
+	if self.mover then
+		self.mover(dt)
+	end
+	msg.post("@render:", "draw_text", { text = "ampl = " .. self.amplitude .. " freq. = " .. self.frequency .. " noise = " .. self.noise, position = vmath.vector3(20, 60, 0)})
+	msg.post("@render:", "draw_text", { text = "UP = +ampl, DOWN = -ampl, LEFT = +freq, RIGHT = -freq, W = +noise, S = -noise", position = vmath.vector3(20, 40, 0)})
+	msg.post("@render:", "draw_text", { text = "1 = linear, 2 = sine, 3 = noise, 4 = curve", position = vmath.vector3(20, 20, 0)})
+end
+
+function on_input(self, action_id, action)
+	if action_id == hash("touch") and action.released then
+		if self.path == hash("linear") then
+			self.mover = linear_movement(vmath.vector3(action.x, action.y, 0), self.speed)
+		elseif self.path == hash("sine") then
+			self.mover = sine_movement(vmath.vector3(action.x, action.y, 0), self.speed, self.frequency, self.amplitude)
+		elseif self.path == hash("noise") then
+			self.mover = noise_movement(vmath.vector3(action.x, action.y, 0), self.speed, self.noise)
+		elseif self.path == hash("curve") then
+			self.mover = sine_movement(vmath.vector3(action.x, action.y, 0), self.speed, 0.5, self.amplitude)
+		end
+	elseif action_id == hash("linear")
+		or action_id == hash("sine")
+		or action_id == hash("noise")
+		or action_id == hash("curve") then
+			self.path = action_id
+	elseif action_id == hash("inc_amplitude") and action.released then
+		self.amplitude = self.amplitude * 1.1
+	elseif action_id == hash("dec_amplitude") and action.released then
+		self.amplitude = self.amplitude * 0.9
+	elseif action_id == hash("inc_frequency") and action.released then
+		self.frequency = self.frequency * 1.1
+	elseif action_id == hash("dec_frequency") and action.released then
+		self.frequency = self.frequency * 0.9
+	elseif action_id == hash("inc_noise") and action.released then
+		self.noise = self.noise * 1.1
+	elseif action_id == hash("dec_noise") and action.released then
+		self.noise = self.noise * 0.9
+	end
+end
+
+function on_reload(self)
+	-- Add reload-handling code here
+	-- Remove this function if not needed
+end
