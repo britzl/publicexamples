@@ -1,0 +1,62 @@
+local perlin = require "infinite_map.perlin"
+
+local LAYER1 = hash("layer1")
+
+local TILESIZE = 64
+local WIDTH = tonumber(sys.get_config("display.width"))
+local HEIGHT = tonumber(sys.get_config("display.height"))
+
+local DIRT = 97
+local SAND = 19
+local GRASS = 24
+local WATER = 203
+
+local function update_tilemap(tx, ty)
+	for x=1,math.ceil(WIDTH / TILESIZE) + 1 do
+		for y=1,math.ceil(HEIGHT / TILESIZE) + 1 do
+			local n = perlin.noise((tx + x) / 10, (ty + y) / 10, 0.3)
+			local tile = WATER
+			if n < -0.25 then
+				tile = SAND
+			elseif n < 0.05 then
+				tile = DIRT
+			elseif n < 0.3 then
+				tile = GRASS
+			end
+			tilemap.set_tile("#map", LAYER1, x, y, tile)
+		end
+	end
+end
+
+function init(self)
+	perlin.init()
+	update_tilemap(0, 0)
+	self.previous_px = 0
+	self.previous_py = 0
+end
+
+function update(self, dt)
+	local player = go.get_position("player")
+	local px = player.x
+	local py = player.y
+	local previout_tx = math.floor(self.previous_px / TILESIZE)
+	local previous_ty = math.floor(self.previous_py / TILESIZE)
+	
+	go.set_position(-vmath.vector3(px % 64, py % 64, 0))
+
+	-- calculate new tile x,y and update tilemap if it differs
+	-- from the previous tile x,y
+	local tx = math.floor(px / TILESIZE)
+	local ty = math.floor(py / TILESIZE)
+	if tx ~= previout_tx or ty ~= previous_ty then
+		update_tilemap(tx,ty)
+	end
+	
+	self.previous_px = px
+	self.previous_py = py
+end
+
+function on_reload(self)
+	-- Add reload-handling code here
+	-- Remove this function if not needed
+end

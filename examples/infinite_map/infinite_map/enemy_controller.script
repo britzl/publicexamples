@@ -1,0 +1,17 @@
+function init(self)
+	math.randomseed(os.time())
+	self.enemies = {}
+	for i=1,10 do
+		local pos = vmath.vector3(math.random(10000) - 5000, math.random(10000) - 5000, 1)
+		local id = factory.create("#ghostfactory", pos)
+		msg.post(id, "set_parent", { parent_id = go.get_id("objects") })
+		table.insert(self.enemies, id)
+	end
+end
+
+function update(self, dt)
+	for i,id in pairs(self.enemies) do
+		local pos = go.get_position(id)
+		msg.post("@render:", "draw_text", { position = vmath.vector3(20, 20 + i * 20, 0), text = ("GHOST: %dx%d"):format(pos.x, pos.y) })		
+	end
+end

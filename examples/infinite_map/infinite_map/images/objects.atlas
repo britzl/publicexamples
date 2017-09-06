@@ -1,0 +1,9 @@
+images {
+  image: "/infinite_map/images/ghost_normal.png"
+}
+images {
+  image: "/infinite_map/images/shipBlue_manned.png"
+}
+margin: 0
+extrude_borders: 1
+inner_padding: 0
