@@ -1,0 +1,92 @@
+animations {
+  id: "hadouken"
+  images {
+    image: "/assets/images/hadouken1.png"
+  }
+  images {
+    image: "/assets/images/hadouken2.png"
+  }
+  images {
+    image: "/assets/images/hadouken3.png"
+  }
+  images {
+    image: "/assets/images/hadouken4.png"
+  }
+  images {
+    image: "/assets/images/hadouken5.png"
+  }
+  playback: PLAYBACK_ONCE_FORWARD
+  fps: 10
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "lpunch"
+  images {
+    image: "/assets/images/lpunch1.png"
+  }
+  images {
+    image: "/assets/images/lpunch2.png"
+  }
+  images {
+    image: "/assets/images/lpunch3.png"
+  }
+  playback: PLAYBACK_ONCE_FORWARD
+  fps: 10
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "idle"
+  images {
+    image: "/assets/images/idle1.png"
+  }
+  images {
+    image: "/assets/images/idle2.png"
+  }
+  images {
+    image: "/assets/images/idle3.png"
+  }
+  images {
+    image: "/assets/images/idle4.png"
+  }
+  playback: PLAYBACK_ONCE_FORWARD
+  fps: 5
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "punch"
+  images {
+    image: "/assets/images/punch1.png"
+  }
+  images {
+    image: "/assets/images/punch2.png"
+  }
+  images {
+    image: "/assets/images/punch3.png"
+  }
+  playback: PLAYBACK_ONCE_FORWARD
+  fps: 10
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "hkick"
+  images {
+    image: "/assets/images/hkick1.png"
+  }
+  images {
+    image: "/assets/images/hkick2.png"
+  }
+  images {
+    image: "/assets/images/hkick3.png"
+  }
+  playback: PLAYBACK_ONCE_FORWARD
+  fps: 10
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+margin: 0
+extrude_borders: 2
+inner_padding: 0

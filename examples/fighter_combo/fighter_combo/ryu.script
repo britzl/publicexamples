@@ -1,0 +1,76 @@
+local LEFT = hash("left")
+local RIGHT = hash("right")
+local UP = hash("up")
+local DOWN = hash("down")
+local PUNCH = hash("punch")
+local KICK = hash("kick")
+
+local ATTACKS = {
+	{ name = "HIGH KICK", anim = hash("hkick"), actions = { UP, KICK } },
+	{ name = "PUNCH", anim = hash("punch"), actions = { PUNCH } },
+	{ name = "LOW PUNCH", anim = hash("lpunch"), actions = { DOWN, PUNCH } },
+	{ name = "HADOUKEN", anim = hash("hadouken"), actions = { DOWN, RIGHT, PUNCH } },
+}
+
+local function find_attack(actions)
+	for _,attack in ipairs(ATTACKS) do
+		if #attack.actions == #actions then
+			local match = true
+			for i=1,#attack.actions do
+				if attack.actions[i] ~= actions[i] then
+					match = false
+					break
+				end
+			end
+			if match then
+				return attack
+			end
+		end
+	end
+	return nil
+end
+
+local function play_animation(self, anim)
+	if self.anim ~= anim then
+		self.anim = anim
+		msg.post("#sprite", "play_animation", { id = anim })
+	end
+end
+
+function init(self)
+	msg.post(".", "acquire_input_focus")
+	play_animation(self, hash("idle"))
+	self.actions = {}
+	self.last_input_time = 0
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("animation_done") then
+		self.anim = nil
+		label.set_text("/attack#label", "IDLE")
+		play_animation(self, hash("idle"))
+	end
+end
+
+function on_input(self, action_id, action)
+	if action_id and action.pressed then
+		print(action_id)
+		local now = socket.gettime()
+		if now - self.last_input_time > 0.35 then
+			self.actions = {}
+		end
+		self.last_input_time = now
+		table.insert(self.actions, action_id)
+
+		local attack = find_attack(self.actions)
+		if attack then
+			label.set_text("/attack#label", attack.name)
+			play_animation(self, attack.anim)
+		end
+	end
+end
+
+function on_reload(self)
+	-- Add reload-handling code here
+	-- Remove this function if not needed
+end
