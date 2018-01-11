@@ -1,6 +1,6 @@
 [project]
 title = GUI render order
-custom_resources = 
+custom_resources =
 
 [bootstrap]
 main_collection = /gui_render_order/gui_render_order.collectionc
@@ -29,21 +29,8 @@ shared_state = 1
 iap_provider = GooglePlay
 package = com.britzl.publicexamples.gui_render_order
 
-[sprite]
-max_count = 32000
-
-[resource]
-max_resources = 3000
-
-[collection]
-max_instances = 32000
-
-[graphics]
-max_debug_vertices = 50000
-
 [osx]
 bundle_identifier = com.britzl.publicexamples.gui_render_order
 
 [ios]
 bundle_identifier = com.britzl.publicexamples.gui_render_order
-

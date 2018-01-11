@@ -1,6 +1,6 @@
 [project]
 title = VirtualGamepad
-custom_resources = 
+custom_resources =
 
 [bootstrap]
 main_collection = /virtual_gamepad/virtual_gamepad.collectionc
@@ -29,21 +29,8 @@ shared_state = 1
 iap_provider = GooglePlay
 package = com.britzl.publicexamples.virtual_gamepad
 
-[sprite]
-max_count = 32000
-
-[resource]
-max_resources = 3000
-
-[collection]
-max_instances = 32000
-
-[graphics]
-max_debug_vertices = 50000
-
 [osx]
 bundle_identifier = com.britzl.publicexamples.virtualgamepad
 
 [ios]
 bundle_identifier = com.britzl.publicexamples.virtualgamepad
-

@@ -1,6 +1,6 @@
 [project]
 title = Rotate Collision Object
-custom_resources = 
+custom_resources =
 
 [bootstrap]
 main_collection = /rotate_collision_object/rotate_collision_object.collectionc
@@ -29,21 +29,8 @@ shared_state = 1
 iap_provider = GooglePlay
 package = com.britzl.publicexamples.rotate_collision_object
 
-[sprite]
-max_count = 32000
-
-[resource]
-max_resources = 3000
-
-[collection]
-max_instances = 32000
-
-[graphics]
-max_debug_vertices = 50000
-
 [osx]
 bundle_identifier = com.britzl.publicexamples.rotate_collision_object
 
 [ios]
 bundle_identifier = com.britzl.publicexamples.rotate_collision_object
-
