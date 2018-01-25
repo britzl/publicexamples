@@ -1,0 +1,9 @@
+images {
+  image: "/sprite_tinting/images/colored_shroom.png"
+}
+images {
+  image: "/sprite_tinting/images/icon_96.png"
+}
+margin: 0
+extrude_borders: 2
+inner_padding: 0
