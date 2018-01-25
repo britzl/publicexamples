@@ -11,7 +11,7 @@ function init(self)
 	go.set("add#sprite5", "color_add", vmath.vector4(0, 0, 1, 1))
 	
 	go.set("tint#sprite1", "tint.w", 0.2)
-	go.set("tint#sprite2", "tint.w", 2.0)
+	go.animate("tint#sprite2", "tint.w", go.PLAYBACK_LOOP_PINGPONG, 4, go.EASING_OUTQUAD, 2)
 	go.set("tint#sprite3", "tint", vmath.vector4(1, 0, 0, 1))
 	go.set("tint#sprite4", "tint", vmath.vector4(0, 1, 0, 1))
 	go.set("tint#sprite5", "tint", vmath.vector4(0, 0, 1, 1))
