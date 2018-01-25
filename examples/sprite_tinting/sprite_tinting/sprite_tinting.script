@@ -1,18 +1,28 @@
 go.property("r", 0)
 go.property("g", 0)
 go.property("b", 0)
+go.property("a", 0)
 
 function init(self)
-	go.set("#sprite1", "tint.w", 0.2)
-	go.set("#sprite2", "tint.w", 2.0)
-	go.set("#sprite3", "tint", vmath.vector4(1, 0, 0, 1))
-	go.set("#sprite4", "tint", vmath.vector4(0, 1, 0, 1))
-	go.set("#sprite5", "tint", vmath.vector4(0, 0, 1, 1))
+	go.set("add#sprite1", "color_add.w", 0.2)
+	go.animate("add#sprite2", "color_add.w", go.PLAYBACK_LOOP_PINGPONG, 1, go.EASING_OUTQUAD, 2)
+	go.set("add#sprite3", "color_add", vmath.vector4(1, 0, 0, 1))
+	go.set("add#sprite4", "color_add", vmath.vector4(0, 1, 0, 1))
+	go.set("add#sprite5", "color_add", vmath.vector4(0, 0, 1, 1))
+	
+	go.set("tint#sprite1", "tint.w", 0.2)
+	go.set("tint#sprite2", "tint.w", 2.0)
+	go.set("tint#sprite3", "tint", vmath.vector4(1, 0, 0, 1))
+	go.set("tint#sprite4", "tint", vmath.vector4(0, 1, 0, 1))
+	go.set("tint#sprite5", "tint", vmath.vector4(0, 0, 1, 1))
+
 	go.animate("#", "r", go.PLAYBACK_LOOP_PINGPONG, 1, go.EASING_OUTINQUAD, 2)
 	go.animate("#", "g", go.PLAYBACK_LOOP_PINGPONG, 1, go.EASING_OUTINQUAD, 3.4)
 	go.animate("#", "b", go.PLAYBACK_LOOP_PINGPONG, 1, go.EASING_OUTINQUAD, 1.2)
+	go.animate("#", "a", go.PLAYBACK_LOOP_PINGPONG, 1, go.EASING_OUTINQUAD, 4.7)
 end
 
 function update(self, dt)
-	go.set("#sprite6", "tint", vmath.vector4(self.r, self.g, self.b, 1))
+	go.set("tint#sprite6", "tint", vmath.vector4(self.r, self.g, self.b, self.a))
+	go.set("add#sprite6", "color_add", vmath.vector4(self.r, self.g, self.b, self.a))
 end
