@@ -1,6 +1,0 @@
-images {
-  image: "/click_and_drag/logo.png"
-}
-margin: 0
-extrude_borders: 2
-inner_padding: 0
