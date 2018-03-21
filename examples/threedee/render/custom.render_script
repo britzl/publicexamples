@@ -1,0 +1,74 @@
+function init(self)
+    self.tile_pred = render.predicate({"tile"})
+    self.gui_pred = render.predicate({"gui"})
+    self.text_pred = render.predicate({"text"})
+    self.particle_pred = render.predicate({"particle"})
+    self.model_pred = render.predicate({"model"})
+
+    self.clear_color = vmath.vector4(0.2, 0.2, 0.2, 0)
+    
+    self.camera_a = 0.0
+    self.camera_b = 0.0
+    self.camera_dist = 40.0
+
+    self.view = vmath.matrix4()
+end
+
+function update(self)
+    render.set_depth_mask(true)
+    render.set_stencil_mask(0xff)
+    render.clear({[render.BUFFER_COLOR_BIT] = self.clear_color, [render.BUFFER_DEPTH_BIT] = 1, [render.BUFFER_STENCIL_BIT] = 0})
+
+    render.set_viewport(0, 0, render.get_window_width(), render.get_window_height())
+    render.set_view(self.view)
+
+    render.set_depth_mask(false)
+    render.disable_state(render.STATE_DEPTH_TEST)
+    render.disable_state(render.STATE_STENCIL_TEST)
+    render.enable_state(render.STATE_BLEND)
+    render.set_blend_func(render.BLEND_SRC_ALPHA, render.BLEND_ONE_MINUS_SRC_ALPHA)
+    render.disable_state(render.STATE_CULL_FACE)
+
+    render.set_projection(vmath.matrix4_orthographic(0, render.get_width(), 0, render.get_height(), -1, 1))
+
+    render.draw(self.tile_pred)
+    render.draw(self.particle_pred)
+    
+    ----------------------------------------
+    -- Render 3D models
+    -- calc camera rotation etc
+    --local offset = math.sin(self.camera_b) * self.camera_dist
+    --render.set_view(vmath.matrix4_look_at(vmath.vector3(math.cos(self.camera_a)*offset,offset,math.sin(self.camera_a)*offset), vmath.vector3(0,0,0), vmath.vector3(0,1,0)))
+    local offset = math.cos(self.camera_b)
+    render.set_view(vmath.matrix4_look_at(vmath.vector3(math.cos(self.camera_a)*self.camera_dist*offset, math.sin(self.camera_b)*self.camera_dist, math.sin(self.camera_a)*self.camera_dist*offset), vmath.vector3(0, 0, 0), vmath.vector3(0, 1, 0)))
+    render.set_projection(vmath.matrix4_perspective(45 * (math.pi / 180), render.get_window_width() / render.get_window_height(), 0.1, 100.0))
+    
+    render.set_depth_mask(true)
+    render.enable_state(render.STATE_DEPTH_TEST)
+    render.draw(self.model_pred)
+    render.draw_debug3d()
+    render.disable_state(render.STATE_DEPTH_TEST)
+    ----------------------------------------
+
+    render.set_view(vmath.matrix4())
+    render.set_projection(vmath.matrix4_orthographic(0, render.get_window_width(), 0, render.get_window_height(), -1, 1))
+
+    render.enable_state(render.STATE_STENCIL_TEST)
+    render.draw(self.gui_pred)
+    render.draw(self.text_pred)
+    render.disable_state(render.STATE_STENCIL_TEST)
+
+    render.set_depth_mask(false)
+    render.draw_debug2d()
+end
+
+function on_message(self, message_id, message)
+    if message_id == hash("clear_color") then
+        self.clear_color = message.color
+    elseif message_id == hash("set_view_projection") then
+        self.view = message.view
+    elseif message_id == hash("camera_state") then
+    	self.camera_a = message.a
+    	self.camera_b = message.b
+    end
+end

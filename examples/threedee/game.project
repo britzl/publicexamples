@@ -1,0 +1,39 @@
+[project]
+title = ThreeDee
+write_log = 0
+
+[bootstrap]
+main_collection = /threedee/threedee.collectionc
+render = /render/custom.renderc
+
+[input]
+game_binding = /input/game.input_bindingc
+
+[display]
+width = 1280
+height = 720
+high_dpi = 1
+
+[physics]
+scale = 0.02
+type = 3D
+debug = 1
+
+[script]
+shared_state = 1
+
+[ios]
+bundle_identifier = se.svenandersson.Clean
+
+[android]
+package = se.svenandersson.Clean
+iap_provider = GooglePlay
+input_method = HiddenInputField
+manifest = 
+
+[osx]
+bundle_identifier = se.svenandersson.Clean
+
+[tracking]
+app_id = 
+

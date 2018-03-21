@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1">
+  <asset><contributor><author></author><authoring_tool>FBX COLLADA exporter</authoring_tool><comments></comments></contributor><created>2016-11-22T14:16:29Z</created><keywords></keywords><modified>2016-11-22T14:16:29Z</modified><revision></revision><subject></subject><title></title><unit meter="1.000000" name="centimeter"></unit><up_axis>Y_UP</up_axis></asset>
+  <library_animations>
+    <animation id="jnt_chest-anim" name="jnt_chest"><animation><source id="jnt_chest-Matrix-animation-input"><float_array id="jnt_chest-Matrix-animation-input-array" count="25">
+
+0.033333 0.066667 0.100000 0.133333 0.166667 0.200000 0.233333 0.266667 0.300000 0.333333 0.366667 0.400000 0.433333 0.466667 0.500000 0.533333
+0.566667 0.600000 0.633333 0.666667 0.700000 0.733333 0.766667 0.800000 0.833333</float_array><technique_common><accessor source="#jnt_chest-Matrix-animation-input-array" count="25"><param name="TIME" type="float"/></accessor></technique_common></source><source id="jnt_chest-Matrix-animation-output-transform"><float_array id="jnt_chest-Matrix-animation-output-transform-array" count="400">
+
+1.000000 0.000000 0.000000 52.025040 0.000000 1.000000 -0.000000 0.074541 0.000000 -0.000000 1.000000 -0.000000 0.000000 0.000000 0.000000 1.000000
+1.000000 0.000000 0.000000 52.397114 0.000000 1.000000 -0.000000 0.078863 0.000000 -0.000000 1.000000 -0.000000 0.000000 0.000000 0.000000 1.000000
+1.000000 0.000000 0.000000 53.470825 0.000000 1.000000 -0.000000 0.091335 0.000000 -0.000000 1.000000 -0.000000 0.000000 0.000000 0.000000 1.000000
+1.000000 0.000000 0.000000 55.182373 0.000000 1.000000 -0.000000 0.111215 0.000000 -0.000000 1.000000 -0.000000 0.000000 0.000000 0.000000 1.000000
+1.000000 0.000000 0.000000 57.467991 0.000000 1.000000 -0.000000 0.137764 0.000000 -0.000000 1.000000 -0.000000 0.000000 0.000000 0.000000 1.000000
+1.000000 0.000000 0.000000 60.263878 0.000000 1.000000 -0.000000 0.170240 0.000000 -0.000000 1.000000 -0.000000 0.000000 0.000000 0.000000 1.000000
+1.000000 0.000000 0.000000 63.506260 0.000000 1.000000 -0.000000 0.207902 0.000000 -0.000000 1.000000 -0.000000 0.000000 0.000000 0.000000 1.000000
+1.000000 0.000000 0.000000 67.131348 0.000000 1.000000 -0.000000 0.250009 0.000000 -0.000000 1.000000 -0.000000 0.000000 0.000000 0.000000 1.000000
+1.000000 0.000000 0.000000 71.075356 0.000000 1.000000 -0.000000 0.295821 0.000000 -0.000000 1.000000 -0.000000 0.000000 0.000000 0.000000 1.000000
+1.000000 0.000000 0.000000 75.274506 0.000000 1.000000 -0.000000 0.344596 0.000000 -0.000000 1.000000 -0.000000 0.000000 0.000000 0.000000 1.000000
+1.000000 0.000000 0.000000 79.665009 0.000000 1.000000 -0.000000 0.395594 0.000000 -0.000000 1.000000 -0.000000 0.000000 0.000000 0.000000 1.000000
+1.000000 0.000000 0.000000 84.183083 0.000000 1.000000 -0.000000 0.448074 0.000000 -0.000000 1.000000 -0.000000 0.000000 0.000000 0.000000 1.000000
+1.000000 0.000000 0.000000 88.764938 0.000000 1.000000 -0.000000 0.501294 0.000000 -0.000000 1.000000 -0.000000 0.000000 0.000000 0.000000 1.000000
+1.000000 0.000000 0.000000 93.346794 0.000000 1.000000 -0.000000 0.554515 0.000000 -0.000000 1.000000 -0.000000 0.000000 0.000000 0.000000 1.000000
+1.000000 0.000000 0.000000 97.864868 0.000000 1.000000 -0.000000 0.606995 0.000000 -0.000000 1.000000 -0.000000 0.000000 0.000000 0.000000 1.000000
+1.000000 0.000000 0.000000 102.255371 0.000000 1.000000 -0.000000 0.657993 0.000000 -0.000000 1.000000 -0.000000 0.000000 0.000000 0.000000 1.000000
+1.000000 0.000000 0.000000 106.454521 0.000000 1.000000 -0.000000 0.706768 0.000000 -0.000000 1.000000 -0.000000 0.000000 0.000000 0.000000 1.000000
+1.000000 0.000000 0.000000 110.398529 0.000000 1.000000 -0.000000 0.752580 0.000000 -0.000000 1.000000 -0.000000 0.000000 0.000000 0.000000 1.000000
+1.000000 0.000000 0.000000 114.023621 0.000000 1.000000 -0.000000 0.794687 0.000000 -0.000000 1.000000 -0.000000 0.000000 0.000000 0.000000 1.000000
+1.000000 0.000000 0.000000 117.266006 0.000000 1.000000 -0.000000 0.832349 0.000000 -0.000000 1.000000 -0.000000 0.000000 0.000000 0.000000 1.000000
+1.000000 0.000000 0.000000 120.061890 0.000000 1.000000 -0.000000 0.864825 0.000000 -0.000000 1.000000 -0.000000 0.000000 0.000000 0.000000 1.000000
+1.000000 0.000000 0.000000 122.347504 0.000000 1.000000 -0.000000 0.891374 0.000000 -0.000000 1.000000 -0.000000 0.000000 0.000000 0.000000 1.000000
+1.000000 0.000000 0.000000 124.059052 0.000000 1.000000 -0.000000 0.911254 0.000000 -0.000000 1.000000 -0.000000 0.000000 0.000000 0.000000 1.000000
+1.000000 0.000000 0.000000 125.132759 0.000000 1.000000 -0.000000 0.923726 0.000000 -0.000000 1.000000 -0.000000 0.000000 0.000000 0.000000 1.000000
+1.000000 0.000000 0.000000 125.504837 0.000000 1.000000 -0.000000 0.928048 0.000000 -0.000000 1.000000 -0.000000 0.000000 0.000000 0.000000 1.000000</float_array><technique_common><accessor source="#jnt_chest-Matrix-animation-output-transform-array" count="25" stride="16"><param type="float4x4"/></accessor></technique_common></source><source id="jnt_chest-Interpolations"><Name_array id="jnt_chest-Interpolations-array" count="25">
+ LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR
+LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR
+LINEAR LINEAR</Name_array><technique_common><accessor source="#jnt_chest-Interpolations-array" count="25"><param type="name"/></accessor></technique_common></source><sampler id="jnt_chest-Matrix-animation-transform"><input semantic="INPUT" source="#jnt_chest-Matrix-animation-input"/><input semantic="OUTPUT" source="#jnt_chest-Matrix-animation-output-transform"/><input semantic="INTERPOLATION" source="#jnt_chest-Interpolations"/></sampler><channel source="#jnt_chest-Matrix-animation-transform" target="jnt_chest/matrix"/></animation><animation><source id="jnt_chest-visibility-animation-input"><float_array id="jnt_chest-visibility-animation-input-array" count="2">
+
+0.033333 0.833333</float_array><technique_common><accessor source="#jnt_chest-visibility-animation-input-array" count="2"><param name="TIME" type="float"/></accessor></technique_common></source><source id="jnt_chest-visibility-animation-output"><float_array id="jnt_chest-visibility-animation-output-array" count="2">
+
+1.000000 1.000000</float_array><technique_common><accessor source="#jnt_chest-visibility-animation-output-array" count="2"><param type="float"/></accessor></technique_common></source><source id="jnt_chest-visibility-animation-intan"><float_array id="jnt_chest-visibility-animation-intan-array" count="2">
+
+0.000000 0.000000</float_array><technique_common><accessor source="#jnt_chest-visibility-animation-intan-array" count="2"><param type="float"/></accessor></technique_common></source><source id="jnt_chest-visibility-animation-outtan"><float_array id="jnt_chest-visibility-animation-outtan-array" count="2">
+
+0.000000 0.000000</float_array><technique_common><accessor source="#jnt_chest-visibility-animation-outtan-array" count="2"><param type="float"/></accessor></technique_common></source><source id="jnt_chest-visibility-animation-interpolation"><Name_array id="jnt_chest-visibility-animation-interpolation-array" count="2">
+ STEP STEP</Name_array><technique_common><accessor source="#jnt_chest-visibility-animation-interpolation-array" count="2"><param type="name"/></accessor></technique_common></source><sampler id="jnt_chest-visibility-animation"><input semantic="INPUT" source="#jnt_chest-visibility-animation-input"/><input semantic="OUTPUT" source="#jnt_chest-visibility-animation-output"/><input semantic="IN_TANGENT" source="#jnt_chest-visibility-animation-intan"/><input semantic="OUT_TANGENT" source="#jnt_chest-visibility-animation-outtan"/><input semantic="INTERPOLATION" source="#jnt_chest-visibility-animation-interpolation"/></sampler><channel source="#jnt_chest-visibility-animation" target="jnt_chest/visibility"/></animation></animation>
+  </library_animations>
+  <library_visual_scenes>
+    <visual_scene id="chest_anim_open_03" name="chest_anim_open_03">
+      <node name="jnt_root" id="jnt_root" sid="jnt_root" type="JOINT"><matrix sid="matrix">0.010000 0.000000 0.000000 0.000000 0.000000 0.010000 0.000000 0.000000 0.000000 0.000000 0.010000 0.000000 0.000000 0.000000 0.000000 1.000000</matrix><extra><technique profile="FCOLLADA"><visibility>1.000000</visibility></technique></extra><node name="jnt_trans" id="jnt_trans" sid="jnt_trans" type="JOINT"><matrix sid="matrix">-0.000000 -0.000000 -1.000000 0.000000 0.999933 0.011615 -0.000000 0.000000 0.011615 -0.999933 0.000000 0.000000 0.000000 0.000000 0.000000 1.000000</matrix><extra><technique profile="FCOLLADA"><visibility>1.000000</visibility></technique></extra><node name="jnt_chest" id="jnt_chest" sid="jnt_chest" type="JOINT"><matrix sid="matrix">1.000000 0.000000 0.000000 52.025040 0.000000 1.000000 -0.000000 0.074541 0.000000 -0.000000 1.000000 -0.000000 0.000000 0.000000 0.000000 1.000000</matrix><extra><technique profile="FCOLLADA"><visibility>1.000000</visibility></technique></extra><node name="jnt_lid" id="jnt_lid" sid="jnt_lid" type="JOINT"><matrix sid="matrix">1.000000 0.000000 0.000000 -0.585454 0.000000 1.000000 -0.000000 39.783577 0.000000 -0.000000 1.000000 0.000000 0.000000 0.000000 0.000000 1.000000</matrix><extra><technique profile="FCOLLADA"><visibility>1.000000</visibility></technique></extra></node></node></node></node>
+      <extra><technique profile="MAX3D"><frame_rate>30.000000</frame_rate></technique><technique profile="FCOLLADA"><start_time>0.033333</start_time><end_time>2.133333</end_time></technique></extra>
+    </visual_scene>
+  </library_visual_scenes>
+  <scene>
+    <instance_visual_scene url="#chest_anim_open_03"></instance_visual_scene>
+  </scene>
+</COLLADA>
