@@ -5,5 +5,3 @@ Created based on a forum request: https://forum.defold.com/t/making-dogfight-ai-
 
 ## Try it!
 http://britzl.github.io/publicexamples/swarmai/index.html
-
-Click to drop some food for the zombie horde!
