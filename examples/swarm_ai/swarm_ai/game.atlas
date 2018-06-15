@@ -1,0 +1,36 @@
+images {
+  image: "/swarm_ai/images/meteorGrey_big1.png"
+}
+images {
+  image: "/swarm_ai/images/meteorGrey_big2.png"
+}
+images {
+  image: "/swarm_ai/images/meteorGrey_big3.png"
+}
+images {
+  image: "/swarm_ai/images/meteorGrey_big4.png"
+}
+images {
+  image: "/swarm_ai/images/meteorGrey_med1.png"
+}
+images {
+  image: "/swarm_ai/images/meteorGrey_med2.png"
+}
+images {
+  image: "/swarm_ai/images/meteorGrey_small1.png"
+}
+images {
+  image: "/swarm_ai/images/meteorGrey_small2.png"
+}
+images {
+  image: "/swarm_ai/images/meteorGrey_tiny2.png"
+}
+images {
+  image: "/swarm_ai/images/playerShip2_green.png"
+}
+images {
+  image: "/swarm_ai/images/enemyRed1.png"
+}
+margin: 0
+extrude_borders: 2
+inner_padding: 0

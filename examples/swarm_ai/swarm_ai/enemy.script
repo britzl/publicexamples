@@ -1,0 +1,80 @@
+go.property("speed", 200)
+
+local UP = vmath.vector3(0, 1, 0)
+local RAD_180 = math.pi
+
+local function clamp(v, min, max)
+	return math.max(min, math.min(max, v))
+end
+
+function init(self)
+	-- list of nearby other enemies
+	self.nearby = {}
+end
+
+-- get the angle to another game object
+local function angle_to(id)
+	local my_pos = go.get_position()
+	local other_pos = go.get_position(id)
+	return -math.atan2(other_pos.x - my_pos.x, other_pos.y - my_pos.y)
+end
+
+-- get the distance to another game object
+local function distance_to(id)
+	local my_pos = go.get_position()
+	local other_pos = go.get_position(id)
+	return vmath.length(my_pos - other_pos)
+end
+
+function update(self, dt)
+	-- get angle towards player
+	local current_angle = math.rad(go.get(".", "euler.z"))
+	local target_angle = angle_to("player")
+
+	-- find the most nearby other enemy
+	local nearby = nil
+	local nearby_distance = nil
+	local nearby_angle = target_angle
+	for nearby_id,_ in pairs(self.nearby) do
+		local d = distance_to(nearby_id)
+		local a = angle_to(nearby_id)
+		if not nearby or d < nearby_distance then
+			nearby = nearby_id
+			nearby_distance = d
+			nearby_angle = a
+		end
+	end
+
+	-- adjust target angle to avoid nearby enemy
+	-- the amount to adjust angle depends on the distance to the nearby enemy
+	-- the closer to the nearby enemy the more this enemy should steer away
+	if nearby then
+		local avoidance_factor = (50 / nearby_distance) -- tweak this!
+		local avoidance_angle = (target_angle - nearby_angle) * avoidance_factor
+		target_angle = target_angle + clamp(avoidance_angle, -RAD_180, RAD_180)
+	end
+
+	-- rotate towards the target angle
+	-- spherical interpolation towards the target rotation
+	-- tweak rotation speed to turn faster
+	local current_rotation = go.get_rotation()
+	local target_rotation = vmath.quat_rotation_z(target_angle)
+	local rotation_speed = 4 -- tweak this!
+	local rotation = vmath.slerp(rotation_speed * dt, current_rotation, target_rotation)
+	go.set_rotation(rotation)
+
+	-- move in current direction
+	local direction = vmath.rotate(rotation, UP)
+	local distance = self.speed * dt
+	go.set_position(go.get_position() + direction * distance)
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("trigger_response") then
+		if message.enter then
+			self.nearby[message.other_id] = true
+		else
+			self.nearby[message.other_id] = false
+		end
+	end
+end

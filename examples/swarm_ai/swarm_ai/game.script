@@ -1,0 +1,29 @@
+local function random_position()
+	return vmath.vector3(math.random(64, 1156 - 128), math.random(64, 640 - 128), 0)
+end
+
+local function spawn_enemy()
+	return factory.create("#enemyfactory", random_position(), nil, nil, vmath.vector3(0.5))
+end
+
+function init(self)
+	math.randomseed(os.time())
+	self.enemies = {}
+	for i = 1, 12 do
+		table.insert(self.enemies, spawn_enemy())
+	end
+	msg.post(".", "acquire_input_focus")
+end
+
+function final(self)
+	msg.post(".", "release_input_focus")
+end
+
+function on_input(self, action_id, action)
+	if action_id == hash("touch") and action.released then
+		table.insert(self.hitmen, spawn_hitman(vmath.vector3(action.screen_x, action.screen_y, 0)))
+	end
+end
+
+function on_reload(self)
+end
