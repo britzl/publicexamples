@@ -49,7 +49,7 @@ function update(self, dt)
 	-- the amount to adjust angle depends on the distance to the nearby enemy
 	-- the closer to the nearby enemy the more this enemy should steer away
 	if nearby then
-		local avoidance_factor = (50 / nearby_distance) -- tweak this!
+		local avoidance_factor = (15 / nearby_distance) -- tweak this!
 		local avoidance_angle = (target_angle - nearby_angle) * avoidance_factor
 		target_angle = target_angle + clamp(avoidance_angle, -RAD_180, RAD_180)
 	end
