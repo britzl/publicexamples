@@ -1,0 +1,9 @@
+images {
+  image: "/simple_button/images/blue_button_released.png"
+}
+images {
+  image: "/simple_button/images/blue_button_pressed.png"
+}
+margin: 0
+extrude_borders: 1
+inner_padding: 0

@@ -1,0 +1,20 @@
+local simple_button = require "simple_button.simple_button"
+
+local function create_blue_button(node, callback)
+	return simple_button.create(node, hash("blue_button_pressed"), hash("blue_button_released"), callback)
+end
+
+function init(self)
+	msg.post(".", "acquire_input_focus")
+	self.button1 = create_blue_button(gui.get_node("button1"), function()
+		print("Clicked button 1")
+	end)
+	self.button2 = create_blue_button(gui.get_node("button2"), function()
+		print("Clicked button 2")
+	end)
+end
+
+function on_input(self, action_id, action)
+	self.button1.on_input(action_id, action)
+	self.button2.on_input(action_id, action)
+end
