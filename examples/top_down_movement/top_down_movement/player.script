@@ -1,0 +1,59 @@
+go.property("speed", 25) -- the speed of movement (pixels/second)
+
+-- play animation unless the same animation is already playing
+local function play_animation(self, animation)
+	if self.current_animation ~= animation then
+		self.current_animation = animation
+		msg.post("#sprite", "play_animation", { id = animation })
+	end
+end
+
+function init(self)
+	msg.post(".", "acquire_input_focus")
+	self.direction = vmath.vector3(0, 0, 0) -- the current direction of movement
+	self.current_animation = nil -- the current animation
+end
+
+function update(self, dt)
+	-- move player in current direction of movement
+	go.set_position(go.get_position() + self.direction * self.speed * dt)
+
+	msg.post("@render:", "draw_text", { text = "Move using arrow keys", position = vmath.vector3(10, 20, 0) } )
+end
+
+function on_input(self, action_id, action)
+	if action.pressed then
+		-- key pressed
+		-- set movement direction and animation according to key
+		if action_id == hash("left") then
+			self.direction.x = -1
+			play_animation(self, hash("move-left"))
+		elseif action_id == hash("right") then
+			self.direction.x = 1
+			play_animation(self, hash("move-right"))
+		elseif action_id == hash("up") then
+			self.direction.y = 1
+			play_animation(self, hash("move-up"))
+		elseif action_id == hash("down") then
+			self.direction.y = -1
+			play_animation(self, hash("move-down"))
+		end
+	elseif action.released then
+		-- key released
+		-- clear movement direction
+		-- set idle animation if no movement direction
+		if action_id == hash("left") then
+			self.direction.x = 0
+			if vmath.length(self.direction) == 0 then play_animation(self, hash("idle-left")) end
+		elseif action_id == hash("right") then
+			self.direction.x = 0
+			if vmath.length(self.direction) == 0 then play_animation(self, hash("idle-right")) end
+		elseif action_id == hash("up") then
+			self.direction.y = 0
+			if vmath.length(self.direction) == 0 then play_animation(self, hash("idle-up")) end
+		elseif action_id == hash("down") then
+			self.direction.y = 0
+			if vmath.length(self.direction) == 0 then play_animation(self, hash("idle-down")) end
+		end
+	end
+end

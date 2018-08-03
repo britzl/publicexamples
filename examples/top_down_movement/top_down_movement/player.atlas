@@ -1,0 +1,119 @@
+animations {
+  id: "move-up"
+  images {
+    image: "/def-war-battles/units/elite-soldier/up/1.png"
+  }
+  images {
+    image: "/def-war-battles/units/elite-soldier/up/2.png"
+  }
+  images {
+    image: "/def-war-battles/units/elite-soldier/up/3.png"
+  }
+  images {
+    image: "/def-war-battles/units/elite-soldier/up/4.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 8
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "move-down"
+  images {
+    image: "/def-war-battles/units/elite-soldier/down/1.png"
+  }
+  images {
+    image: "/def-war-battles/units/elite-soldier/down/2.png"
+  }
+  images {
+    image: "/def-war-battles/units/elite-soldier/down/3.png"
+  }
+  images {
+    image: "/def-war-battles/units/elite-soldier/down/4.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 8
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "move-right"
+  images {
+    image: "/def-war-battles/units/elite-soldier/side/1.png"
+  }
+  images {
+    image: "/def-war-battles/units/elite-soldier/side/2.png"
+  }
+  images {
+    image: "/def-war-battles/units/elite-soldier/side/3.png"
+  }
+  images {
+    image: "/def-war-battles/units/elite-soldier/side/4.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 8
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "move-left"
+  images {
+    image: "/def-war-battles/units/elite-soldier/side/1.png"
+  }
+  images {
+    image: "/def-war-battles/units/elite-soldier/side/2.png"
+  }
+  images {
+    image: "/def-war-battles/units/elite-soldier/side/3.png"
+  }
+  images {
+    image: "/def-war-battles/units/elite-soldier/side/4.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 8
+  flip_horizontal: 1
+  flip_vertical: 0
+}
+animations {
+  id: "idle-up"
+  images {
+    image: "/def-war-battles/units/elite-soldier/up/4.png"
+  }
+  playback: PLAYBACK_NONE
+  fps: 8
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "idle-down"
+  images {
+    image: "/def-war-battles/units/elite-soldier/down/4.png"
+  }
+  playback: PLAYBACK_NONE
+  fps: 8
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "idle-right"
+  images {
+    image: "/def-war-battles/units/elite-soldier/side/4.png"
+  }
+  playback: PLAYBACK_NONE
+  fps: 8
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "idle-left"
+  images {
+    image: "/def-war-battles/units/elite-soldier/side/4.png"
+  }
+  playback: PLAYBACK_NONE
+  fps: 8
+  flip_horizontal: 1
+  flip_vertical: 0
+}
+margin: 0
+extrude_borders: 0
+inner_padding: 0
