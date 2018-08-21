@@ -4,7 +4,7 @@ go.property("speed", 25) -- the speed of movement (pixels/second)
 local function play_animation(self, animation)
 	if self.current_animation ~= animation then
 		self.current_animation = animation
-		msg.post("#sprite", "play_animation", { id = animation })
+		sprite.play_flipbook("#sprite", animation)
 	end
 end
 

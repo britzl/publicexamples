@@ -1,6 +1,6 @@
 [project]
 title = Sprite Tinting
-custom_resources = 
+custom_resources =
 
 [bootstrap]
 main_collection = /sprite_tinting/sprite_tinting.collectionc
@@ -27,11 +27,10 @@ shared_state = 1
 
 [android]
 iap_provider = GooglePlay
-package = com.britzl.publicexamples.play_animation
+package = com.britzl.publicexamples.sprite_tinting
 
 [osx]
-bundle_identifier = com.britzl.publicexamples.play_animation
+bundle_identifier = com.britzl.publicexamples.sprite_tinting
 
 [ios]
-bundle_identifier = com.britzl.publicexamples.play_animation
-
+bundle_identifier = com.britzl.publicexamples.sprite_tinting

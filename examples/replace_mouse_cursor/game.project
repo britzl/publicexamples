@@ -28,10 +28,10 @@ shared_state = 1
 
 [android]
 iap_provider = GooglePlay
-package = com.britzl.publicexamples.play_animation
+package = com.britzl.publicexamples.replace_mouse_cursor
 
 [osx]
-bundle_identifier = com.britzl.publicexamples.play_animation
+bundle_identifier = com.britzl.publicexamples.replace_mouse_cursor
 
 [ios]
-bundle_identifier = com.britzl.publicexamples.play_animation
+bundle_identifier = com.britzl.publicexamples.replace_mouse_cursor

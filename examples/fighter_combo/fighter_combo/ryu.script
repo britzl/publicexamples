@@ -33,7 +33,7 @@ end
 local function play_animation(self, anim)
 	if self.anim ~= anim then
 		self.anim = anim
-		msg.post("#sprite", "play_animation", { id = anim })
+		sprite.play_flipbook("#sprite", anim)
 	end
 end
 
