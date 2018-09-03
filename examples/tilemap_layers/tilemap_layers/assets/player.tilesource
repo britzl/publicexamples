@@ -1,0 +1,27 @@
+image: "/tilemap_layers/assets/images/player.png"
+tile_width: 16
+tile_height: 16
+tile_margin: 0
+tile_spacing: 0
+collision: ""
+material_tag: "tile"
+animations {
+  id: "idle"
+  start_tile: 6
+  end_tile: 6
+  playback: PLAYBACK_ONCE_FORWARD
+  fps: 30
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "walk"
+  start_tile: 1
+  end_tile: 3
+  playback: PLAYBACK_LOOP_PINGPONG
+  fps: 10
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+extrude_borders: 2
+inner_padding: 0

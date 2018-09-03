@@ -1,0 +1,60 @@
+local platypus = require "platypus.platypus"
+
+local LEFT = hash("left")
+local RIGHT = hash("right")
+
+local function play_animation(self, animation)
+	if self.current_animation ~= animation then
+		msg.post("#sprite", "play_animation", { id = animation })
+		self.current_animation = animation
+	end
+end
+
+function init(self)
+	msg.post(".", "acquire_input_focus")
+	self.platypus = platypus.create({
+		collisions = {
+			separation = platypus.SEPARATION_SHAPES,
+			ground = { hash("ground") },
+			left = 7, right = 7, top = 6, bottom = 8,
+		},
+		gravity = 0,
+		max_velocity = 600,
+	})
+	self.current_animation = nil
+	self.actions = {}
+end
+
+function update(self, dt)
+	if self.actions[LEFT] then
+		self.platypus.left(120)
+		play_animation(self, hash("walk"))
+		sprite.set_hflip("#sprite", true)
+	elseif self.actions[RIGHT] then
+		self.platypus.right(120)
+		play_animation(self, hash("walk"))
+		sprite.set_hflip("#sprite", false)
+	else
+		play_animation(self, hash("idle"))
+	end
+	self.platypus.update(dt)
+end
+
+function on_message(self, message_id, message, sender)
+	self.platypus.on_message(message_id, message, sender)
+end
+
+function on_input(self, action_id, action)
+	if action_id then
+		if action.pressed then
+			self.actions[action_id] = true
+		elseif action.released then
+			self.actions[action_id] = false
+		end
+	end
+end
+
+function on_reload(self)
+	-- Add reload-handling code here
+	-- Remove this function if not needed
+end

@@ -1,0 +1,13 @@
+local function clear_layer(url, layer)
+	local x, y, w, h = tilemap.get_bounds(url)
+	for xi = x, x + w - 1 do
+		for yi = y, y + h - 1 do
+			tilemap.set_tile(url, layer, xi, yi, 0)
+		end
+	end
+end
+
+function init(self)
+	clear_layer("ground#tilemap", hash("front"))
+	clear_layer("front#tilemap", hash("ground"))
+end
