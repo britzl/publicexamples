@@ -81,6 +81,7 @@ embedded_instances {
   "  id: \"laserfactory\"\n"
   "  type: \"factory\"\n"
   "  data: \"prototype: \\\"/virtual_gamepad/laser.go\\\"\\n"
+  "load_dynamically: false\\n"
   "\"\n"
   "  position {\n"
   "    x: 0.0\n"

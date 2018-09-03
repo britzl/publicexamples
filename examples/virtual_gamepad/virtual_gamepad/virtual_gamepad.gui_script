@@ -44,23 +44,21 @@ local function handle_touch(self, touch, touch_index)
 			end
 		end
 	elseif self.analog_pressed and self.analog_pressed.index == touch_index then
-		local position = vmath.vector3(touch.x, touch.y, 0)
-		local dx = self.analog_pressed.pos.x - touch.x
-		local dy = self.analog_pressed.pos.y - touch.y
-		local radians = math.atan2(dy, dx)
-		local cos = math.cos(radians)
-		local sin = math.sin(radians)
-		local distance = math.sqrt(dx * dx + dy * dy)
-		local radius = 80
-		if distance > radius then
-			position.x = self.analog_start_position.x - cos * radius
-			position.y = self.analog_start_position.y - sin * radius
-			distance = radius
-		else
-			position = position - self.analog_pressed.offset	
+		local touch_position = vmath.vector3(touch.x, touch.y, 0)
+		local diff = self.analog_pressed.pos - touch_position
+		local dir = vmath.normalize(diff)
+		local distance = vmath.length(diff)
+		if distance > 0 then
+			local radius = 80
+			if distance > radius then
+				touch_position = self.analog_start_position - dir * radius
+				distance = radius
+			else
+				touch_position = touch_position - self.analog_pressed.offset	
+			end
+			gui.set_position(self.analog, touch_position)
+			post_to_listener(self, "analog", { x = -dir.x * distance / radius, y = -dir.y * distance / radius })
 		end
-		gui.set_position(self.analog, position)
-		post_to_listener(self, "analog", { x = -(cos * distance / radius), y = -(sin * distance / radius) })
 	end
 end
 
