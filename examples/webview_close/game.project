@@ -1,0 +1,25 @@
+[bootstrap]
+main_collection = /webview_close/webview_close.collectionc
+
+[script]
+shared_state = 1
+
+[project]
+title = WebviewClose
+
+[html5]
+htmlfile = /index.html
+
+[profiler]
+track_cpu = 1
+
+[android]
+package = com.britzl.examples.webviewclose
+
+[display]
+width = 640
+height = 1136
+
+[ios]
+bundle_identifier = com.britzl.examples.webviewclose
+
