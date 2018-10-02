@@ -1,8 +1,8 @@
 images {
-  image: "/assets/images/zombie.png"
+  image: "/simple_ai/images/hitman1_stand.png"
 }
 images {
-  image: "/assets/images/hitman1_stand.png"
+  image: "/simple_ai/images/zombie.png"
 }
 margin: 0
 extrude_borders: 2

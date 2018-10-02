@@ -1,9 +1,9 @@
 [project]
 title = Simple AI
-custom_resources =
+custom_resources = 
 
 [bootstrap]
-main_collection = /game/game.collectionc
+main_collection = /simple_ai/game.collectionc
 render = /builtins/render/default.renderc
 
 [input]
@@ -40,3 +40,4 @@ bundle_identifier = com.britzl.publicexamples.simpleai
 
 [ios]
 bundle_identifier = com.britzl.publicexamples.simpleai
+

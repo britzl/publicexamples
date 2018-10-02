@@ -1,9 +1,9 @@
-image: "/assets/images/tilesheet_complete.png"
+image: "/simple_ai/images/tilesheet_complete.png"
 tile_width: 64
 tile_height: 64
 tile_margin: 0
 tile_spacing: 0
-collision: "/assets/images/tilesheet_complete.png"
+collision: "/simple_ai/images/tilesheet_complete.png"
 material_tag: "tile"
 convex_hulls {
   index: 0
