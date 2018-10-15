@@ -1,0 +1,17 @@
+function init(self)
+	msg.post(".", "acquire_input_focus")
+end
+
+
+function on_input(self, action_id, action)
+	if action.pressed then
+		factory.create("#enemyfactory", vmath.vector3(action.x, action.y, 1))
+	end
+end
+
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("collision_response") and message.own_group == hash("danger") then
+		go.delete(message.other_id)
+	end
+end

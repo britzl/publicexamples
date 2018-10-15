@@ -1,0 +1,6 @@
+images {
+  image: "/tilemap_collisions/assets/images/enemyFloating_1.png"
+}
+margin: 0
+extrude_borders: 1
+inner_padding: 0
