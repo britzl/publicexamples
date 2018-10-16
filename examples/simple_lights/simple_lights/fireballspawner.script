@@ -1,0 +1,15 @@
+local function start_timer()
+	timer.delay(math.random(1,7), false, function()
+		local id = factory.create("#factory")
+		local pos = go.get_position(id)
+		go.animate(id, "position.y", go.PLAYBACK_ONCE_FORWARD, pos.y + 300, go.EASING_LINEAR, 2, 0, function()
+			go.delete(id)
+		end)
+		start_timer()
+	end)
+end
+
+function init(self)
+	start_timer()
+end
+

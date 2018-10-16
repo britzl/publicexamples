@@ -1,0 +1,13 @@
+script: "/simple_lights/render/postprocess.render_script"
+materials {
+  name: "quad"
+  material: "/simple_lights/materials/quad.material"
+}
+materials {
+  name: "mix_quad"
+  material: "/simple_lights/materials/mix_quad.material"
+}
+materials {
+  name: "multiply_quad"
+  material: "/simple_lights/materials/multiply_quad.material"
+}

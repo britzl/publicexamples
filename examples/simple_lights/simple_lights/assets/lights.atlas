@@ -1,0 +1,15 @@
+images {
+  image: "/simple_lights/assets/images/light_mask.png"
+}
+images {
+  image: "/simple_lights/assets/images/light_mask_24.png"
+}
+images {
+  image: "/simple_lights/assets/images/light_mask_64.png"
+}
+images {
+  image: "/simple_lights/assets/images/light_mask_yellow_64.png"
+}
+margin: 0
+extrude_borders: 2
+inner_padding: 0
