@@ -1,0 +1,12 @@
+images {
+  image: "/parallax/assets/images/back-buildings.png"
+}
+images {
+  image: "/parallax/assets/images/far-buildings.png"
+}
+images {
+  image: "/parallax/assets/images/foreground.png"
+}
+margin: 0
+extrude_borders: 2
+inner_padding: 0
