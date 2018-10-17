@@ -6,6 +6,7 @@ local shake_scripts = {
 function init(self)
 	msg.post(".", "acquire_input_focus")
 	msg.post("camera", "acquire_camera_focus")
+	msg.post("@render:", "clear_color", { color = vmath.vector4(0.2, 0.2, 0.2, 1.0) })
 	self.shake_script_index = 1
 end
 
