@@ -1,17 +1,17 @@
 images {
-  image: "/images/playerShip2_blue.png"
+  image: "/coin_magnet/images/playerShip2_blue.png"
 }
 images {
-  image: "/images/powerupBlue_shield.png"
+  image: "/coin_magnet/images/powerupBlue_shield.png"
 }
 images {
-  image: "/images/purple.png"
+  image: "/coin_magnet/images/purple.png"
 }
 images {
-  image: "/images/shield1.png"
+  image: "/coin_magnet/images/shield1.png"
 }
 images {
-  image: "/images/ufoYellow.png"
+  image: "/coin_magnet/images/ufoYellow.png"
 }
 margin: 0
 extrude_borders: 2

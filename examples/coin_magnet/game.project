@@ -1,9 +1,9 @@
 [project]
 title = Coin Magnet
-custom_resources =
+custom_resources = 
 
 [bootstrap]
-main_collection = /coin_magnet.collectionc
+main_collection = /coin_magnet/coin_magnet.collectionc
 render = /builtins/render/default.renderc
 
 [input]
@@ -40,3 +40,4 @@ bundle_identifier = com.britzl.publicexamples.coin_magnet
 
 [ios]
 bundle_identifier = com.britzl.publicexamples.coin_magnet
+
