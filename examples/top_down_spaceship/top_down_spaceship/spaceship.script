@@ -1,0 +1,64 @@
+go.property("angular_velocity", 5)
+go.property("linear_velocity", 900)
+
+function init(self)
+	msg.post(".", "acquire_input_focus")
+	msg.post("camera", "acquire_camera_focus")
+
+	-- current direction of rotation
+	self.rotate = 0
+end
+
+function final(self)
+	msg.post(".", "release_input_focus")
+	msg.post("camera", "release_camera_focus")
+end
+
+function update(self, dt)
+	-- rotate based on user input and angular velocity (radians per second)
+	local rotation = go.get_rotation()
+	rotation = rotation * vmath.quat_rotation_z(self.angular_velocity * self.rotate * dt)
+	go.set_rotation(rotation)
+		
+	-- move in direction of rotation with linear velocity (pixels per second)
+	local pos = go.get_position()
+	local distance = self.linear_velocity * dt
+	local direction = vmath.rotate(rotation, vmath.vector3(0, distance, 0))
+	pos = pos + direction
+	go.set_position(pos)
+	
+	-- update camera position
+	go.set_position(pos + vmath.vector3(-568, - 320, 0), "camera")
+end
+
+function on_input(self, action_id, action)
+	-- set direction of rotation based on user input
+	if action_id == hash("left") then
+		if action.pressed then
+			self.rotate = 1
+		elseif action.released then
+			self.rotate = 0
+		end
+	elseif action_id == hash("right") then
+		if action.pressed then
+			self.rotate = -1
+		elseif action.released then
+			self.rotate = 0
+		end
+	end
+
+	-- fire bullets
+	-- spawn bullet in front of the spaceship (based on rotation)
+	if (action_id == hash("trigger") or action_id == hash("touch")) and action.released then
+		local rotation = go.get_rotation()
+		local bullet_offset = vmath.rotate(rotation, vmath.vector3(0, 60, 0))
+		factory.create("#bulletfactory", go.get_position() + bullet_offset, rotation)
+	end
+end
+
+function on_message(self, message_id, message, sender)
+	-- basic contact separation
+	if message_id == hash("contact_point_response") and message.group == hash("wall") then
+		go.set_position(go.get_position() + message.normal * message.distance)
+	end
+end
