@@ -4,6 +4,32 @@ local IDENTITY = vmath.matrix4()
 
 local QUAD_PRED = nil
 
+local function create_render_target(name)
+	local color_params = { 
+		format = render.FORMAT_RGBA,
+		width = render.get_window_width(),
+		height = render.get_window_height(),
+		min_filter = render.FILTER_LINEAR,
+		mag_filter = render.FILTER_LINEAR,
+		u_wrap = render.WRAP_CLAMP_TO_EDGE,
+		v_wrap = render.WRAP_CLAMP_TO_EDGE
+	}
+
+	local depth_params = {
+		format = render.FORMAT_DEPTH,
+		width = render.get_window_width(),
+		height = render.get_window_height(),
+		u_wrap = render.WRAP_CLAMP_TO_EDGE,
+		v_wrap = render.WRAP_CLAMP_TO_EDGE
+	}
+	return render.render_target(name, {[render.BUFFER_COLOR_BIT] = color_params, [render.BUFFER_DEPTH_BIT] = depth_params })
+end
+
+local function create_render_targets(self)
+	self.normal_rt = create_render_target("normal")
+	self.light_rt = create_render_target("light")
+end
+
 function init(self)
 	self.tile_pred = render.predicate({"tile"})
 	self.gui_pred = render.predicate({"gui"})
@@ -22,28 +48,12 @@ function init(self)
 	self.clear_color.w = sys.get_config("render.clear_color_alpha", 0)
 
 	self.view = IDENTITY
-	
-	
-	local color_params = { 
-		format = render.FORMAT_RGBA,
-		width = render.get_window_width(),
-		height = render.get_window_height(),
-		min_filter = render.FILTER_LINEAR,
-		mag_filter = render.FILTER_LINEAR,
-		u_wrap = render.WRAP_CLAMP_TO_EDGE,
-		v_wrap = render.WRAP_CLAMP_TO_EDGE
-	}
-	
-	local depth_params = {
-		format = render.FORMAT_DEPTH,
-		width = render.get_window_width(),
-		height = render.get_window_height(),
-		u_wrap = render.WRAP_CLAMP_TO_EDGE,
-		v_wrap = render.WRAP_CLAMP_TO_EDGE
-	}
-	self.normal_rt = render.render_target("normal", {[render.BUFFER_COLOR_BIT] = color_params, [render.BUFFER_DEPTH_BIT] = depth_params })
-	self.light_rt = render.render_target("light", {[render.BUFFER_COLOR_BIT] = color_params, [render.BUFFER_DEPTH_BIT] = depth_params })
-	
+
+	self.width = render.get_window_width()
+	self.height = render.get_window_height()
+
+	create_render_targets(self)
+		
 	render_helper.init(self)
 end
 
@@ -136,6 +146,14 @@ end
 
 function update(self)
 	render_helper.update(self)
+	local window_width = render.get_window_width()
+	local window_height = render.get_window_height()
+	if self.width ~= window_width or self.height ~= window_height then
+		self.width = window_width
+		self.height = window_height
+		create_render_targets(self)
+	end
+	
 	render.set_viewport(0, 0, render.get_window_width(), render.get_window_height())
 
 	render_to_rt(self, self.normal_rt, function(self)
@@ -147,7 +165,7 @@ function update(self)
 		-- ambient light
 		clear(vmath.vector4(0.1, 0.1, 0.1, 1.0))
 		local constants = render.constant_buffer()
-		constants.time = vmath.vector4(math.random(70, 100) / 100)
+		constants.time = vmath.vector4(math.random(90, 100) / 100)
 		render_to_world(self, { self.light_pred }, constants)
 	end)
 

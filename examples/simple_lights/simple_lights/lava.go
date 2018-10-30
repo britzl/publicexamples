@@ -57,7 +57,7 @@ embedded_components {
   data: "tile_set: \"/simple_lights/assets/lights.atlas\"\n"
   "default_animation: \"light_mask\"\n"
   "material: \"/simple_lights/materials/light.material\"\n"
-  "blend_mode: BLEND_MODE_ALPHA\n"
+  "blend_mode: BLEND_MODE_ADD\n"
   ""
   position {
     x: 0.0
