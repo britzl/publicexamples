@@ -8,15 +8,11 @@ uniform mediump mat4 mtx_view;
 uniform mediump mat4 mtx_proj;
 uniform mediump mat4 mtx_normal;
 
-varying mediump vec4 var_position;
-varying mediump vec3 var_normal;
 varying mediump vec2 var_texcoord0;
 
 void main()
 {
     vec4 p = mtx_view * vec4(position.xyz, 1.0);
-    var_position = p;
     var_texcoord0 = texcoord0;
-    var_normal = normalize((mtx_normal * vec4(normal, 0.0)).xyz);
     gl_Position = mtx_proj * p;
 }
