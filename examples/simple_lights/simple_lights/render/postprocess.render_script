@@ -2,7 +2,8 @@ local render_helper = require "orthographic.render.helper"
 
 local IDENTITY = vmath.matrix4()
 
-local QUAD_PRED = nil
+local BLACK = vmath.vector4(0)
+local AMBIENT_LIGHT = vmath.vector4(0.1, 0.1, 0.1, 1.0)
 
 local function create_render_target(name)
 	local color_params = { 
@@ -22,7 +23,8 @@ local function create_render_target(name)
 		u_wrap = render.WRAP_CLAMP_TO_EDGE,
 		v_wrap = render.WRAP_CLAMP_TO_EDGE
 	}
-	return render.render_target(name, {[render.BUFFER_COLOR_BIT] = color_params, [render.BUFFER_DEPTH_BIT] = depth_params })
+	return render.render_target(name, {[render.BUFFER_COLOR_BIT] = color_params })
+	--return render.render_target(name, {[render.BUFFER_COLOR_BIT] = color_params, [render.BUFFER_DEPTH_BIT] = depth_params })
 end
 
 local function create_render_targets(self)
@@ -35,8 +37,6 @@ function init(self)
 	self.gui_pred = render.predicate({"gui"})
 	self.text_pred = render.predicate({"text"})
 	self.particle_pred = render.predicate({"particle"})
-
-	QUAD_PRED = render.predicate({"quad"})
 	
 	self.quad_pred = render.predicate({"quad"})
 	self.light_pred = render.predicate({"light"})
@@ -58,10 +58,15 @@ function init(self)
 end
 
 
-local function clear(color)
-	render.set_depth_mask(true)
-	render.set_stencil_mask(0xff)
-	render.clear({[render.BUFFER_COLOR_BIT] = color, [render.BUFFER_DEPTH_BIT] = 1, [render.BUFFER_STENCIL_BIT] = 0})
+local function clear(color, depth, stencil)
+	if depth then
+		render.set_depth_mask(true)
+	end
+	
+	if stencil then
+		render.set_stencil_mask(0xff)
+	end
+	render.clear({[render.BUFFER_COLOR_BIT] = color, [render.BUFFER_DEPTH_BIT] = depth, [render.BUFFER_STENCIL_BIT] = stencil})
 end
 
 local function render_to_world(self, predicates, constants)
@@ -86,7 +91,7 @@ local function render_to_rt(self, render_target, render_fn)
 end
 
 
-local function mix_to_quad(rt0, rt1)
+local function mix_to_quad(self, rt0, rt1)
 	render.set_depth_mask(false)
 	render.disable_state(render.STATE_DEPTH_TEST)
 	render.disable_state(render.STATE_STENCIL_TEST)
@@ -97,13 +102,13 @@ local function mix_to_quad(rt0, rt1)
 	render.enable_material(hash("mix_quad"))
 	render.enable_texture(0, rt0, render.BUFFER_COLOR_BIT)
 	render.enable_texture(1, rt1, render.BUFFER_COLOR_BIT)
-	render.draw(QUAD_PRED)
+	render.draw(self.quad_pred)
 	render.disable_texture(0, rt0)
 	render.disable_texture(1, rt1)
 	render.disable_material()
 end
 
-local function multiply_to_quad(rt0, rt1)
+local function multiply_to_quad(self, rt0, rt1)
 	render.set_depth_mask(false)
 	render.disable_state(render.STATE_DEPTH_TEST)
 	render.disable_state(render.STATE_STENCIL_TEST)
@@ -114,13 +119,13 @@ local function multiply_to_quad(rt0, rt1)
 	render.enable_material(hash("multiply_quad"))
 	render.enable_texture(0, rt0, render.BUFFER_COLOR_BIT)
 	render.enable_texture(1, rt1, render.BUFFER_COLOR_BIT)
-	render.draw(QUAD_PRED)
+	render.draw(self.quad_pred)
 	render.disable_texture(0, rt0)
 	render.disable_texture(1, rt1)
 	render.disable_material()
 end
 
-local function draw_to_quad(rt)
+local function draw_to_quad(self, rt)
 	render.set_depth_mask(false)
 	render.disable_state(render.STATE_DEPTH_TEST)
 	render.disable_state(render.STATE_STENCIL_TEST)
@@ -130,12 +135,10 @@ local function draw_to_quad(rt)
 
 	render.enable_material(hash("quad"))
 	render.enable_texture(0, rt, render.BUFFER_COLOR_BIT)
-	render.draw(QUAD_PRED)
+	render.draw(self.quad_pred)
 	render.disable_texture(0, rt)
 	render.disable_material()
 end
-
-
 
 
 local function render_to_quad(self, fn)
@@ -144,8 +147,11 @@ local function render_to_quad(self, fn)
 	fn(self)
 end
 
+
 function update(self)
 	render_helper.update(self)
+
+	-- recreate render targets if screen size has changed
 	local window_width = render.get_window_width()
 	local window_height = render.get_window_height()
 	if self.width ~= window_width or self.height ~= window_height then
@@ -156,27 +162,30 @@ function update(self)
 	
 	render.set_viewport(0, 0, render.get_window_width(), render.get_window_height())
 
+	-- draw normal sprites, tilemaps etc
 	render_to_rt(self, self.normal_rt, function(self)
-		clear(vmath.vector4(0, 0, 0, 1))
+		clear(BLACK, nil, nil)
 		render_to_world(self, { self.tile_pred, self.particle_pred })
 	end)
-	
+
+	-- draw lights
 	render_to_rt(self, self.light_rt, function(self)
-		-- ambient light
-		clear(vmath.vector4(0.1, 0.1, 0.1, 1.0))
+		clear(AMBIENT_LIGHT, nil, nil)
+		-- add some flicker to the light
 		local constants = render.constant_buffer()
 		constants.time = vmath.vector4(math.random(90, 100) / 100)
 		render_to_world(self, { self.light_pred }, constants)
 	end)
 
+	-- draw combination of normal and lights to quad
 	render_to_quad(self, function(self)
-		clear(vmath.vector4(0, 0, 0, 0))
-		--draw_to_quad(self.normal_rt)
-		--draw_to_quad(self.light_rt)
-		multiply_to_quad(self.normal_rt, self.light_rt)
+		clear(BLACK, nil, nil)
+		--draw_to_quad(self, self.normal_rt)
+		--draw_to_quad(self, self.light_rt)
+		multiply_to_quad(self, self.normal_rt, self.light_rt)
 	end)
 
-	-- gui
+	-- draw gui
 	render_helper.set_screen_view_projection(self)
 	render.enable_state(render.STATE_STENCIL_TEST)
 	render.draw(self.gui_pred)
