@@ -9,7 +9,7 @@ function init(self)
 	go.animate("#", "foov3", go.PLAYBACK_LOOP_PINGPONG, vmath.vector3(100), go.EASING_INOUTSINE, 5)
 	go.animate("#", "foov4", go.PLAYBACK_LOOP_PINGPONG, vmath.vector4(100), go.EASING_INOUTSINE, 5)
 	
-	msg.post("@render", "clear_color", { color = vmath.vector4(0.2, 0.3, 1.0, 1.0) })
+	msg.post("@render:", "clear_color", { color = vmath.vector4(0.2, 0.3, 1.0, 1.0) })
 end
 
 function update(self, dt)
