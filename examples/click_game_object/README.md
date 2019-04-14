@@ -3,5 +3,8 @@ This example shows a possible way of simplifying click handling on game objects 
 
 Depending on the situation it might be better to solve hit/click detection using collision objects, as seen in [this example](https://github.com/britzl/publicexamples/tree/master/examples/click_and_drag).
 
+# Disclaimer
+This example only works well with the default stretch projection. The example will not work if the projection is fixed.
+
 ## Try it!
 http://britzl.github.io/publicexamples/click_game_object/index.html
