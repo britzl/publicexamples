@@ -1,0 +1,47 @@
+[project]
+title = Tilemap Layers
+custom_resources = 
+
+[bootstrap]
+main_collection = /tilemap_layers/game.collectionc
+render = /orthographic/render/orthographic.renderc
+
+[input]
+game_binding = /input/game.input_bindingc
+gamepads = /builtins/input/default.gamepadsc
+
+[display]
+width = 1136
+height = 640
+variable_dt = 1
+
+[physics]
+scale = 1.0
+debug = 0
+max_collisions = 256
+max_contacts = 256
+gravity_y = -100
+
+[script]
+shared_state = 1
+
+[android]
+iap_provider = GooglePlay
+package = com.britzl.publicexamples.tilemap_layers
+
+[sprite]
+max_count = 1000
+
+[resource]
+max_resources = 1000
+
+[osx]
+bundle_identifier = com.britzl.publicexamples.tilemap_layers
+
+[ios]
+bundle_identifier = com.britzl.publicexamples.tilemap_layers
+
+[graphics]
+default_texture_min_filter = nearest
+default_texture_mag_filter = nearest
+

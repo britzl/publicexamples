@@ -1,0 +1,49 @@
+[project]
+title = Perspective camera
+custom_resources = 
+
+[bootstrap]
+main_collection = /perspective_camera/perspective_camera.collectionc
+render = /perspective_camera/perspective_camera.renderc
+
+[input]
+game_binding = /input/game.input_bindingc
+gamepads = /builtins/input/default.gamepadsc
+
+[display]
+width = 1136
+height = 640
+variable_dt = 1
+
+[physics]
+scale = 0.02
+debug = 0
+max_collisions = 256
+max_contacts = 256
+gravity_y = -100
+
+[script]
+shared_state = 1
+
+[android]
+iap_provider = GooglePlay
+package = com.britzl.publicexamples.pause_game
+
+[sprite]
+max_count = 32000
+
+[resource]
+max_resources = 3000
+
+[collection]
+max_instances = 32000
+
+[graphics]
+max_debug_vertices = 50000
+
+[osx]
+bundle_identifier = com.britzl.publicexamples.pause_game
+
+[ios]
+bundle_identifier = com.britzl.publicexamples.pause_game
+

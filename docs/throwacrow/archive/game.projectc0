@@ -1,0 +1,63 @@
+[project]
+title = Throw a Crow
+version = 0.1
+
+[bootstrap]
+main_collection = /main/throwacrow.collectionc
+render = /render/custom.renderc
+
+[input]
+game_binding = /input/game.input_bindingc
+
+[display]
+width = 1280
+height = 720
+
+[physics]
+scale = 0.02
+gravity_y = -1000
+debug = 0
+max_collisions = 200
+
+[script]
+shared_state = 1
+
+[ios]
+bundle_identifier = com.defold.example.angrybirds
+app_icon_120x120 = /assets/appicons/icon_120.png
+app_icon_180x180 = /assets/appicons/icon_180.png
+app_icon_76x76 = /assets/appicons/icon_76.png
+app_icon_152x152 = /assets/appicons/icon_152.png
+app_icon_57x57 = /assets/appicons/icon_57.png
+app_icon_114x114 = /assets/appicons/icon_114.png
+app_icon_72x72 = /assets/appicons/icon_72.png
+app_icon_144x144 = /assets/appicons/icon_144.png
+app_icon_167x167 = /assets/appicons/icon_167.png
+launch_image_320x480 = /assets/loadingscreens/screen_320x480.png
+launch_image_640x960 = /assets/loadingscreens/screen_640x960.png
+launch_image_640x1136 = /assets/loadingscreens/screen_640x1136.png
+launch_image_750x1334 = /assets/loadingscreens/screen_750x1334.png
+launch_image_768x1024 = /assets/loadingscreens/screen_768x1024.png
+launch_image_1536x2048 = /assets/loadingscreens/screen_1536x2048.png
+launch_image_1024x768 = /assets/loadingscreens/screen_1024x768.png
+launch_image_1242x2208 = /assets/loadingscreens/screen_1242x2208.png
+launch_image_2208x1242 = /assets/loadingscreens/screen_2208x1242.png
+launch_image_2048x1536 = /assets/loadingscreens/screen_2048x1536.png
+launch_image_2048x2732 = /assets/loadingscreens/screen_2048x2732.png
+launch_image_2732x2048 = /assets/loadingscreens/screen_2732x2048.png
+
+[android]
+package = com.defold.example.angrybirds
+app_icon_36x36 = /assets/appicons/icon_36.png
+app_icon_48x48 = /assets/appicons/icon_48.png
+app_icon_72x72 = /assets/appicons/icon_72.png
+app_icon_96x96 = /assets/appicons/icon_96.png
+app_icon_144x144 = /assets/appicons/icon_144.png
+app_icon_192x192 = /assets/appicons/icon_192.png
+
+[osx]
+bundle_identifier = com.defold.example.angrybirds
+
+[sprite]
+max_count = 500
+

@@ -1,0 +1,17 @@
+/* https://codepen.io/sdthornton/pen/wBZdXq */
+.example {
+	background: #fff;
+	border-radius: 2px;
+	margin: 0 0 3rem 0;
+	padding: 2rem;
+	box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+	transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+
+.tags {
+	font-size: smaller;
+}
+
+div.example p {
+	margin-bottom: 0;
+}

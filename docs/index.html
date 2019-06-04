@@ -1,0 +1,661 @@
+<html>
+<head>
+	<!-- Mobile Specific Metas
+	–––––––––––––––––––––––––––––––––––––––––––––––––– -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- FONT
+	–––––––––––––––––––––––––––––––––––––––––––––––––– -->
+	<link href="http://fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+	<!-- CSS
+	–––––––––––––––––––––––––––––––––––––––––––––––––– -->
+	<link rel="stylesheet" href="css/normalize.css">
+	<link rel="stylesheet" href="css/skeleton.css">
+	<link rel="stylesheet" href="css/examples.css">
+
+	<link rel="shortcut icon" href="//www.defold.com/static/favicon.ico" type="image/x-icon">
+
+	<title>Defold Public Examples</title>
+	<script type="text/javascript">
+		function filter(what) {
+			var elements = document.getElementsByClassName("example");
+			for (var i = 0; i < elements.length; i++) {
+				var e = elements[i];
+				e.style.display = e.classList.contains(what) ? "block" : "none";
+			}
+		}
+
+		function show_tags() {
+			var allTags = new Set();
+			var elements = document.getElementsByClassName("example");
+			for (var e of elements) {
+				var p = document.createElement("P");
+				p.appendChild(document.createTextNode("tags: "));
+				p.className = "tags"
+				for (var tag of e.classList) {
+					if (tag != "example") {
+						allTags.add(tag);
+						p.appendChild(document.createTextNode(tag + " "));
+					}
+				}
+				e.appendChild(p);
+			}
+
+			var filters = document.getElementById("filters")
+			allTags = Array.from(allTags).sort();
+			for (var tag of allTags) {
+				var a = document.createElement("A");
+				a.href = "javascript: filter('" + tag + "')"
+				a.appendChild(document.createTextNode(tag.toUpperCase()));
+				filters.appendChild(a);
+				filters.appendChild(document.createTextNode(", "));
+			}
+		}
+	</script>
+</head>
+
+<body onLoad="javascript: show_tags();">
+<!-- Primary Page Layout
+–––––––––––––––––––––––––––––––––––––––––––––––––– -->
+<div class="container">
+	<div class="row" style="margin-top: 10%">
+		<h1>Defold examples, demos and games</h1>
+		<p>
+			This page contains a collection of examples, demos and games built using the <a href="http://www.defold.com" target="_blank">Defold game engine</a>. Many of the examples have been created in response to questions asked by users on the <a href="http://forum.defold.com" target="_blank">Defold public forum</a>.
+		</p>
+		<p>
+			All examples are created by <a href="https://github.com/britzl">britzl</a> unless explicitly stated otherwise. Graphics by <a href="http://www.kenney.nl" target="_blank">Kenney</a> unless explicitly stated otherwise.
+		</p>
+		<p>
+			<div id="filters">
+				FILTERS: <a href="javascript: filter('example')">ALL</a>,
+			</div>
+		</p>
+	</div>
+
+	<div class="row">
+		<!-- LEFT COLUMN -->
+		<div class="one-third column">
+			<div class="example game">
+				<h5>GB Rausers</h5>
+				<img src="images/gbrausers.gif" width="200px"/>
+				<p>
+					This is my entry to <a href="https://itch.io/jam/gbjam-5">GB Jam #5</a>. The game is heavily inspired by the excellent <a href="http://www.luftrausers.com">Luftrausers</a> by Vlambeer</br>
+					<a href="https://britzl.github.io/gbrausers/">TRY IT! (improved version)</a></br>
+					<a href="https://github.com/britzl/gbrausers">SOURCE</a>
+				</p>
+			</div>
+
+			<div class="example game">
+				<h5>Link and switch</h5>
+				<img src="images/link_and_switch.png" width="200px"/>
+				<p>
+					This example shows a match three puzzle game using either a linker or switcher mechanic to create sequences of three or more blocks of the same color. There is already an excellent tutorial on how to create a game such as this among the <a href="http://www.defold.com/tutorials/magic-link/" target="_blank">official Defold tutorials</a> but this implementation takes a different approach in that it is built completely using the 2D physics engine in Defold.</br>
+					<a href="https://britzl.github.io/linkandswitch/">TRY IT!</a></br>
+					<a href="https://github.com/britzl/linkandswitch/">SOURCE</a>
+				</p>
+			</div>
+
+			<div class="example game">
+				<h5>Lowrez invaders</h5>
+				<img src="images/lowrezinvaders.gif" width="200px"/>
+				<p>
+					This is a simple space invaders clone made for the <a href="http://gamejolt.com/tag/lowrezjam" target="_blank">Lowrezjam 2016</a>.</br>
+					Low rez graphics by me.</br>
+					<a href="http://britzl.github.io/lowrezinvaders/">TRY IT!</a></br>
+					<a href="https://github.com/britzl/lowrezinvaders">SOURCE</a>
+				</p>
+			</div>
+
+			<div class="example game">
+				<h5>Shapeshift</h5>
+				<img src="images/shapeshift.png" width="200px"/>
+				<p>
+					This is my entry to the <a href="http://ludumdare.com/compo/2016/04/13/welcome-to-ludum-dare-35/" target="_blank">Ludum Dare 35 Jam</a>. The jam had the theme "Shapeshift" and in this game you need to shapeshift between different animals and make use of their abilities to avoid an earthquake.</br>
+					Game design by my two sons Måns and Rasmus.</br>
+					<a href="http://britzl.github.io/shapeshift/">TRY IT!</a></br>
+					<a href="http://britzl.github.io/shapeshift/game/index.html">SOURCE</a>
+				</p>
+			</div>
+
+			<div class="example game">
+				<h5>The Cube</h5>
+				<img src="images/thecube.png" width="200px"/>
+				<p>
+					This is my entry to the <a href="http://ludumdare.com/compo/ludum-dare-36" target="_blank">Ludum Dare 36 Competition</a>. The competition had the theme "Ancient Technology". My entry can at most be considered half finished.</br>
+					All graphics created by me.</br>
+					<a href="https://britzl.github.io/LD36">TRY IT!</a></br>
+					<a href="https://github.com/britzl/ludumdare36">SOURCE</a>
+				</p>
+			</div>
+
+			<div class="example game">
+				<h5>Overrun Room</h5>
+				<img src="images/overrunroom.jpg" width="200px"/>
+				<p>
+					This is my Jam entry to the <a href="http://ludumdare.com/compo/ludum-dare-37" target="_blank">Ludum Dare 37 Competition</a>. The competition had the theme "One Room". My idea was an arena shooter in the vein of <a href="http://nuclearthrone.com/">Nuclear Throne</a> with a procedurally created room. The inner walls of the room are created using cellular automata and the enemy spawn points are randomly selected. I spent six or seven hours in total so I didn't really have time to do anything else with it. There's a single type of enemy and only two different weapons.</br>
+					All graphics created by me (from my LD 36 entry).</br>
+					<a href="https://britzl.github.io/OverrunRoom/">TRY IT!</a></br>
+					<a href="https://github.com/britzl/oneroom">SOURCE</a>
+				</p>
+			</div>
+
+			<div class="example game physics">
+				<h5>Throw-a-crow</h5>
+				<img src="images/throwacrow.gif" width="200px"/>
+				<p>
+					This example shows the very basics of a slingshot style physics game in Defold.</br>
+					<a href="throwacrow/index.html">TRY IT!</a></br>
+					<a href="https://github.com/britzl/throwacrow/tree/improved">SOURCE</a>
+				</p>
+			</div>
+
+			<div class="example game">
+				<h5>Breakout</h5>
+				<img src="images/breakout.gif" width="200px"/>
+				<p>
+					This example shows the very basics of a breakout style game in Defold.</br>
+					<a href="breakout/index.html">TRY IT!</a></br>
+					<a href="https://github.com/britzl/breakout">SOURCE</a>
+				</p>
+			</div>
+
+			<div class="example game">
+				<h5>Climberz/Mike Dangers</h5>
+				<img src="images/mike_dangers.gif" width="200px"/>
+				<p>
+					Defold implementation of the Mike Dangers game.</br>
+					<a href="mike_dangers/index.html">TRY IT!</a></br>
+					<a href="https://github.com/britzl/publicexamples/tree/master/examples/mike_dangers">SOURCE</a>
+				</p>
+			</div>
+
+			<div class="example game">
+				<h5>Warbattles-RTS</h5>
+				<img src="images/warbattles-rts.gif" width="200px"/>
+				<p>
+					RTS sample game using the Warbattles assets pack.</br>
+					<a href="https://britzl.github.io/Warbattles-RTS/">TRY IT!</a></br>
+					<a href="https://github.com/britzl/warbattles-rts">SOURCE</a>
+				</p>
+			</div>
+
+			<div class="example game">
+				<h5>Ocean Commotion Linker and Clicker</h5>
+				<img src="images/oceancommotion.png" width="200px"/>
+				<p>
+					Linker and Clicker versions of the Ocean Commotion Match-3 sample game.</br>
+					<a href="https://britzl.github.io/OceanCommotionLinker">LINKER - TRY IT!</a></br>
+					<a href="https://github.com/britzl/oceancommotion-linker">LINKER SOURCE</a></br>
+					<a href="https://britzl.github.io/OceanCommotionClicker">CLICKER - TRY IT!</a></br>
+					<a href="https://github.com/britzl/oceancommotion-clicker">CLICKER SOURCE</a>
+				</p>
+			</div>
+
+			<div class="example game">
+				<h5>Numberz</h5>
+				<img src="images/numberz.png" width="200px"/>
+				<p>
+					Numberz game. Can you move all numbers once?</br>
+					<a href="https://britzl.github.io/Numberz">TRY IT!</a></br>
+					<a href="https://github.com/britzl/numberz">SOURCE</a>
+				</p>
+			</div>
+
+			<div class="example game">
+				<h5>Towerz</h5>
+				<img src="images/towerz.png" width="200px"/>
+				<p>
+					Tipsy Towers game. How high can you stack 'em'?</br>
+					<a href="https://britzl.github.io/Towerz">TRY IT!</a></br>
+					<a href="https://github.com/britzl/towerz">SOURCE</a>
+				</p>
+			</div>
+
+			<div class="example effect">
+				<h5>Screen shake</h5>
+				<img src="images/screen_shake.gif" width="200px"/>
+				<p>
+					This example shows how to achive a screen/camera shake.</br>
+					<a href="screen_shake/index.html">TRY IT!</a></br>
+					<a href="https://github.com/britzl/publicexamples/tree/master/examples/screen_shake">SOURCE</a>
+				</p>
+			</div>
+
+			<div class="example effect shader renderscript">
+				<h5>Radial Blur</h5>
+				<img src="images/radial_blur.gif" width="200px"/>
+				<p>
+					This example shows how to create a radial blur post processing effect.</br>
+					<a href="radial_blur/index.html">TRY IT!</a></br>
+					<a href="https://github.com/britzl/publicexamples/tree/master/examples/radial_blur">SOURCE</a>
+				</p>
+			</div>
+
+			<div class="example effect shader renderscript">
+				<h5>Simple Lights</h5>
+				<img src="images/simple_lights.png" width="200px"/>
+				<p>
+					This example shows how to create simple 2D light sources.</br>
+					<a href="simple_lights/index.html">TRY IT!</a></br>
+					<a href="https://github.com/britzl/publicexamples/tree/master/examples/simple_lights">SOURCE</a>
+				</p>
+			</div>
+
+
+		</div>
+
+		<!-- MIDDLE COLUMN -->
+		<div class="one-third column">
+
+			<div class="example mechanic factory">
+				<h5>Coin magnet</h5>
+				<img src="images/coin_magnet.gif" width="200px"/>
+				<p>
+					This example shows how to create a coin magnet to attract coins or other collectible in-game items.</br>
+					<a href="coin_magnet/index.html">TRY IT!</a></br>
+					<a href="https://github.com/britzl/publicexamples/tree/master/examples/coin_magnet">SOURCE</a>
+				</p>
+			</div>
+
+			<div class="example mechanic ai">
+				<h5>Simple AI</h5>
+				<img src="images/simpleai.gif" width="200px"/>
+				<p>
+					This example shows how to create a simple AI that wanders aimlessly until nearby an enemy in which case it will move towards it instead.</br>
+					<a href="simpleai/index.html">TRY IT!</a></br>
+					<a href="https://github.com/britzl/publicexamples/tree/master/examples/simple_ai">SOURCE</a>
+				</p>
+			</div>
+
+			<div class="example mechanic ai">
+				<h5>Swarm AI</h5>
+				<img src="images/swarmai.gif" width="200px"/>
+				<p>
+					This example shows how to create a simple swarm AI that follows a target and avoids other AI agents.</br>
+					<a href="swarmai/index.html">TRY IT!</a></br>
+					<a href="https://github.com/britzl/publicexamples/tree/master/examples/swarm_ai">SOURCE</a>
+				</p>
+			</div>
+
+			<div class="example mechanic platformer">
+				<h5>One-way platforms</h5>
+				<img src="images/one_way_platforms.gif" width="200px"/>
+				<p>
+					This example shows how to implement one-way platforms that are commonly seen in platformer games.</br>
+					<a href="one_way_platforms/index.html">TRY IT!</a></br>
+					<a href="https://github.com/britzl/publicexamples/tree/master/examples/one_way_platforms">SOURCE</a>
+				</p>
+			</div>
+
+			<div class="example mechanic platformer">
+				<h5>Platformer with ladders</h5>
+				<img src="images/platformer_with_ladders.gif" width="200px"/>
+				<p>
+					This example shows how to implement a platformer game with ladders that the player can climb.</br>
+					<a href="platformer_with_ladders/index.html">TRY IT!</a></br>
+					<a href="https://github.com/britzl/publicexamples/tree/master/examples/platformer_with_ladders">SOURCE</a>
+				</p>
+			</div>
+
+			<div class="example input gui">
+				<h5>Virtual gamepad</h5>
+				<img src="images/virtual_gamepad.png" width="200px"/>
+				<p>
+					This example shows how to create a virtual gamepad to control a player character.</br>
+					<a href="virtual_gamepad/index.html">TRY IT!</a></br>
+					<a href="https://github.com/britzl/publicexamples/tree/master/examples/virtual_gamepad">SOURCE</a>
+				</p>
+			</div>
+
+			<div class="example input gui">
+				<h5>Gamepad tester</h5>
+				<img src="images/gamepad_tester.png" width="200px"/>
+				<p>
+					This example allows you to test a connected gamepad to easily see if the mappings are correct or not.</br>
+					<a href="gamepadtester/gamepadtester_win.zip">Windows</a></br>
+					<a href="gamepadtester/gamepadtester_linux.zip">Linux</a></br>
+					<a href="gamepadtester/gamepadtester_osx.zip">OSX</a></br>
+					<a href="https://github.com/britzl/publicexamples/tree/master/examples/gamepad_tester">SOURCE</a>
+				</p>
+			</div>
+
+			<div class="example input physics">
+				<h5>Click and drag</h5>
+				<img src="images/click_and_drag.png" width="200px"/>
+				<p>
+					This example shows how to click and drag a game object and detect which game object to interact with using collision objects.</br>
+					<a href="click_and_drag/index.html">TRY IT!</a></br>
+					<a href="https://github.com/britzl/publicexamples/tree/master/examples/click_and_drag">SOURCE</a>
+				</p>
+			</div>
+
+			<div class="example input camera">
+				<h5>Drag to scroll</h5>
+				<img src="images/drag_to_scroll.png" width="200px"/>
+				<p>
+					This example shows how to move a camera through click and drag. It also shows how to allow for a fling gesture to let the camera continue to move and gradually slow down.</br>
+					<a href="drag_to_scroll/index.html">TRY IT!</a></br>
+					<a href="https://github.com/britzl/publicexamples/tree/master/examples/drag_to_scroll">SOURCE</a>
+				</p>
+			</div>
+
+			<div class="example input">
+				<h5>Click on game objects</h5>
+				<img src="images/click_game_object.png" width="200px"/>
+				<p>
+					This example shows how to do input detection for game objects. The example takes into account sprite scale and offset.</br>
+					<a href="click_game_object/index.html">TRY IT!</a></br>
+					<a href="https://github.com/britzl/publicexamples/tree/master/examples/click_game_object">SOURCE</a>
+				</p>
+			</div>
+
+			<div class="example gameloop collection gui">
+				<h5>Pause game</h5>
+				<img src="images/pause_game.gif" width="200px"/>
+				<p>
+					This example shows how to pause a game by changing the time_step of a collection proxy.</br>
+					<a href="pause_game/index.html">TRY IT!</a></br>
+					<a href="https://github.com/britzl/publicexamples/tree/master/examples/pause_game">SOURCE</a>
+				</p>
+			</div>
+
+			<div class="example gameloop collection gui">
+				<h5>Menu and Game</h5>
+				<img src="images/menu_and_game.png" width="200px"/>
+				<p>
+					This example shows how to switch back and forth between a menu and a game using collection proxies.</br>
+					<a href="menu_and_game/index.html">TRY IT!</a></br>
+					<a href="https://github.com/britzl/publicexamples/tree/master/examples/menu_and_game">SOURCE</a>
+				</p>
+			</div>
+
+			<div class="example gameloop collection">
+				<h5>Level Selector</h5>
+				<img src="images/level_selector.gif" width="200px"/>
+				<p>
+					This example shows how to create an infinitely scrolling level selector/map using collection proxies.</br>
+					<a href="level_selector/index.html">TRY IT!</a></br>
+					<a href="https://github.com/britzl/publicexamples/tree/master/examples/level_selector">SOURCE</a>
+				</p>
+			</div>
+
+			<div class="example buffer">
+				<h5>Draw pixels</h5>
+				<img src="images/draw_pixels.gif" width="200px"/>
+				<p>
+					This example shows how to modify a texture at run-time.</br>
+					<a href="draw_pixels/index.html">TRY IT!</a></br>
+					<a href="https://github.com/britzl/publicexamples/tree/master/examples/draw_pixels">SOURCE</a>
+				</p>
+			</div>
+
+			<div class="example camera">
+				<h5>Orthographic Camera API</h5>
+				<img src="images/orthographic.png" width="200px"/>
+				<p>
+					This example shows how to use the Orthographic Camera API.</br>
+					<a href="https://britzl.github.io/Orthographic/index.html">TRY IT!</a></br>
+					<a href="https://github.com/britzl/defold-orthographic">SOURCE</a>
+				</p>
+			</div>
+
+			<div class="example map">
+				<h5>Infinite map</h5>
+				<img src="images/infinite_map.png" width="200px"/>
+				<p>
+					This example shows how to create an infinitely scrolling tilemap with perlin noise terrain and enemies.</br>
+					<a href="infinite_map/index.html">TRY IT!</a></br>
+					<a href="https://github.com/britzl/publicexamples/tree/master/examples/infinite_map">SOURCE</a>
+				</p>
+			</div>
+
+
+			<div class="example animation input movement">
+				<h5>Top down movement</h5>
+				<img src="images/top_down_movement.png" width="200px"/>
+				<p>
+					This example shows how to move a sprite in eight directions and play an animation based on movement direction as well as how to handle idle animation when no longer moving.</br>
+					<a href="top_down_movement/index.html">TRY IT!</a></br>
+					<a href="https://github.com/britzl/publicexamples/tree/master/examples/top_down_movement">SOURCE</a>
+				</p>
+			</div>
+
+
+			<div class="example animation input movement">
+				<h5>Top down spaceship</h5>
+				<img src="images/top_down_spaceship.png" width="200px"/>
+				<p>
+					This example shows how to move a game object with a constant speed in direction of rotation.</br>
+					<a href="top_down_spaceship/index.html">TRY IT!</a></br>
+					<a href="https://github.com/britzl/publicexamples/tree/master/examples/top_down_spaceship">SOURCE</a>
+				</p>
+			</div>
+
+
+			<div class="example input">
+				<h5>Parallax</h5>
+				<img src="images/parallax.gif" width="200px"/>
+				<p>
+					This example shows how to create a parallax effect controlled either by mouse or accelerometer.</br>
+					<a href="parallax/index.html">TRY IT!</a></br>
+					<a href="https://github.com/britzl/publicexamples/tree/master/examples/parallax">SOURCE</a>
+				</p>
+			</div>
+
+		</div>
+
+		<!-- RIGHT COLUMN -->
+		<div class="one-third column">
+
+			<div class="example animation movement input">
+				<h5>Play animation</h5>
+				<img src="images/play_animation.png" width="200px"/>
+				<p>
+					This example shows how to use the "play_animation" message to start and stop sprite animations when the player character is moving.</br>
+					<a href="play_animation/index.html">TRY IT!</a></br>
+					<a href="https://github.com/britzl/publicexamples/tree/master/examples/play_animation">SOURCE</a>
+				</p>
+			</div>
+
+			<div class="example movement physics input">
+				<h5>Rotate collision object</h5>
+				<img src="images/rotate_collision_object.gif" width="200px"/>
+				<p>
+					This example shows how to rotate a dynamic collision object by applying opposing and offset forces.</br>
+					<a href="rotate_collision_object/index.html">TRY IT!</a></br>
+					<a href="https://github.com/britzl/publicexamples/tree/master/examples/rotate_collision_object">SOURCE</a>
+				</p>
+			</div>
+
+			<div class="example movement input camera factory">
+				<h5>Rotate, move and fire</h5>
+				<img src="images/rotate_and_move.gif" width="200px"/>
+				<p>
+					This example shows how to rotate a game object, move it in the direction it is facing and firing bullets in the same direction.</br>
+					<a href="rotate_and_move/index.html">TRY IT!</a></br>
+					<a href="https://github.com/britzl/publicexamples/tree/master/examples/rotate_and_move">SOURCE</a>
+				</p>
+			</div>
+
+			<div class="example animation">
+				<h5>Fixed rotation</h5>
+				<img src="images/fixed_rotation.gif" width="200px"/>
+				<p>
+					This example shows how to let a child game object keep a fixed rotation regardless of how the parent is rotated.</br>
+					<a href="fixed_rotation/index.html">TRY IT!</a></br>
+					<a href="https://github.com/britzl/publicexamples/tree/master/examples/fixed_rotation">SOURCE</a>
+				</p>
+			</div>
+
+			<div class="example animation movement input">
+				<h5>Game object movement</h5>
+				<img src="images/game_object_movement.png" width="200px"/>
+				<p>
+					This example shows how to animate a game object either using go.animate() or procedurally in update() based on user input.</br>
+					<a href="game_object_movement/index.html">TRY IT!</a></br>
+					<a href="https://github.com/britzl/publicexamples/tree/master/examples/game_object_movement">SOURCE</a>
+				</p>
+			</div>
+
+			<div class="example animation gui renderscript">
+				<h5>GUI follows GO</h5>
+				<img src="images/gui_follows_go.gif" width="200px"/>
+				<p>
+					This example shows how to make gui nodes follow game objects by setting adjust mode to node and rendering the gui in world space.</br>
+					<a href="gui_follows_go/index.html">TRY IT!</a></br>
+					<a href="https://github.com/britzl/publicexamples/tree/master/examples/gui_follows_go">SOURCE</a>
+				</p>
+			</div>
+
+			<div class="example game network">
+				<h5>PlayFab</h5>
+				<img src="images/playfab.png" width="200px"/>
+				<p>
+					This example shows how to use the PlayFab Lua SDK in a Defold game. The example consists of a simple game and a menu system to register and login, store user data and show a leaderboard.</br>
+					<a href="https://github.com/britzl/playfabexamples">SOURCE</a></br>
+					<a href="https://britzl.github.io/playfabexamples/">TRY IT!</a>
+				</p>
+			</div>
+
+			<div class="example profiling">
+				<h5>DefPro</h5>
+				<img src="images/defpro.png" width="200px"/>
+				<p>
+					This example shows how to get profiler data and manipulate it in Lua. It is possible to grab profiler data from within a running game or from the command line.</br>
+					<a href="https://github.com/britzl/defpro">SOURCE</a>
+				</p>
+			</div>
+
+			<div class="example localization">
+				<h5>Localization</h5>
+				<img src="images/localization.gif" width="200px"/>
+				<p>
+					This example shows one way to work with game localization. The solution is pretty bare-bones but could easily be expanded to batch translate text nodes or label components.</br>
+					<a href="localization/index.html">TRY IT!</a></br>
+					<a href="https://github.com/britzl/publicexamples/tree/master/examples/localization">SOURCE</a>
+				</p>
+			</div>
+
+			<div class="example camera renderscript animation">
+				<h5>Camera and split-screen</h5>
+				<img src="images/camera.png" width="200px"/>
+				<p>
+					This example shows how to replicate the camera component using a game object with a camera script. The example also shows how to use a setup with multiple cameras and render the cameras using a split-screen layout.</br>
+					<a href="camera/index.html">TRY IT!</a></br>
+					<a href="https://github.com/britzl/publicexamples/tree/master/examples/camera">SOURCE</a>
+				</p>
+			</div>
+
+			<div class="example factory animation">
+				<h5>Factory and properties</h5>
+				<a name="factory_and_properties"/></a>
+				<img src="images/factory_and_properties.gif" width="200px"/>
+				<p>
+					This example shows how to pass properties to spawned game objects. It also shows how to use a lookup table to pass things such as strings to spawned game objects. Finally the example also shows how to modify existing values once the game object has been spawned.</br>
+					<a href="factory_and_properties/index.html">TRY IT!</a></br>
+					<a href="https://github.com/britzl/publicexamples/tree/master/examples/factory_and_properties">SOURCE</a>
+				</p>
+			</div>
+
+			<div class="example sound gui">
+				<h5>Dynamic buttons</h5>
+				<img src="images/dynamic_buttons.png" width="200px"/>
+				<p>
+					This example shows how to dynamically create buttons and associate functions to them.</br>
+					<a href="dynamic_buttons/index.html">TRY IT!</a></br>
+					<a href="https://github.com/britzl/publicexamples/tree/master/examples/dynamic_buttons">SOURCE</a>
+				</p>
+			</div>
+
+			<div class="example movement animation">
+				<h5>Bullet paths</h5>
+				<img src="images/bullet_paths.png" width="200px"/>
+				<p>
+					This example shows how to move a game object along a path, with an optional movement pattern.</br>
+					<a href="bullet_paths/index.html">TRY IT!</a></br>
+					<a href="https://github.com/britzl/publicexamples/tree/master/examples/bullet_paths">SOURCE</a>
+				</p>
+			</div>
+
+			<div class="example input animation">
+				<h5>Fighter combo</h5>
+				<img src="images/fighter_combo.png" width="200px"/>
+				<p>
+					This example shows how to do fighter combos in games such as Street Fighter.</br>
+					<a href="fighter_combo/index.html">TRY IT!</a></br>
+					<a href="https://github.com/britzl/publicexamples/tree/master/examples/fighter_combo">SOURCE</a>
+				</p>
+			</div>
+
+
+			<div class="example effect shader">
+				<h5>Sprite tinting</h5>
+				<img src="images/sprite_tinting.png" width="200px"/>
+				<p>
+					This example shows how to tint sprites using the predefined "tint" fragment constant.</br>
+					<a href="sprite_tinting/index.html">TRY IT!</a></br>
+					<a href="https://github.com/britzl/publicexamples/tree/master/examples/sprite_tinting">SOURCE</a>
+				</p>
+			</div>
+
+
+
+			<div class="example input gui">
+				<h5>Simple button</h5>
+				<img src="images/simple_button.png" width="200px"/>
+				<p>
+					This example shows how to create a simple button with a pressed and released state.</br>
+					<a href="simple_button/index.html">TRY IT!</a></br>
+					<a href="https://github.com/britzl/publicexamples/tree/master/examples/simple_button">SOURCE</a>
+				</p>
+			</div>
+
+
+			<div class="example tilemap">
+				<h5>Tilemap layers</h5>
+				<img src="images/tilemap_layers.png" width="200px"/>
+				<p>
+					This example shows how interleave sprites with tilemap layers.</br>
+					<a href="tilemap_layers/index.html">TRY IT!</a></br>
+					<a href="https://github.com/britzl/publicexamples/tree/master/examples/tilemap_layers">SOURCE</a>
+				</p>
+			</div>
+
+
+
+			<div class="example tilemap">
+				<h5>Tilemap collisions</h5>
+				<img src="images/tilemap_collisions.png" width="200px"/>
+				<p>
+					This example shows how to detect tilemap collisions.</br>
+					<a href="tilemap_collisions/index.html">TRY IT!</a></br>
+					<a href="https://github.com/britzl/publicexamples/tree/master/examples/tilemap_collisions">SOURCE</a>
+				</p>
+			</div>
+
+		</div>
+	</div>
+
+	<div class="row">
+		<p>
+			Page created using the <a href="http://getskeleton.com/" target="_blank">Skeleton boilerplate</a>.
+		</p>
+	</div>
+
+</div>
+
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-84927878-1', 'auto');
+	ga('send', 'pageview');
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,37 @@
+[project]
+title = Sprite Tinting
+custom_resources = 
+
+[bootstrap]
+main_collection = /sprite_tinting/sprite_tinting.collectionc
+render = /builtins/render/default.renderc
+
+[input]
+game_binding = /input/game.input_bindingc
+gamepads = /builtins/input/default.gamepadsc
+
+[display]
+width = 640
+height = 1136
+variable_dt = 1
+
+[physics]
+scale = 0.02
+debug = 0
+max_collisions = 256
+max_contacts = 256
+gravity_y = -100
+
+[script]
+shared_state = 1
+
+[android]
+iap_provider = GooglePlay
+package = com.britzl.publicexamples.play_animation
+
+[osx]
+bundle_identifier = com.britzl.publicexamples.play_animation
+
+[ios]
+bundle_identifier = com.britzl.publicexamples.play_animation
+

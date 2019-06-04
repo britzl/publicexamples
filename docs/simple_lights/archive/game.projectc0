@@ -1,0 +1,41 @@
+[project]
+title = Simple Lights
+custom_resources = 
+
+[bootstrap]
+main_collection = /simple_lights/simplelights.collectionc
+render = /simple_lights/render/postprocess.renderc
+
+[input]
+game_binding = /input/game.input_bindingc
+gamepads = /builtins/input/default.gamepadsc
+
+[display]
+width = 1136
+height = 640
+variable_dt = 0
+
+[physics]
+scale = 0.02
+debug = 0
+max_collisions = 256
+max_contacts = 256
+gravity_y = -100
+
+[script]
+shared_state = 1
+
+[android]
+iap_provider = GooglePlay
+package = com.britzl.publicexamples.radial_blur
+
+[osx]
+bundle_identifier = com.britzl.publicexamples.radial_blur
+
+[ios]
+bundle_identifier = com.britzl.publicexamples.radial_blur
+
+[graphics]
+default_texture_min_filter = nearest
+default_texture_mag_filter = nearest
+

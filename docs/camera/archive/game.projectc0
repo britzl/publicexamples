@@ -1,0 +1,43 @@
+[project]
+title = PublicExamples
+custom_resources = 
+
+[bootstrap]
+main_collection = /examples/camera/camera.collectionc
+render = /examples/camera/split_screen.renderc
+
+[input]
+game_binding = /input/game.input_bindingc
+
+[display]
+width = 640
+height = 1136
+variable_dt = 1
+
+[physics]
+scale = 0.02
+debug = 0
+max_collisions = 256
+max_contacts = 256
+
+[script]
+shared_state = 1
+
+[android]
+iap_provider = GooglePlay
+package = com.britzl.publicexamples
+
+[sprite]
+max_count = 32000
+
+[resource]
+max_resources = 3000
+
+[collection]
+max_instances = 32000
+
+[factory]
+
+[graphics]
+max_debug_vertices = 50000
+

@@ -1,0 +1,47 @@
+[project]
+title = Tilemap Collisions
+custom_resources = 
+
+[bootstrap]
+main_collection = /tilemap_collisions/game.collectionc
+render = /builtins/render/default.renderc
+
+[input]
+game_binding = /input/game.input_bindingc
+gamepads = /builtins/input/default.gamepadsc
+
+[display]
+width = 1136
+height = 640
+variable_dt = 1
+
+[physics]
+scale = 0.02
+debug = 0
+max_collisions = 256
+max_contacts = 256
+gravity_y = -1000.0
+
+[script]
+shared_state = 1
+
+[android]
+iap_provider = GooglePlay
+package = com.britzl.publicexamples.tilemap_collisions
+
+[sprite]
+max_count = 1000
+
+[resource]
+max_resources = 1000
+
+[osx]
+bundle_identifier = com.britzl.publicexamples.tilemap_collisions
+
+[ios]
+bundle_identifier = com.britzl.publicexamples.tilemap_collisions
+
+[graphics]
+default_texture_min_filter = nearest
+default_texture_mag_filter = nearest
+
