@@ -1,0 +1,30 @@
+[project]
+title = Slingshot
+
+[bootstrap]
+main_collection = /slingshot/slingshot.collectionc
+
+[input]
+game_binding = /input/game.input_bindingc
+use_accelerometer = 0
+
+[display]
+width = 640
+height = 1136
+
+[ios]
+bundle_identifier = com.example.todo
+
+[osx]
+bundle_identifier = com.example.todo
+
+[android]
+input_method = HiddenInputField
+
+[script]
+shared_state = 1
+
+[physics]
+gravity_y = -1000.0
+scale = 0.01
+

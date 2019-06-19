@@ -1,0 +1,52 @@
+go.property("max_distance", 200)
+go.property("force_multiplier", 500)
+
+local function reset_stone(self)
+	msg.post("stone#collisionobject", "disable")
+	go.set_position(self.initial_stone_pos, "stone")
+end
+
+function init(self)
+	self.initial_stone_pos = go.get_position("stone")
+	msg.post(".", "acquire_input_focus")
+	reset_stone(self)
+end
+
+function on_input(self, action_id, action)
+	if action_id == hash("touch") then
+		-- current position of mouse/touch
+		local action_pos = vmath.vector3(action.x, action.y, 0)
+		if action.pressed then
+			-- store point where user pressed/touch
+			self.pressed_pos = action_pos
+		elseif action.released then
+			-- user released mouse/finger:
+			-- * calculate the distance stone has moved from starting position
+			-- * calculate direction
+			-- * use this to calculate a reasonable force to apply
+			-- * enable dynamic collision object on stone
+			-- * apply force
+			local stone_pos = go.get_position("stone")
+			local delta = stone_pos - self.initial_stone_pos
+			local direction = vmath.normalize(delta)
+			local distance = vmath.length(delta)
+			local force = -direction * distance * self.force_multiplier
+			msg.post("stone#collisionobject", "enable")
+			msg.post("stone#collisionobject", "apply_force", { position = stone_pos, force = force})
+			timer.delay(2, false, reset_stone)
+			self.pressed_pos = nil
+		elseif self.pressed_pos then
+			-- while pressing/touching screen and moving mouse/finger:
+			-- * calculate distance and direction of mouse/finger in relation to where mouse/finger pressed
+			-- * cap distance to a maximum value
+			-- * move the stone
+			local delta = action_pos - self.pressed_pos
+			local distance = math.min(vmath.length(delta), self.max_distance)
+			if distance > 0 then
+				local direction = vmath.normalize(delta)
+				local stone_pos = self.initial_stone_pos + direction * distance
+				go.set_position(stone_pos, "stone")
+			end
+		end
+	end
+end
