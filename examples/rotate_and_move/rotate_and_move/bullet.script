@@ -1,16 +1,3 @@
-go.property("linear_velocity", 750)
-
-local W = tonumber(sys.get_config("display.width"))
-local H = tonumber(sys.get_config("display.height"))
-
-function update(self, dt)
-	local rotation = go.get_rotation()
-	local distance = self.linear_velocity * dt
-	local direction = vmath.rotate(rotation, vmath.vector3(0, distance, 0))
-	local position = go.get_position() + direction
-	go.set_position(position)
-end
-
 function on_message(self, message_id, message, sender)
 	if message_id == hash("collision_response") and message.group == hash("wall") then
 		go.delete()
