@@ -1,0 +1,50 @@
+--[[
+This script shows various ways you can load and use Lua code
+--]]
+
+-- create a custom loader used by require() to load files using
+-- sys.load_resource()
+local function custom_resource_loader(path)
+	local s = sys.load_resource(path)
+	if not s then
+		return
+	end
+	return loadstring(s)
+end
+table.insert(package.loaders, custom_resource_loader)
+
+-- generate an iterator/closure function that returns one character per call
+local function char_by_char(s)
+	local i = 1
+	return function()
+		if i > #s then
+			return nil
+		end
+		i = i + 1
+		return s:sub(i - 1, i - 1)
+	end
+end
+
+local normal = require("load_lua.normal_require")
+
+function init(self)
+	normal.hello()
+
+	-- load string with Lua code as a chunk.
+	-- run it!
+	local chunk = loadstring('print("Hello from Lua loaded as a string")')
+	chunk()
+
+	-- load string with Lua code as multiple pieces
+	-- maybe loaded from a server or generated on the fly in multiple steps?
+	-- run it!
+	local chunk = load(char_by_char('print("Hello from Lua loaded as pieces of a string")'))
+	chunk()
+
+	-- require a Lua module bundled in custom resources
+	-- this will use the custom_resource_loader defined
+	-- above
+	local path = "/custom/custom.lua"
+	local custom = require(path)
+	custom.hello()
+end
