@@ -1,0 +1,155 @@
+--
+-- projection that centers content with maintained aspect ratio and optional zoom
+--
+local function fixed_projection(self)
+    local window_width = render.get_window_width()
+    local window_height = render.get_window_height()
+    local projected_width = (window_width / (self.camera_settings.zoom or 1))
+    local projected_height = window_height / (self.camera_settings.zoom or 1)
+    local left = -(projected_width - render.get_width()) / 2
+    local right = left + projected_width
+    local bottom = -(projected_height - render.get_height()) / 2
+    local top = bottom + projected_height
+    render.set_viewport(0, 0, window_width, window_height)
+    render.set_view(self.view)
+    render.set_projection(vmath.matrix4_orthographic(left, right, bottom, top, self.camera_settings.near, self.camera_settings.far))
+end
+
+--
+-- projection that centers and fits content with maintained aspect ratio
+-- optionally cropping left/right or top/bottom
+--
+local function fixed_fit_projection(self)
+    local width = render.get_width()
+    local height = render.get_height()
+    local window_width = render.get_window_width()
+    local window_height = render.get_window_height()
+    local width_ratio = window_width / width
+    local height_ratio = window_height / height
+    local zoom = math.min(width_ratio, height_ratio)
+
+    -- if no cropping should take place then the "fixed fit projection" is the same as
+    -- using a "fixed projection" with a dynamic zoom
+    if not self.camera_settings.crop then
+        self.camera_settings.zoom = zoom
+        fixed_projection(self)
+        return
+    end
+
+    local aspect_ratio = width / height
+    local viewport_left = 0
+    local viewport_bottom = 0
+    local viewport_width = window_width
+    local viewport_height = window_height
+    -- crop viewport (screen is wider -> crop left and right, screen is taller -> crop top and bottom)
+    if width_ratio > height_ratio then
+        viewport_width = window_height * aspect_ratio
+        viewport_left = (window_width - viewport_width) / 2
+    else
+        viewport_height = window_width / aspect_ratio
+        viewport_bottom = (window_height - viewport_height) / 2
+    end
+    render.set_viewport(viewport_left, viewport_bottom, viewport_width, viewport_height)
+
+    local left = 0
+    local bottom = 0
+    local right = viewport_width / zoom
+    local top = viewport_height / zoom
+    render.set_projection(vmath.matrix4_orthographic(left, right, bottom, top, self.camera_settings.near or -1, self.camera_settings.far or 1))
+    render.set_view(self.view)
+end
+
+--
+-- projection that stretches content
+--
+local function stretch_projection(self)
+    render.set_viewport(0, 0, render.get_window_width(), render.get_window_height())
+    render.set_view(self.view)
+    render.set_projection(vmath.matrix4_orthographic(0, render.get_width(), 0, render.get_height(), self.camera_settings.near or -1, self.camera_settings.far or 1))
+end
+
+--
+-- projection provided by camera
+--
+local function camera_projection(self)
+    render.set_viewport(0, 0, render.get_window_width(), render.get_window_height())
+    render.set_view(self.view)
+    render.set_projection(self.projection)
+end
+
+local function update_from_camera(self)
+    self.camera_fn(self)
+end
+
+function init(self)
+    self.tile_pred = render.predicate({"tile"})
+    self.gui_pred = render.predicate({"gui"})
+    self.text_pred = render.predicate({"text"})
+    self.particle_pred = render.predicate({"particle"})
+
+    self.clear_color = vmath.vector4(0, 0, 0, 0)
+    self.clear_color.x = sys.get_config("render.clear_color_red", 0)
+    self.clear_color.y = sys.get_config("render.clear_color_green", 0)
+    self.clear_color.z = sys.get_config("render.clear_color_blue", 0)
+    self.clear_color.w = sys.get_config("render.clear_color_alpha", 0)
+
+    self.view = vmath.matrix4()
+
+    -- default is stretch projection. copy from builtins and change for different projection
+    -- or send a message to the render script to change projection:
+    -- msg.post("@render:", "use_stretch_projection", { near = -1, far = 1 })
+    -- msg.post("@render:", "use_fixed_projection", { near = -1, far = 1, zoom = 2 })
+    -- msg.post("@render:", "use_fixed_fit_projection", { near = -1, far = 1, crop = true })
+    -- msg.post("@render:", "use_fixed_fit_projection", { near = -1, far = 1, crop = false })
+    self.camera_fn = stretch_projection
+    self.camera_settings = { near = -1, far = 1 }
+end
+
+function update(self)
+    render.set_depth_mask(true)
+    render.set_stencil_mask(0xff)
+    render.clear({[render.BUFFER_COLOR_BIT] = self.clear_color, [render.BUFFER_DEPTH_BIT] = 1, [render.BUFFER_STENCIL_BIT] = 0})
+
+    render.set_depth_mask(false)
+    render.disable_state(render.STATE_DEPTH_TEST)
+    render.disable_state(render.STATE_STENCIL_TEST)
+    render.enable_state(render.STATE_BLEND)
+    render.set_blend_func(render.BLEND_SRC_ALPHA, render.BLEND_ONE_MINUS_SRC_ALPHA)
+    render.disable_state(render.STATE_CULL_FACE)
+    update_from_camera(self)
+    render.draw(self.tile_pred)
+    render.draw(self.particle_pred)
+    render.draw_debug3d()
+
+    -- render GUI
+    --
+    render.set_viewport(0, 0, render.get_window_width(), render.get_window_height())
+    render.set_view(vmath.matrix4())
+    render.set_projection(vmath.matrix4_orthographic(0, render.get_window_width(), 0, render.get_window_height(), -1, 1))
+
+    render.enable_state(render.STATE_STENCIL_TEST)
+    render.draw(self.gui_pred)
+    render.draw(self.text_pred)
+    render.disable_state(render.STATE_STENCIL_TEST)
+end
+
+function on_message(self, message_id, message)
+    if message_id == hash("clear_color") then
+        self.clear_color = message.color
+    elseif message_id == hash("set_view_projection") then
+        self.view = message.view
+        self.projection = message.projection
+    elseif message_id == hash("use_camera_projection") then
+        self.camera_settings = message
+        self.camera_fn = camera_projection
+    elseif message_id == hash("use_stretch_projection") then
+        self.camera_settings = message
+        self.camera_fn = stretch_projection
+    elseif message_id == hash("use_fixed_projection") then
+        self.camera_settings = message
+        self.camera_fn = fixed_projection
+    elseif message_id == hash("use_fixed_fit_projection") then
+        self.camera_settings = message
+        self.camera_fn = fixed_fit_projection
+    end
+end
