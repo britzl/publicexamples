@@ -13,6 +13,7 @@ end
 
 function on_message(self, message_id, message, sender)
 	if message_id == hash("button_a") and message.released then
+		print("laser")
 		factory.create("#laserfactory", go.get_position() + vmath.vector3(0, 50, 0))
 	elseif message_id == hash("button_b") and message.released then
 		print("smartbomb")

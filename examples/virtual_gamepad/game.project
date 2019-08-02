@@ -1,6 +1,6 @@
 [project]
 title = VirtualGamepad
-custom_resources =
+custom_resources = 
 
 [bootstrap]
 main_collection = /virtual_gamepad/virtual_gamepad.collectionc
@@ -9,11 +9,11 @@ render = /builtins/render/default.renderc
 [input]
 game_binding = /input/game.input_bindingc
 gamepads = /builtins/input/default.gamepadsc
+use_accelerometer = 0
 
 [display]
 width = 640
 height = 1136
-variable_dt = 1
 
 [physics]
 scale = 0.02
@@ -34,3 +34,4 @@ bundle_identifier = com.britzl.publicexamples.virtualgamepad
 
 [ios]
 bundle_identifier = com.britzl.publicexamples.virtualgamepad
+

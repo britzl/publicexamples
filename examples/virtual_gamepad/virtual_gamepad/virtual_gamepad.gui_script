@@ -1,8 +1,81 @@
+local function post_to_listener(self, message_id, message)
+	if self.listener then
+		msg.post(self.listener, message_id, message or {})
+	end
+end
+
+local function on_analog(self, touch, control)
+	local touch_position = vmath.vector3(touch.x, touch.y, 0)
+	if touch.pressed then
+		gui.cancel_animation(control.node, gui.PROP_POSITION)
+		control.analog_pos = touch_position
+		control.analog_offset = touch_position - control.node_start_position
+	elseif touch.released then
+		gui.animate(control.node, gui.PROP_POSITION, control.node_start_position, gui.EASING_OUTQUAD, 0.2)
+		post_to_listener(self, "analog", { x = 0, y = 0 })
+	else
+		local diff = control.analog_pos - touch_position
+		local dir = vmath.normalize(diff)
+		local distance = vmath.length(diff)
+		if distance > 0 then
+			local radius = 80
+			if distance > radius then
+				touch_position = control.node_start_position - dir * radius
+				distance = radius
+			else
+				touch_position = touch_position - control.analog_offset	
+			end
+			gui.set_position(control.node, touch_position)
+			post_to_listener(self, "analog", { x = -dir.x * distance / radius, y = -dir.y * distance / radius })
+		end
+	end
+end
+
+local function on_control_a(self, touch, control)
+	if touch.pressed then
+		post_to_listener(self, "button_a", { pressed = true })
+	elseif touch.released then
+		post_to_listener(self, "button_a", { released = true })
+	end
+end
+
+local function find_control_for_xy(self, x, y)
+	for _,control in pairs(self.controls) do
+		if gui.pick_node(control.node, x, y) then
+			return control
+		end
+	end
+end
+
+local function find_control_for_touch_index(self, touch_index)
+	for _,control in pairs(self.controls) do
+		if control.touch_index == touch_index then
+			return control
+		end
+	end
+end
+
+
+--- Register a virtual control
+-- @param self
+-- @param node Node represented by the control
+-- @param fn Function to invoke when interacted with
+local function register(self, node, fn)
+	assert(node, "You must provide a node")
+	assert(fn, "You must provide a function")
+	if not self.controls then self.controls = {} end
+	self.controls[node] = {
+		node_start_position = gui.get_position(node),
+		node = node,
+		pressed = false,
+		fn = fn,
+	}
+end
+
 function init(self)
 	msg.post(".", "acquire_input_focus")
-	self.analog = gui.get_node("analog")
-	self.button_a = gui.get_node("button_a")
-	self.analog_start_position = gui.get_position(self.analog)
+	register(self, gui.get_node("analog"), on_analog)
+	register(self, gui.get_node("button_a"), on_control_a)
 end
 
 function final(self)
@@ -17,58 +90,32 @@ function on_message(self, message_id, message, sender)
 	end
 end
 
-local function post_to_listener(self, message_id, message)
-	if self.listener then
-		msg.post(self.listener, message_id, message or {})
-	end
-end
-
-
 local function handle_touch(self, touch, touch_index)
 	if touch.pressed then
-		if gui.pick_node(self.button_a, touch.x, touch.y) then
-			post_to_listener(self, "button_a", { pressed = true })
-		elseif gui.pick_node(self.analog, touch.x, touch.y) then
-			gui.cancel_animation(self.analog, gui.PROP_POSITION)
-			local touch_pos = vmath.vector3(touch.x, touch.y, 0)
-			self.analog_pressed = { pos = touch_pos, offset = touch_pos - self.analog_start_position, index = touch_index }
+		local control = find_control_for_xy(self, touch.x, touch.y)
+		if control and not control.pressed then
+			control.pressed = true
+			control.touch_index = touch_index
+			control.fn(self, touch, control)
 		end
 	elseif touch.released then
-		if self.analog_pressed and self.analog_pressed.index == touch_index then
-			gui.animate(self.analog, gui.PROP_POSITION, self.analog_start_position, gui.EASING_OUTQUAD, 0.2)
-			post_to_listener(self, "analog", { x = 0, y = 0 })
-			self.analog_pressed = nil
-		else
-			if gui.pick_node(self.button_a, touch.x, touch.y) then
-				post_to_listener(self, "button_a", { released = true })
-			end
+		local control = find_control_for_touch_index(self, touch_index)
+		if control then
+			control.pressed = false
+			control.touch_index = nil
+			control.fn(self, touch, control)
 		end
-	elseif self.analog_pressed and self.analog_pressed.index == touch_index then
-		local touch_position = vmath.vector3(touch.x, touch.y, 0)
-		local diff = self.analog_pressed.pos - touch_position
-		local dir = vmath.normalize(diff)
-		local distance = vmath.length(diff)
-		if distance > 0 then
-			local radius = 80
-			if distance > radius then
-				touch_position = self.analog_start_position - dir * radius
-				distance = radius
-			else
-				touch_position = touch_position - self.analog_pressed.offset	
-			end
-			gui.set_position(self.analog, touch_position)
-			post_to_listener(self, "analog", { x = -dir.x * distance / radius, y = -dir.y * distance / radius })
+	else
+		local control = find_control_for_touch_index(self, touch_index)
+		if control then
+			control.fn(self, touch, control)
 		end
 	end
 end
 
 function on_input(self, action_id, action)
-	local ratio_x = action.x / (action.screen_x or action.x)
-	local ratio_y = action.y / (action.screen_y or action.y)
 	if action.touch then
 		for i,tp in pairs(action.touch) do
-			--tp.x = tp.x / ratio_x
-			--tp.y = tp.y / ratio_y
 			handle_touch(self, tp, i)
 		end
 	else
