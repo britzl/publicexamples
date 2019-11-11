@@ -39,16 +39,16 @@ function update(self, dt)
 	local player = go.get_position("player")
 	local px = player.x
 	local py = player.y
-	local previout_tx = math.floor(self.previous_px / TILESIZE)
+	local previous_tx = math.floor(self.previous_px / TILESIZE)
 	local previous_ty = math.floor(self.previous_py / TILESIZE)
 	
-	go.set_position(-vmath.vector3(px % 64, py % 64, 0))
+	go.set_position(-vmath.vector3(px % TILESIZE, py % TILESIZE, 0))
 
 	-- calculate new tile x,y and update tilemap if it differs
 	-- from the previous tile x,y
 	local tx = math.floor(px / TILESIZE)
 	local ty = math.floor(py / TILESIZE)
-	if tx ~= previout_tx or ty ~= previous_ty then
+	if tx ~= previous_tx or ty ~= previous_ty then
 		update_tilemap(tx,ty)
 	end
 	
