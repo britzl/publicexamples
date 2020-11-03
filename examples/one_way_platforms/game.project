@@ -1,6 +1,6 @@
 [project]
 title = One-way platforms
-custom_resources =
+custom_resources = 
 
 [bootstrap]
 main_collection = /one_way_platforms/one_way_platforms.collectionc
@@ -50,3 +50,10 @@ app_icon_72x72 = /examples/assets/appicons/icon_72.png
 app_icon_144x144 = /examples/assets/appicons/icon_144.png
 app_icon_167x167 = /examples/assets/appicons/icon_167.png
 bundle_identifier = com.britzl.publicexamples
+
+[tilemap]
+max_tile_count = 5000
+
+[graphics]
+max_debug_vertices = 100000
+
