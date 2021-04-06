@@ -40,3 +40,7 @@ bundle_identifier = com.britzl.publicexamples.drag_to_scroll
 
 [ios]
 bundle_identifier = com.britzl.publicexamples.drag_to_scroll
+
+[tilemap]
+max_tile_count = 9000
+
