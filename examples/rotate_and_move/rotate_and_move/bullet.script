@@ -1,5 +1,0 @@
-function on_message(self, message_id, message, sender)
-	if message_id == hash("collision_response") and message.group == hash("wall") then
-		go.delete()
-	end
-end

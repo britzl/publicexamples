@@ -1,6 +1,6 @@
 [project]
 title = Drag to Scroll
-custom_resources =
+custom_resources = 
 
 [bootstrap]
 main_collection = /drag_to_scroll/drag_to_scroll.collectionc

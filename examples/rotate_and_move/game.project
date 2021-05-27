@@ -1,6 +1,6 @@
 [project]
 title = Rotate and Move
-custom_resources =
+custom_resources = 
 
 [bootstrap]
 main_collection = /rotate_and_move/rotate_and_move.collectionc
@@ -40,3 +40,7 @@ bundle_identifier = com.britzl.publicexamples.rotate_and_move
 
 [ios]
 bundle_identifier = com.britzl.publicexamples.rotate_and_move
+
+[tilemap]
+max_tile_count = 10000
+
