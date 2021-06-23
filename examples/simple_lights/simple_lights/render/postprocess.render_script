@@ -1,4 +1,4 @@
-local render_helper = require "orthographic.render.helper"
+local camera = require "orthographic.camera"
 
 local IDENTITY = vmath.matrix4()
 
@@ -53,8 +53,6 @@ function init(self)
 	self.height = render.get_window_height()
 
 	create_render_targets(self)
-		
-	render_helper.init(self)
 end
 
 
@@ -70,8 +68,6 @@ local function clear(color, depth, stencil)
 end
 
 local function render_to_world(self, predicates, constants)
-	render_helper.set_world_view_projection(self)
-
 	render.set_depth_mask(false)
 	render.disable_state(render.STATE_DEPTH_TEST)
 	render.disable_state(render.STATE_STENCIL_TEST)
@@ -149,8 +145,7 @@ end
 
 
 function update(self)
-	render_helper.update(self)
-
+	
 	-- recreate render targets if screen size has changed
 	local window_width = render.get_window_width()
 	local window_height = render.get_window_height()
@@ -159,44 +154,53 @@ function update(self)
 		self.height = window_height
 		create_render_targets(self)
 	end
-	
-	render.set_viewport(0, 0, render.get_window_width(), render.get_window_height())
 
-	-- draw normal sprites, tilemaps etc
-	render_to_rt(self, self.normal_rt, function(self)
-		clear(BLACK, nil, nil)
-		render_to_world(self, { self.tile_pred, self.particle_pred })
-	end)
+	for _,camera_id in ipairs(camera.get_cameras()) do
+		local viewport = camera.get_viewport(camera_id)
+		local view = camera.get_view(camera_id)
+		local projection = camera.get_projection(camera_id)
 
-	-- draw lights
-	render_to_rt(self, self.light_rt, function(self)
-		clear(AMBIENT_LIGHT, nil, nil)
-		-- add some flicker to the light
-		local constants = render.constant_buffer()
-		constants.time = vmath.vector4(math.random(90, 100) / 100)
-		render_to_world(self, { self.light_pred }, constants)
-	end)
+		render.set_viewport(viewport.x, viewport.y, viewport.z, viewport.w)
 
-	-- draw combination of normal and lights to quad
-	render_to_quad(self, function(self)
-		clear(BLACK, nil, nil)
-		--draw_to_quad(self, self.normal_rt)
-		--draw_to_quad(self, self.light_rt)
-		multiply_to_quad(self, self.normal_rt, self.light_rt)
-	end)
+		-- draw normal sprites, tilemaps etc
+		render_to_rt(self, self.normal_rt, function(self)
+			clear(BLACK, nil, nil)
+			render.set_view(view)
+			render.set_projection(projection)
+			render_to_world(self, { self.tile_pred, self.particle_pred })
+		end)
+
+		-- draw lights
+		render_to_rt(self, self.light_rt, function(self)
+			clear(AMBIENT_LIGHT, nil, nil)
+			-- add some flicker to the light
+			local constants = render.constant_buffer()
+			constants.time = vmath.vector4(math.random(90, 100) / 100)
+			render.set_view(view)
+			render.set_projection(projection)
+			render_to_world(self, { self.light_pred }, constants)
+		end)
+
+		-- draw combination of normal and lights to quad
+		render_to_quad(self, function(self)
+			clear(BLACK, nil, nil)
+			--draw_to_quad(self, self.normal_rt)
+			--draw_to_quad(self, self.light_rt)
+			multiply_to_quad(self, self.normal_rt, self.light_rt)
+		end)
+	end
 
 	-- draw gui
-	render_helper.set_screen_view_projection(self)
+	render.set_view(IDENTITY)
+	render.set_projection(vmath.matrix4_orthographic(0, render.get_window_width(), 0, render.get_window_height(), -1, 1))
 	render.enable_state(render.STATE_STENCIL_TEST)
 	render.draw(self.gui_pred)
 	render.draw(self.text_pred)
 	render.disable_state(render.STATE_STENCIL_TEST)
 	render.set_depth_mask(false)
-	render.draw_debug2d()
 end
 
 function on_message(self, message_id, message)
-	render_helper.on_message(self, message_id, message, sender)
 	if message_id == hash("clear_color") then
 		self.clear_color = message.color
 	end

@@ -1,7 +1,7 @@
 [project]
 title = Simple Lights
 custom_resources = 
-dependencies = https://github.com/britzl/defold-orthographic/archive/2.6.0.zip
+dependencies#0 = https://github.com/britzl/defold-orthographic/archive/3.0.1.zip
 
 [bootstrap]
 main_collection = /simple_lights/simplelights.collectionc
