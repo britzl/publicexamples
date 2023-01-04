@@ -1,0 +1,64 @@
+local FULCRUM_LENGTH = 400
+local SCALE_LENGTH = 100
+local BASE_HEIGHT = 300
+
+local BASE = "base#collisionobject"
+local FULCRUM = "fulcrum#collisionobject"
+local LEFT_SCALE = "left#collisionobject"
+local RIGHT_SCALE = "right#collisionobject"
+
+local function connect_fulcrum_and_base()
+	local options = {
+		enable_motor = false,
+		enable_limit = true,
+		reference_angle = math.rad(0),
+		lower_angle = math.rad(-45),
+		upper_angle = math.rad(45)
+	}
+	physics.create_joint(
+		physics.JOINT_TYPE_HINGE,
+		FULCRUM, "fulcrumjoint", vmath.vector3(0),
+		BASE, vmath.vector3(0, BASE_HEIGHT, 0),
+		options)
+end
+
+local function connect_fulcrum_and_left_scale()
+	local options = {
+		max_length = 200,
+	}
+	physics.create_joint(physics.JOINT_TYPE_FIXED,
+		FULCRUM, "leftscale_l", vmath.vector3(-FULCRUM_LENGTH/2, 0, 0),
+		LEFT_SCALE, vmath.vector3(-SCALE_LENGTH/2, 0, 0), options)
+
+	physics.create_joint(physics.JOINT_TYPE_FIXED,
+		FULCRUM, "leftscale_r", vmath.vector3(-FULCRUM_LENGTH/2, 0, 0),
+		LEFT_SCALE, vmath.vector3(SCALE_LENGTH/2, 0, 0), options)
+end
+
+local function connect_fulcrum_and_right_scale()
+	local options = {
+		max_length = 200,
+	}
+	physics.create_joint(physics.JOINT_TYPE_FIXED,
+		FULCRUM, "rightscale_l", vmath.vector3(FULCRUM_LENGTH/2, 0, 0),
+		RIGHT_SCALE, vmath.vector3(-SCALE_LENGTH/2, 0, 0), options)
+
+	physics.create_joint(physics.JOINT_TYPE_FIXED,
+		FULCRUM, "righhtscale_r", vmath.vector3(FULCRUM_LENGTH/2, 0, 0),
+		RIGHT_SCALE, vmath.vector3(SCALE_LENGTH/2, 0, 0), options)
+end
+
+
+function init(self)
+	msg.post("@system:", "toggle_physics_debug")
+	msg.post(".", "acquire_input_focus")
+	connect_fulcrum_and_base()
+	connect_fulcrum_and_left_scale()
+	connect_fulcrum_and_right_scale()
+end
+
+function on_input(self, action_id, action)
+	if action_id and action.pressed then
+		factory.create("#weightfactory", vmath.vector3(action.x, action.y, 0))
+	end
+end
