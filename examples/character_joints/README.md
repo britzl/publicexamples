@@ -6,3 +6,7 @@ This example shows how to create the limbs of a character using physics joints.
 
 ## Try it!
 http://britzl.github.io/publicexamples/characterjoints/index.html
+
+## Credits
+
+Art by [Kenney](https://www.kenney.nl/assets/monster-builder-pack)
