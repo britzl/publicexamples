@@ -1,0 +1,23 @@
+[bootstrap]
+main_collection = /main/main.collectionc
+
+[script]
+shared_state = 1
+
+[display]
+width = 960
+height = 640
+vsync = 0
+update_frequency = 10
+swap_interval = 0
+
+[android]
+input_method = HiddenInputField
+
+[physics]
+scale = 0.01
+gravity_y = -500.0
+
+[project]
+title = characterjoints
+
