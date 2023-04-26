@@ -64,13 +64,25 @@ function on_input(self, action_id, action)
 	elseif action_id == hash("down") then
 		self.move = action.released and 0 or -1
 	end
-	
-	if (action_id == hash("trigger") or action_id == hash("touch")) and action.released then
-		local rotation = go.get_rotation()
-		local position = go.get_position() + vmath.rotate(rotation, vmath.vector3(10, 40, 0))
-		local to = position + vmath.rotate(rotation, vmath.vector3(0, 1000, 0))
-		local bullet = factory.create("#bulletfactory", position, rotation)
-		go.animate(bullet, "position", go.PLAYBACK_ONCE_FORWARD, to, go.EASING_LINEAR, 0.75)
+
+	-- handle touch/mouse movement by holding down the finger/mouse button
+	if (action_id == hash("trigger") or action_id == hash("touch")) then
+		if action.pressed then
+			self.move = 1
+			self.pressed_time = socket.gettime()
+		elseif action.released then
+			self.move = 0
+			-- fire a bullet if the time between press and release is sufficiently short
+			if socket.gettime() - self.pressed_time < 0.2 then
+				local rotation = go.get_rotation()
+				local position = go.get_position() + vmath.rotate(rotation, vmath.vector3(10, 40, 0))
+				local to = position + vmath.rotate(rotation, vmath.vector3(0, 1000, 0))
+				local bullet = factory.create("#bulletfactory", position, rotation)
+				go.animate(bullet, "position", go.PLAYBACK_ONCE_FORWARD, to, go.EASING_LINEAR, 0.75, 0, function()
+					go.delete(bullet)
+				end)
+			end
+		end
 	end
 	
 	if not action_id then
