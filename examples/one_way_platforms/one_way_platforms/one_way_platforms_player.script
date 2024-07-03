@@ -8,6 +8,7 @@ function init(self)
 	-- this tells the engine to send input to on_input() in this script
 	msg.post(".", "acquire_input_focus")
 	msg.post("camera", "acquire_camera_focus")
+	msg.post("@render:", "use_camera_projection")
 	--msg.post("@system:", "toggle_physics_debug")
 
 	-- save the starting position
