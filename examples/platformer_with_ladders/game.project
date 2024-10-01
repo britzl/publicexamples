@@ -1,6 +1,6 @@
 [project]
 title = Platformer with Ladders
-custom_resources =
+custom_resources = 
 
 [bootstrap]
 main_collection = /platformer_with_ladders/platformer_with_ladders.collectionc
@@ -13,11 +13,9 @@ gamepads = /builtins/input/default.gamepadsc
 [display]
 width = 1136
 height = 640
-variable_dt = 1
 
 [physics]
 scale = 0.02
-debug = 0
 max_collisions = 256
 max_contacts = 256
 gravity_y = -100
@@ -34,3 +32,4 @@ bundle_identifier = com.britzl.publicexamples.platformer_with_ladders
 
 [ios]
 bundle_identifier = com.britzl.publicexamples.platformer_with_ladders
+

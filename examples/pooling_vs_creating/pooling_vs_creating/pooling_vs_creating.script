@@ -8,7 +8,7 @@ local pool = {}
 
 local active_pooled_count = 0
 local active_created_count = 0
-
+local is_active = false
 local pooled_time = 0
 local pooled_mem = 0
 local created_time = 0
@@ -30,6 +30,7 @@ local function spawn_pooled_go()
 		pool[#pool] = nil
 		msg.post(id, "enable")
 		go.set_position(position, id)
+		is_active = false
 	else
 		id = factory.create("#factory", position)
 	end
@@ -38,7 +39,9 @@ local function spawn_pooled_go()
 		msg.post(id, "disable")
 		pool[#pool + 1] = id
 		active_pooled_count = active_pooled_count - 1
+		is_active = false
 	end)
+
 end
 
 local function spawn_created_go()
@@ -48,7 +51,9 @@ local function spawn_created_go()
 	animate(id, position, function()
 		go.delete(id)
 		active_created_count = active_created_count - 1
+		is_active = false
 	end)
+
 end
 
 function init(self)
@@ -75,13 +80,14 @@ function update(self, dt)
 end
 
 function on_input(self, action_id, action)
-	if action.released then
+	if action.released and not is_active then
 		self.count = self.count + 1
 		if self.count % 2 == 1 then
 			local mem = collectgarbage("count")
 			local now = socket.gettime()
 			for i=1,MAX_COUNT do
 				spawn_created_go()
+				is_active = true
 			end
 			created_time = socket.gettime() - now
 			created_mem = collectgarbage("count") - mem
@@ -90,6 +96,7 @@ function on_input(self, action_id, action)
 			local now = socket.gettime()
 			for i=1,MAX_COUNT do
 				spawn_pooled_go()
+				is_active = true
 			end
 			pooled_time = socket.gettime() - now
 			pooled_mem = collectgarbage("count") - mem

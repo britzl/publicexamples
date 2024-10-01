@@ -21,7 +21,7 @@ end
 
 function on_input(self, action_id, action)
 	if action_id == hash("touch") and action.released then
-		table.insert(self.hitmen, spawn_hitman(vmath.vector3(action.screen_x, action.screen_y, 0)))
+		table.insert(self.enemies, spawn_enemy())
 	end
 end
 

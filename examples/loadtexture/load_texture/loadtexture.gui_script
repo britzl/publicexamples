@@ -1,12 +1,16 @@
+local is_loaded = false
+
 local function load_and_set_texture(url, node)
 	http.request(url, "GET", function(self, id, res)
 		if res.status ~= 200 and res.status ~= 304 then
+			is_loaded = false
 			print("Unable to get image", res.response)
 			return
 		end
 		
 		local img = image.load(res.response)
 		if not img then
+			is_loaded = false
 			print("Unable to load image")
 			return
 		end
@@ -14,16 +18,21 @@ local function load_and_set_texture(url, node)
 		local texture_id = url
 		if gui.new_texture(texture_id, img.width, img.height, img.type, img.buffer) then
 			gui.set_texture(node, texture_id)
+			is_loaded = true
 		else
+			is_loaded = false
 			print("Unable to create texture")
 		end
 	end)
 end
 
 function init(self)
-	load_and_set_texture("http://www.defold.com/static/logos/logo-text-below.png", gui.get_node("box"))
+	load_and_set_texture("https://defold.com/images/logo/defold/logo_with_text/logo-ver-classic-dark-160.png", gui.get_node("box"))
 end
 
 function final(self)
-	gui.delete_texture("http://www.defold.com/static/logos/logo-text-below.png")
+	if is_loaded then
+		gui.delete_texture("https://defold.com/images/logo/defold/logo_with_text/logo-ver-classic-dark-160.png")
+		print("texture removed")
+	end
 end

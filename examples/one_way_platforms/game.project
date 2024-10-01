@@ -13,11 +13,9 @@ gamepads = /builtins/input/default.gamepadsc
 [display]
 width = 1136
 height = 640
-variable_dt = 1
 
 [physics]
 scale = 0.02
-debug = 0
 max_collisions = 256
 max_contacts = 256
 gravity_y = -100
