@@ -1,7 +1,7 @@
 [project]
 title = Top Down Movement
 custom_resources = 
-dependencies = https://github.com/defold/defold-examples/releases/download/0.2.0/war-battles.zip
+dependencies#0 = https://github.com/defold/defold-examples/releases/download/0.2.0/war-battles.zip
 
 [bootstrap]
 main_collection = /top_down_movement/top_down_movement.collectionc
@@ -35,4 +35,7 @@ bundle_identifier = com.britzl.publicexamples.top_down_movement
 
 [ios]
 bundle_identifier = com.britzl.publicexamples.top_down_movement
+
+[tilemap]
+max_tile_count = 5700
 

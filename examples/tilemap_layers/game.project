@@ -1,7 +1,8 @@
 [project]
 title = Tilemap Layers
 custom_resources = 
-dependencies = https://github.com/britzl/platypus/archive/3.0.2.zip,https://github.com/britzl/defold-orthographic/archive/2.5.0.zip
+dependencies#0 = https://github.com/britzl/platypus/archive/3.0.2.zip
+dependencies#1 = https://github.com/britzl/defold-orthographic/archive/refs/tags/3.3.2.zip
 
 [bootstrap]
 main_collection = /tilemap_layers/game.collectionc

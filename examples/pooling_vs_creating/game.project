@@ -1,6 +1,6 @@
 [project]
 title = Pooling vs Creating
-custom_resources =
+custom_resources = 
 
 [bootstrap]
 main_collection = /pooling_vs_creating/pooling_vs_creating.collectionc
@@ -34,3 +34,10 @@ bundle_identifier = com.britzl.publicexamples.pooling_vs_creating
 
 [ios]
 bundle_identifier = com.britzl.publicexamples.pooling_vs_creating
+
+[sprite]
+max_count = 5500
+
+[collection]
+max_instances = 5500
+

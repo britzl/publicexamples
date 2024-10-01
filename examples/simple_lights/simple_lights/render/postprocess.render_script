@@ -76,7 +76,7 @@ local function render_to_world(self, predicates, constants)
 	render.set_blend_func(render.BLEND_SRC_ALPHA, render.BLEND_ONE_MINUS_SRC_ALPHA)
 
 	for _,pred in ipairs(predicates) do
-		render.draw(pred, constants)
+		render.draw(pred, {constants = constants})
 	end
 end
 
