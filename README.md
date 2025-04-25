@@ -14,8 +14,5 @@ Each example is located in a subfolder of the `examples` folder. Each example is
 ### Editor
 You can try the examples yourself by [downloading](https://github.com/britzl/publicexamples/archive/master.zip), cloning or forking this repository to a location on disk. Open the editor and select to open project From Disk. Select the game.project file of the example you wish to open.
 
-## License
-The examples are released under the same [Terms and Conditions as the Defold editor and service itself](http://www.defold.com/about-terms/).
-
 ## Credits
 Assets by [Kenney](http://www.kenney.nl)
