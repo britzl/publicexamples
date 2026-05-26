@@ -1,5 +1,5 @@
-local WIDTH = tonumber(sys.get_config("display.width")) 
-local HEIGHT = tonumber(sys.get_config("display.height")) 
+local WIDTH = sys.get_config_number("display.width") 
+local HEIGHT = sys.get_config_number("display.height") 
 
 function init(self)
 	msg.post(".", "acquire_input_focus")

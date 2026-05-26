@@ -9,8 +9,8 @@ end
 function init(self)
 	particlefx.play("#particlefx")
 	msg.post(".", "acquire_input_focus")
-	self.width = tonumber(sys.get_config("display.width"))
-	self.height = tonumber(sys.get_config("display.height"))
+	self.width = sys.get_config_number("display.width")
+	self.height = sys.get_config_number("display.height")
 	animate(self)
 end
 

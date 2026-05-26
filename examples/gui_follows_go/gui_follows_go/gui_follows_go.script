@@ -12,8 +12,8 @@ function update(self, dt)
 	msg.post("@render:", "draw_text", { text = "CLICK TO SPAWN GAME OBJECTS WITH PIE NODES", position = vmath.vector3(10, 40, 0) } )
 	msg.post("@render:", "clear_color", { color = vmath.vector4(95 /256, 129 / 256, 161 / 256, 1 ) })
 
-	local w = tonumber(sys.get_config("display.width"))
-	local h = tonumber(sys.get_config("display.height"))
+	local w = sys.get_config_number("display.width")
+	local h = sys.get_config_number("display.height")
 	for k,thing in pairs(self.things) do
 		local pos = go.get_position(thing.id)
 		pos.x = pos.x + thing.sx * dt

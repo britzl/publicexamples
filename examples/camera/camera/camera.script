@@ -6,7 +6,7 @@ go.property("auto_aspect_ratio", 0)
 
 go.property("enabled", 1)
 
-local default_aspect_ratio = tonumber(sys.get_config("display.width")) / tonumber(sys.get_config("display.height"))
+local default_aspect_ratio = sys.get_config_number("display.width") / sys.get_config_number("display.height")
 
 function update(self, dt)
 	if self.enabled == 1 then

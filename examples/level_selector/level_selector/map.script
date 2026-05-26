@@ -31,7 +31,7 @@ end
 -- if an episode has a world position within the positive and negative range
 -- of LOADED_THRESHOLD it should be loaded, otherwise unloaded
 local EPISODE_HEIGHT = 1920
-local SCREEN_HEIGHT = tonumber(sys.get_config("display.height"))
+local SCREEN_HEIGHT = sys.get_config_number("display.height")
 local LOADED_THRESHOLD = (SCREEN_HEIGHT / 2) + EPISODE_HEIGHT * 1.5
 
 

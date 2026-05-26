@@ -9,8 +9,8 @@ go.property("rotation", vmath.quat())
 
 local lookup = require "factory_and_properties.lookup"
 
-local width = tonumber(sys.get_config("display.width"))
-local height = tonumber(sys.get_config("display.height"))
+local width = sys.get_config_number("display.width")
+local height = sys.get_config_number("display.height")
 
 function init(self)
 	print("My name is " .. lookup.get(self.key))
