@@ -11,7 +11,7 @@ local function modify_speed_of_things(things, delta)
 end
 
 local function random_position()
-	return vmath.vector3(math.random(1, sys.get_config("display.width")),  math.random(1, sys.get_config("display.height")), 0)
+	return vmath.vector3(math.random(1, sys.get_config_int("display.width")),  math.random(1, sys.get_config_int("display.height")), 0)
 end
 
 function init(self)

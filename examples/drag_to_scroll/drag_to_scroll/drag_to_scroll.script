@@ -1,8 +1,8 @@
 go.property("fling_enabled", true)
 go.property("fling_distance_threshold", 2000)	-- pixels per second
 
-local WIDTH = sys.get_config("display.width")
-local HEIGHT = sys.get_config("display.height")
+local WIDTH = sys.get_config_int("display.width")
+local HEIGHT = sys.get_config_int("display.height")
 local TILE_SIZE = 64
 
 function init(self)

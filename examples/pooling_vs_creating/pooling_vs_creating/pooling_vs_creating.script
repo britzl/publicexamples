@@ -1,5 +1,5 @@
-local W = sys.get_config("display.width")
-local H = sys.get_config("display.height")
+local W = sys.get_config_int("display.width")
+local H = sys.get_config_int("display.height")
 
 
 local MAX_COUNT = 2500

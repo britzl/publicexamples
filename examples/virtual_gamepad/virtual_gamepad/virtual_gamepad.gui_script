@@ -7,7 +7,7 @@ end
 local function on_analog(self, touch, control)
 	local touch_position = vmath.vector3(touch.x, touch.y, 0)
 	if touch.pressed then
-		gui.cancel_animation(control.node, gui.PROP_POSITION)
+		gui.cancel_animations(control.node, gui.PROP_POSITION)
 		control.analog_pos = touch_position
 		control.analog_offset = touch_position - control.node_start_position
 	elseif touch.released then

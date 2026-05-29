@@ -1,8 +1,8 @@
 local goput = require "click_game_object.goput"
 
 local function random_position()
-	local w = sys.get_config("display.width")
-	local h = sys.get_config("display.height")
+	local w = sys.get_config_int("display.width")
+	local h = sys.get_config_int("display.height")
 	return vmath.vector3(math.random(1, w), math.random(1, h), 0)
 end
 

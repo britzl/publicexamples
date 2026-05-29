@@ -11,9 +11,9 @@ local function iac_base_url()
 	local is_android = sys.get_sys_info().system_name == "Android"
 	local is_ios = sys.get_sys_info().system_name == "iPhone OS"
 	if is_android then
-		return sys.get_config("android.package")
+		return sys.get_config_string("android.package")
 	elseif is_ios then
-		return sys.get_config("ios.bundle_identifier")
+		return sys.get_config_string("ios.bundle_identifier")
 	else
 		return nil
 	end

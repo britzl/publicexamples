@@ -45,7 +45,7 @@ end
 -- received input 
 function M.on_input(action_id, action)
 	for _,sprite_data in pairs(sprites) do
-		local go_scale = go.get_scale_vector(sprite_data.go_url)
+		local go_scale = go.get_scale(sprite_data.go_url)
 		local sprite_scale = go.get(sprite_data.sprite_url, "scale")
 		local size = sprite_data.size
 		local pos = go.get_position(sprite_data.go_url)

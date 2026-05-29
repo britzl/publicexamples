@@ -7,24 +7,24 @@ local AMBIENT_LIGHT = vmath.vector4(0.1, 0.1, 0.1, 1.0)
 
 local function create_render_target(name)
 	local color_params = { 
-		format = render.FORMAT_RGBA,
+		format = graphics.TEXTURE_FORMAT_RGBA,
 		width = render.get_window_width(),
 		height = render.get_window_height(),
-		min_filter = render.FILTER_LINEAR,
-		mag_filter = render.FILTER_LINEAR,
-		u_wrap = render.WRAP_CLAMP_TO_EDGE,
-		v_wrap = render.WRAP_CLAMP_TO_EDGE
+		min_filter = graphics.TEXTURE_FILTER_LINEAR,
+		mag_filter = graphics.TEXTURE_FILTER_LINEAR,
+		u_wrap = graphics.TEXTURE_WRAP_CLAMP_TO_EDGE,
+		v_wrap = graphics.TEXTURE_WRAP_CLAMP_TO_EDGE
 	}
 
 	local depth_params = {
-		format = render.FORMAT_DEPTH,
+		format = graphics.TEXTURE_FORMAT_DEPTH,
 		width = render.get_window_width(),
 		height = render.get_window_height(),
-		u_wrap = render.WRAP_CLAMP_TO_EDGE,
-		v_wrap = render.WRAP_CLAMP_TO_EDGE
+		u_wrap = graphics.TEXTURE_WRAP_CLAMP_TO_EDGE,
+		v_wrap = graphics.TEXTURE_WRAP_CLAMP_TO_EDGE
 	}
-	return render.render_target(name, {[render.BUFFER_COLOR_BIT] = color_params })
-	--return render.render_target(name, {[render.BUFFER_COLOR_BIT] = color_params, [render.BUFFER_DEPTH_BIT] = depth_params })
+	return render.render_target(name, {[graphics.BUFFER_TYPE_COLOR0_BIT] = color_params })
+	--return render.render_target(name, {[graphics.BUFFER_TYPE_COLOR0_BIT] = color_params, [graphics.BUFFER_TYPE_DEPTH_BIT] = depth_params })
 end
 
 local function create_render_targets(self)
@@ -42,10 +42,10 @@ function init(self)
 	self.light_pred = render.predicate({"light"})
 		
 	self.clear_color = vmath.vector4(0, 0, 0, 0)
-	self.clear_color.x = sys.get_config("render.clear_color_red", 0.1)
-	self.clear_color.y = sys.get_config("render.clear_color_green", 0.3)
-	self.clear_color.z = sys.get_config("render.clear_color_blue", 0.7)
-	self.clear_color.w = sys.get_config("render.clear_color_alpha", 0)
+	self.clear_color.x = sys.get_config_number("render.clear_color_red", 0.1)
+	self.clear_color.y = sys.get_config_number("render.clear_color_green", 0.3)
+	self.clear_color.z = sys.get_config_number("render.clear_color_blue", 0.7)
+	self.clear_color.w = sys.get_config_number("render.clear_color_alpha", 0)
 
 	self.view = IDENTITY
 
@@ -64,16 +64,16 @@ local function clear(color, depth, stencil)
 	if stencil then
 		render.set_stencil_mask(0xff)
 	end
-	render.clear({[render.BUFFER_COLOR_BIT] = color, [render.BUFFER_DEPTH_BIT] = depth, [render.BUFFER_STENCIL_BIT] = stencil})
+	render.clear({[graphics.BUFFER_TYPE_COLOR0_BIT] = color, [graphics.BUFFER_TYPE_DEPTH_BIT] = depth, [graphics.BUFFER_TYPE_STENCIL_BIT] = stencil})
 end
 
 local function render_to_world(self, predicates, constants)
 	render.set_depth_mask(false)
-	render.disable_state(render.STATE_DEPTH_TEST)
-	render.disable_state(render.STATE_STENCIL_TEST)
-	render.disable_state(render.STATE_CULL_FACE)
-	render.enable_state(render.STATE_BLEND)
-	render.set_blend_func(render.BLEND_SRC_ALPHA, render.BLEND_ONE_MINUS_SRC_ALPHA)
+	render.disable_state(graphics.STATE_DEPTH_TEST)
+	render.disable_state(graphics.STATE_STENCIL_TEST)
+	render.disable_state(graphics.STATE_CULL_FACE)
+	render.enable_state(graphics.STATE_BLEND)
+	render.set_blend_func(graphics.BLEND_FACTOR_SRC_ALPHA, graphics.BLEND_FACTOR_ONE_MINUS_SRC_ALPHA)
 
 	for _,pred in ipairs(predicates) do
 		render.draw(pred, {constants = constants})
@@ -81,23 +81,23 @@ local function render_to_world(self, predicates, constants)
 end
 
 local function render_to_rt(self, render_target, render_fn)
-	render.enable_render_target(render_target)
+	render.set_render_target(render_target)
 	render_fn(self)
-	render.disable_render_target(render_target)
+	render.set_render_target(render.RENDER_TARGET_DEFAULT)
 end
 
 
 local function mix_to_quad(self, rt0, rt1)
 	render.set_depth_mask(false)
-	render.disable_state(render.STATE_DEPTH_TEST)
-	render.disable_state(render.STATE_STENCIL_TEST)
-	render.disable_state(render.STATE_CULL_FACE)
-	render.enable_state(render.STATE_BLEND)
-	render.set_blend_func(render.BLEND_SRC_ALPHA, render.BLEND_ONE_MINUS_SRC_ALPHA)
+	render.disable_state(graphics.STATE_DEPTH_TEST)
+	render.disable_state(graphics.STATE_STENCIL_TEST)
+	render.disable_state(graphics.STATE_CULL_FACE)
+	render.enable_state(graphics.STATE_BLEND)
+	render.set_blend_func(graphics.BLEND_FACTOR_SRC_ALPHA, graphics.BLEND_FACTOR_ONE_MINUS_SRC_ALPHA)
 
 	render.enable_material(hash("mix_quad"))
-	render.enable_texture(0, rt0, render.BUFFER_COLOR_BIT)
-	render.enable_texture(1, rt1, render.BUFFER_COLOR_BIT)
+	render.enable_texture(0, rt0, graphics.BUFFER_TYPE_COLOR0_BIT)
+	render.enable_texture(1, rt1, graphics.BUFFER_TYPE_COLOR0_BIT)
 	render.draw(self.quad_pred)
 	render.disable_texture(0, rt0)
 	render.disable_texture(1, rt1)
@@ -106,15 +106,15 @@ end
 
 local function multiply_to_quad(self, rt0, rt1)
 	render.set_depth_mask(false)
-	render.disable_state(render.STATE_DEPTH_TEST)
-	render.disable_state(render.STATE_STENCIL_TEST)
-	render.disable_state(render.STATE_CULL_FACE)
-	render.enable_state(render.STATE_BLEND)
-	render.set_blend_func(render.BLEND_SRC_ALPHA, render.BLEND_ONE_MINUS_SRC_ALPHA)
+	render.disable_state(graphics.STATE_DEPTH_TEST)
+	render.disable_state(graphics.STATE_STENCIL_TEST)
+	render.disable_state(graphics.STATE_CULL_FACE)
+	render.enable_state(graphics.STATE_BLEND)
+	render.set_blend_func(graphics.BLEND_FACTOR_SRC_ALPHA, graphics.BLEND_FACTOR_ONE_MINUS_SRC_ALPHA)
 
 	render.enable_material(hash("multiply_quad"))
-	render.enable_texture(0, rt0, render.BUFFER_COLOR_BIT)
-	render.enable_texture(1, rt1, render.BUFFER_COLOR_BIT)
+	render.enable_texture(0, rt0, graphics.BUFFER_TYPE_COLOR0_BIT)
+	render.enable_texture(1, rt1, graphics.BUFFER_TYPE_COLOR0_BIT)
 	render.draw(self.quad_pred)
 	render.disable_texture(0, rt0)
 	render.disable_texture(1, rt1)
@@ -123,14 +123,14 @@ end
 
 local function draw_to_quad(self, rt)
 	render.set_depth_mask(false)
-	render.disable_state(render.STATE_DEPTH_TEST)
-	render.disable_state(render.STATE_STENCIL_TEST)
-	render.disable_state(render.STATE_CULL_FACE)
-	render.enable_state(render.STATE_BLEND)
-	render.set_blend_func(render.BLEND_SRC_ALPHA, render.BLEND_ONE_MINUS_SRC_ALPHA)
+	render.disable_state(graphics.STATE_DEPTH_TEST)
+	render.disable_state(graphics.STATE_STENCIL_TEST)
+	render.disable_state(graphics.STATE_CULL_FACE)
+	render.enable_state(graphics.STATE_BLEND)
+	render.set_blend_func(graphics.BLEND_FACTOR_SRC_ALPHA, graphics.BLEND_FACTOR_ONE_MINUS_SRC_ALPHA)
 
 	render.enable_material(hash("quad"))
-	render.enable_texture(0, rt, render.BUFFER_COLOR_BIT)
+	render.enable_texture(0, rt, graphics.BUFFER_TYPE_COLOR0_BIT)
 	render.draw(self.quad_pred)
 	render.disable_texture(0, rt)
 	render.disable_material()
@@ -193,10 +193,10 @@ function update(self)
 	-- draw gui
 	render.set_view(IDENTITY)
 	render.set_projection(vmath.matrix4_orthographic(0, render.get_window_width(), 0, render.get_window_height(), -1, 1))
-	render.enable_state(render.STATE_STENCIL_TEST)
+	render.enable_state(graphics.STATE_STENCIL_TEST)
 	render.draw(self.gui_pred)
 	render.draw(self.text_pred)
-	render.disable_state(render.STATE_STENCIL_TEST)
+	render.disable_state(graphics.STATE_STENCIL_TEST)
 	render.set_depth_mask(false)
 end
 
